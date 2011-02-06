@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bash < <( curl -L http://bit.ly/rvm-install-system-wide )
