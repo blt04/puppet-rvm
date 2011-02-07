@@ -8,36 +8,17 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   commands :rvmcmd => "rvm"
 
 
-
   def ruby_version
-    return @ruby_version if @ruby_version
-    @ruby_version = execute([command(:rvmcmd), "list", "strings"]).split("\n").collect do |line|
-      if line =~ Regexp.new(Regexp.escape(resource[:ruby_version]))
-        line
-      else
-        nil
-      end
-    end.compact.first
-    raise Puppet::Error, "Could not find official RVM ruby version for #{resource[:ruby_version]}" unless @ruby_version
-    self.debug "Found ruby version '#{@ruby_version}' for #{resource[:ruby_version]}"
-    @ruby_version
-  end
-
-  def ruby_version_with_gemset
-    if resource[:gemset] && resource[:gemset] != ""
-      "#{ruby_version}@#{resource[:gemset]}"
-    else
-      ruby_version
-    end
+    resource[:ruby_version]
   end
 
   def gembinary
-    @gembinary ||= "#{resource[:rvm_prefix]}rvm/wrappers/#{ruby_version_with_gemset}/gem"
+    [command(:rvmcmd), ruby_version, "gem"]
   end
 
 
   def gemlist(hash)
-    command = [gembinary, "list"]
+    command = gembinary + ['list']
 
     if hash[:local]
       command << "--local"
@@ -87,7 +68,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
 
   def install(useversion = true)
-    command = [gembinary, "install"]
+    command = gembinary + ['install']
     command << "-v" << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
     # Always include dependencies
     command << "--include-dependencies"
@@ -133,7 +114,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def uninstall
-    execute([gembinary, "uninstall", "-x", "-a", resource[:name]])
+    execute(gembinary + ["uninstall", "-x", "-a", resource[:name]])
   end
 
   def update
