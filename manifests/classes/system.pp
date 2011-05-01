@@ -2,21 +2,14 @@ class rvm::system {
 
   include rvm::dependencies
 
-  file {'install-system-rvm':
-    ensure => 'present',
-    path => '/root/install-system-rvm',
-    owner => 'root', group => 'root', mode => '0774',
-    source => 'puppet:///modules/rvm/install-system-rvm';
-  }
-
   exec { 'system-rvm':
-    command => '/root/install-system-rvm',
+    path    => '/usr/bin:/usr/sbin:/bin',
+    command => 'bash -c \'bash <(/usr/bin/curl -s https://rvm.beginrescueend.com/install/rvm)\'',
+    creates => '/usr/local/bin/rvm',
     require => [
-      File['install-system-rvm'],
       Package['curl', 'git-core'],
       Class['rvm::dependencies'],
     ],
-    creates => '/usr/local/bin/rvm';
   }
 
 }
