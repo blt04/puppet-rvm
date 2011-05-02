@@ -29,11 +29,7 @@ class rvm::passenger::apache(
     # Can we read the output of a command into a variable?
     # e.g. $gempath = `usr/local/bin/rvm ${ruby_version} exec rvm gemdir`
     $gempath = "${rvm_prefix}rvm/gems/${ruby_version}/gems"
-    $binpath = $rvm_prefix ? {
-        '/usr/local/' => '/usr/local/bin/',
-        default => "${rvm_prefix}rvm/bin/"
-    }
-
+    $binpath = "${rvm_prefix}rvm/bin/"
 
     # Dependencies
     if ! defined(Package['build-essential'])      { package { build-essential:      ensure => installed } }
@@ -80,13 +76,13 @@ class rvm::passenger::apache(
     }
 
     # Add Apache restart hooks
-    File['/etc/apache2/mods-available/passenger.load'] ~> Service['apache']
-    File['/etc/apache2/mods-available/passenger.conf'] ~> Service['apache']
-    File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache']
-    File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache']
+    File['/etc/apache2/mods-available/passenger.load'] ~> Service['apache2']
+    File['/etc/apache2/mods-available/passenger.conf'] ~> Service['apache2']
+    File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache2']
+    File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache2']
 }
 
-class ruby::passenger::apache::disable {
+class rvm::passenger::apache::disable {
 
     file {
         '/etc/apache2/mods-enabled/passenger.load':
@@ -96,6 +92,6 @@ class ruby::passenger::apache::disable {
     }
 
     # Add Apache restart hooks
-    if defined(Service['apache']) { File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache'] }
-    if defined(Service['apache']) { File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache'] }
+    if defined(Service['apache2']) { File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache2'] }
+    if defined(Service['apache2']) { File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache2'] }
 }
