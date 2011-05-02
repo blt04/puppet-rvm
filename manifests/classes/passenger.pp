@@ -86,7 +86,7 @@ class rvm::passenger::apache(
     File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache']
 }
 
-class ruby::passenger::apache::disable {
+class rvm::passenger::apache::disable {
 
     file {
         '/etc/apache2/mods-enabled/passenger.load':
