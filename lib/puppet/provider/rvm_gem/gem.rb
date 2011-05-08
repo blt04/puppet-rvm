@@ -27,7 +27,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     end
 
     if name = hash[:justme]
-      command << name
+      command << name + "$"
     end
 
     begin
@@ -94,7 +94,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << "--source" << "#{source}" << resource[:name]
       end
     else
-      command << resource[:name]
+      command << "--no-rdoc" << "--no-ri" <<  resource[:name]
     end
 
     output = execute(command)
