@@ -1,9 +1,18 @@
 Puppet Module for Ruby Version Manager (RVM)
 ==============================================
 
+This module handles installing system RVM (also known as multi-user installation
+as root) and using it to install rubies and gems.  Support for installing and
+configuring passenger is also included.
+
+We are actively using this module.  It works well, but does have some issues you
+should be aware of.  Read through the troubleshooting section below if you run in
+to problems.
+
+
 ## Add Puppet Module
 
-Before you begin, you must add RVM module to your Puppet installation.  This can be done with:
+Before you begin, you must add the RVM module to your Puppet installation.  This can be done with:
 
     $ git clone git://github.com/blt04/puppet-rvm.git /etc/puppet/modules/rvm
 
@@ -68,9 +77,9 @@ Install passenger with:
     }
 
 
-## Troubleshooting
+## Troubleshooting / FAQ
 
-### An error "Could not find a default provider for rvm\_system\_ruby" prevents puppet from running
+### An error "Could not find a default provider for rvm\_system\_ruby" prevents puppet from running.
 
 This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command.  Currently, Puppet does not support making a provider suitable using another resource (late-binding).  When initializing a new server, I usually:
 
@@ -82,7 +91,7 @@ This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command.  Curren
 If anyone has any suggestions on how to improve this, please let me know!
 
 
-### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev)
+### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev).
 
 RVM works by compiling Ruby from source.  This means you must have all the libraries and binaries required to compile Ruby installed on your system.  I've tried to include these in `manifests/classes/dependencies.rb`.
 
@@ -92,8 +101,24 @@ RVM works by compiling Ruby from source.  This means you must have all the libra
 I've only tested this on Ubuntu 10.04 and Ubuntu 11.04.  Other operating systems may require different paths or dependencies.  Feel free to send me a pull request ;)
 
 
+### Why didn't you just add an RVM provider for the existing package type?
+
+The puppet [package](http://docs.puppetlabs.com/references/latest/type.html#package)
+type seems like an obvious place for the RVM provider.  It would be nice if the syntax
+for installing Ruby with RVM looked like:
+
+    # NOTE: This does not work
+    package {'ruby':
+        provider => 'rvm',
+        ensure => '1.9.2-p180';
+    }
+
+While this may be possible, it becomes harder to manage multiple Ruby versions and
+nearly impossible to install gems for a specific Ruby version.  For this reason,
+I decided it was best to create a completely new set of types for RVM.
+
+
 ## TODO
 
 * Allow upgrading the RVM version
-* Install RVM and Ruby in one pass without commenting out configuration sections 
-
+* Install RVM and Ruby in one pass without commenting out configuration sections
