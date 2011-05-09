@@ -29,10 +29,7 @@ class rvm::passenger::apache(
     # Can we read the output of a command into a variable?
     # e.g. $gempath = `usr/local/bin/rvm ${ruby_version} exec rvm gemdir`
     $gempath = "${rvm_prefix}rvm/gems/${ruby_version}/gems"
-    $binpath = $rvm_prefix ? {
-        '/usr/local/' => '/usr/local/bin/',
-        default => "${rvm_prefix}rvm/bin/"
-    }
+    $binpath = "${rvm_prefix}rvm/bin/"
 
 
     # Dependencies
