@@ -81,14 +81,15 @@ Install passenger with:
 
 ### An error "Could not find a default provider for rvm\_system\_ruby" prevents puppet from running.
 
-This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command.  Currently, Puppet does not support making a provider suitable using another resource (late-binding).  When initializing a new server, I usually:
+This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command.  Currently, Puppet does not support making a provider suitable using another resource (late-binding).  You can avoid this error by surrounding your rvm configuration in an if block:
 
-1. Comment out any `rvm_system_ruby` stanzas, leaving only `include rvm::system`.
-2. Run the puppet agent once manually.  This will install RVM.
-3. Uncomment the `rvm_system_ruby` stanzas.
-4. Rerun the puppet agent.  This will install Ruby using RVM.
+    if $rvm_installed == "true" {
+        rvm_system_ruby ...
+    }
 
-If anyone has any suggestions on how to improve this, please let me know!
+Do not surround `include rvm::system` in the if block, as this is used to install RVM.
+
+Note:  When setting up a new box, the puppet agent will install RVM on it's first run and Ruby on its second run.
 
 
 ### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev).
@@ -121,4 +122,4 @@ I decided it was best to create a completely new set of types for RVM.
 ## TODO
 
 * Allow upgrading the RVM version
-* Install RVM and Ruby in one pass without commenting out configuration sections
+* Install RVM and Ruby in one pass
