@@ -77,10 +77,24 @@ class rvm::passenger::apache(
     }
 
     # Add Apache restart hooks
-    File['/etc/apache2/mods-available/passenger.load'] ~> Service[$apache::params::apache_name]
-    File['/etc/apache2/mods-available/passenger.conf'] ~> Service[$apache::params::apache_name]
-    File['/etc/apache2/mods-enabled/passenger.load']   ~> Service[$apache::params::apache_name]
-    File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service[$apache::params::apache_name]
+    if defined(Service['apache']) {
+      File['/etc/apache2/mods-available/passenger.load'] ~> Service['apache']
+      File['/etc/apache2/mods-available/passenger.conf'] ~> Service['apache']
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache']
+    }
+    if defined(Service['apache2']) {
+      File['/etc/apache2/mods-available/passenger.load'] ~> Service['apache2']
+      File['/etc/apache2/mods-available/passenger.conf'] ~> Service['apache2']
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache2']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache2']
+    }
+    if defined(Service['httpd']) {
+      File['/etc/apache2/mods-available/passenger.load'] ~> Service['httpd']
+      File['/etc/apache2/mods-available/passenger.conf'] ~> Service['httpd']
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['httpd']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['httpd']
+    }
 }
 
 class rvm::passenger::apache::disable {
@@ -93,6 +107,16 @@ class rvm::passenger::apache::disable {
     }
 
     # Add Apache restart hooks
-    if defined(Service['apache']) { File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache'] }
-    if defined(Service['apache']) { File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache'] }
+    if defined(Service['apache']) {
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache']
+    }
+    if defined(Service['apache2']) {
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['apache2']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['apache2']
+    }
+    if defined(Service['httpd']) {
+      File['/etc/apache2/mods-enabled/passenger.load']   ~> Service['httpd']
+      File['/etc/apache2/mods-enabled/passenger.conf']   ~> Service['httpd']
+    }
 }
