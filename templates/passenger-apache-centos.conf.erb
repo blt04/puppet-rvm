@@ -1,0 +1,11 @@
+LoadModule passenger_module <%= gempath %>/passenger-<%= version %>/ext/apache2/mod_passenger.so
+
+<IfModule passenger_module>
+    PassengerRoot <%= gempath %>/passenger-<%= version %>
+    PassengerRuby <%= rvm_prefix %>rvm/wrappers/<%= ruby_version %>/ruby
+    PassengerMaxPoolSize <%= maxpoolsize %>
+    PassengerPoolIdleTime <%= poolidletime %>
+    PassengerMinInstances <%= mininstances %>
+    PassengerMaxInstancesPerApp <%= maxinstancesperapp %>
+    PassengerSpawnMethod <%= spawnmethod %>
+</IfModule>

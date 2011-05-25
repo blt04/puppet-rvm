@@ -7,7 +7,6 @@ class rvm::system {
     command => 'bash -c \'bash <(/usr/bin/curl -s https://rvm.beginrescueend.com/install/rvm)\'',
     creates => '/usr/local/rvm/bin/rvm',
     require => [
-      Package['curl', 'git-core'],
       Class['rvm::dependencies'],
     ],
   }
