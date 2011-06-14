@@ -59,7 +59,33 @@ Install a gem with:
         require => Rvm_system_ruby['ruby-1.9.2-p180'];
     }
 
-The gem will be installed to the default RVM gemset.  This module doesn't allow configuring gemsets.
+Sometimes you need to install the same gem for multiple rubies:
+
+    rvm_gem {
+      'bundler192':
+        name => 'bundler',
+        ruby_version => 'ruby-1.9.2-p180',
+        ensure => '1.0.13',
+        require => Rvm_system_ruby['ruby-1.9.2-p180'];
+      'bundler187':
+        name => 'bundler',
+        ruby_version => 'ruby-1.8.7-p334',
+        ensure => '1.0.13',
+        require => 'Rvm_system_ruby['ruby-1.8.7-p334'];
+    }
+
+Alternatively, you can use this less verbose, but slightly uglier syntax:
+
+    rvm_gem {
+      'ruby-1.9.2-p180/bundler':
+        ensure => '1.0.13',
+        require => Rvm_system_ruby['ruby-1.9.2-p180'];
+      'ruby-1.8.7-p334/bundler':
+        ensure => '1.0.13',
+        require => Rvm_system_ruby['ruby-1.8.7-p334'];
+    }
+
+Gems will be installed to the default RVM gemset.  This module doesn't allow configuring gemsets.
 
 
 ## Installing Passenger

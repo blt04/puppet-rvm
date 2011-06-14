@@ -1,6 +1,10 @@
 Puppet::Type.newtype(:rvm_gem) do
   @doc = "Ruby Gem support using RVM."
 
+  def self.title_patterns
+    [ [ /^(?:(.*)\/)?(.*)$/, [ [ :ruby_version, lambda{|x| x} ], [ :name, lambda{|x| x} ] ] ] ]
+  end
+
   ensurable do
     desc "What state the gem should be in.
       Possible values:
@@ -128,6 +132,7 @@ Puppet::Type.newtype(:rvm_gem) do
     For a full list of known strings: `rvm list known_strings`."
 
     defaultto "ruby-1.9.2-p136"
+    isnamevar
   end
 
   newparam(:rvm_prefix) do
@@ -135,4 +140,5 @@ Puppet::Type.newtype(:rvm_gem) do
 
     defaultto "/usr/local/"
   end
+
 end
