@@ -31,6 +31,14 @@ To use RVM without sudo, users need to be added to the `rvm` group.  This can be
 
     rvm::system_user { bturner: ; jdoe: ; jsmith: ; }
 
+## Using custom types
+
+The module has some custom types that allows installation of rubies and gems within the context of RVM. To enable these make sure you have enabled plugin synchronization in both the Puppet Master and Client.
+
+In your puppet.conf (usually in /etc/puppet) on both the Master and Client ensure you have 
+
+    [main]
+        pluginsync = true
 
 ## Installing Ruby
 
