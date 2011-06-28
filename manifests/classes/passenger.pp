@@ -8,8 +8,7 @@ class rvm::passenger::apache(
   $maxinstancesperapp = '0',
   $spawnmethod = 'smart-lv2'
 ) {
-    include rvm::passenger::gem
-    
+
     case $operatingsystem {
       Ubuntu: { include rvm::passenger::apache::ubuntu::pre }
       CentOS: { include rvm::passenger::apache::centos::pre }
