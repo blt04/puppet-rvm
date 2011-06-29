@@ -2,10 +2,9 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   desc "Ruby RVM support."
 
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
-
+  
   def create
-    command = [command(:rvmcmd), "install", resource[:name]]
-    output = execute(command)
+    rvmcmd "install", resource[:name]
   end
 
   def destroy
@@ -13,10 +12,8 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def exists?
-    command = [command(:rvmcmd), "list", "strings"]
-
     begin
-      execute(command).any? do |line|
+      rvmcmd("list", "strings").any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -26,9 +23,8 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def default_use
-    command = [command(:rvmcmd), "list", "default", "string"]
     begin
-      execute(command).any? do |line|
+      rvmcmd("list", "default", "string").any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -37,10 +33,6 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def default_use=(value)
-    if value
-      rvmcmd "--default", "use", resource[:name]
-    else
-      rvmcmd "--default", "use", "system"
-    end
+    rvmcmd "--default", "use", value || resource[:name]
   end
 end
