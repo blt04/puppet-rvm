@@ -133,7 +133,7 @@ RVM works by compiling Ruby from source.  This means you must have all the libra
 
 ### It doesn't work on my operating system.
 
-I've only tested this on Ubuntu 10.04 and Ubuntu 11.04.  Other operating systems may require different paths or dependencies.  Feel free to send me a pull request ;)
+I've only tested this on Ubuntu 10.04 and Ubuntu 11.04.  [omarqureshi](https://github.com/omarqureshi) was kind enough to add CentOS support.  Other operating systems may require different paths or dependencies.  Feel free to send me a pull request ;)
 
 
 ### Why didn't you just add an RVM provider for the existing package type?
