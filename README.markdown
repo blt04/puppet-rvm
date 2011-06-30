@@ -81,7 +81,7 @@ Install passenger with:
 
 ### An error "Could not find a default provider for rvm\_system\_ruby" prevents puppet from running.
 
-This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command.  Currently, Puppet does not support making a provider suitable using another resource (late-binding).  You can avoid this error by surrounding your rvm configuration in an if block:
+This means that puppet cannot find the `/usr/local/bin/rvm` command.  Currently, Puppet does not support making a provider suitable using another resource (late-binding).  You can avoid this error by surrounding your rvm configuration in an if block:
 
     if $rvm_installed == "true" {
         rvm_system_ruby ...
