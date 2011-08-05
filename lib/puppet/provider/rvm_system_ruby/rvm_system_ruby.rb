@@ -33,6 +33,6 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def default_use=(value)
-    rvmcmd "--default", "use", value || resource[:name]
+    rvmcmd "--default", "use", resource[:name] if value
   end
 end
