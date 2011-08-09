@@ -10,6 +10,11 @@ should be aware of.  Read through the troubleshooting section below if you run i
 to problems.
 
 
+## System Requirements
+
+Puppet 2.6.7 or higher.
+
+
 ## Add Puppet Module
 
 Before you begin, you must add the RVM module to your Puppet installation.  This can be done with:
@@ -124,6 +129,11 @@ This means that puppet cannot find the `/usr/local/bin/rvm` command.  Currently,
 Do not surround `include rvm::system` in the if block, as this is used to install RVM.
 
 Note:  When setting up a new box, the puppet agent will install RVM on it's first run and Ruby on its second run.
+
+
+### An error "Resource type rvm_gem does not support parameter false" prevents puppet from running.
+
+The RVM module requires Puppet version 2.6.7 or higher.
 
 
 ### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev).
