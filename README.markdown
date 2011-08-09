@@ -21,6 +21,10 @@ Before you begin, you must add the RVM module to your Puppet installation.  This
 
     $ git clone git://github.com/blt04/puppet-rvm.git /etc/puppet/modules/rvm
 
+Add the following to `manifests/site.pp` or one of your manifest files:
+
+    import "rvm"
+
 You may now continue configuring RVM resources.
 
 
