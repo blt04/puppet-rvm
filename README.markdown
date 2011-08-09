@@ -53,13 +53,15 @@ In your puppet.conf (usually in /etc/puppet) on both the Master and Client ensur
 
 You can tell RVM to install one or more Ruby versions with:
 
-    rvm_system_ruby {
-      'ruby-1.9.2-p180':
-        ensure => 'present',
-        default_use => true;
-      'ruby-1.8.7-p334':
-        ensure => 'present',
-        default_use => false;
+    if $rvm_installed == "true" {
+      rvm_system_ruby {
+        'ruby-1.9.2-p180':
+          ensure => 'present',
+          default_use => true;
+        'ruby-1.8.7-p334':
+          ensure => 'present',
+          default_use => false;
+      }
     }
 
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
@@ -69,37 +71,43 @@ You should use the full version number.  While the shorthand version may work (e
 
 Install a gem with:
 
-    rvm_gem {
-      'bundler':
-        ruby_version => 'ruby-1.9.2-p180',
-        ensure => '1.0.13',
-        require => Rvm_system_ruby['ruby-1.9.2-p180'];
+    if $rvm_installed == "true" {
+      rvm_gem {
+        'bundler':
+          ruby_version => 'ruby-1.9.2-p180',
+          ensure => '1.0.13',
+          require => Rvm_system_ruby['ruby-1.9.2-p180'];
+      }
     }
 
 Sometimes you need to install the same gem for multiple rubies:
 
-    rvm_gem {
-      'bundler192':
-        name => 'bundler',
-        ruby_version => 'ruby-1.9.2-p180',
-        ensure => '1.0.13',
-        require => Rvm_system_ruby['ruby-1.9.2-p180'];
-      'bundler187':
-        name => 'bundler',
-        ruby_version => 'ruby-1.8.7-p334',
-        ensure => '1.0.13',
-        require => 'Rvm_system_ruby['ruby-1.8.7-p334'];
+    if $rvm_installed == "true" {
+      rvm_gem {
+        'bundler192':
+          name => 'bundler',
+          ruby_version => 'ruby-1.9.2-p180',
+          ensure => '1.0.13',
+          require => Rvm_system_ruby['ruby-1.9.2-p180'];
+        'bundler187':
+          name => 'bundler',
+          ruby_version => 'ruby-1.8.7-p334',
+          ensure => '1.0.13',
+          require => 'Rvm_system_ruby['ruby-1.8.7-p334'];
+      }
     }
 
 Alternatively, you can use this less verbose, but slightly uglier syntax:
 
-    rvm_gem {
-      'ruby-1.9.2-p180/bundler':
-        ensure => '1.0.13',
-        require => Rvm_system_ruby['ruby-1.9.2-p180'];
-      'ruby-1.8.7-p334/bundler':
-        ensure => '1.0.13',
-        require => Rvm_system_ruby['ruby-1.8.7-p334'];
+    if $rvm_installed == "true" {
+      rvm_gem {
+        'ruby-1.9.2-p180/bundler':
+          ensure => '1.0.13',
+          require => Rvm_system_ruby['ruby-1.9.2-p180'];
+        'ruby-1.8.7-p334/bundler':
+          ensure => '1.0.13',
+          require => Rvm_system_ruby['ruby-1.8.7-p334'];
+      }
     }
 
 Gems will be installed to the default RVM gemset.  This module doesn't allow configuring gemsets.
@@ -109,14 +117,16 @@ Gems will be installed to the default RVM gemset.  This module doesn't allow con
 
 Install passenger with:
 
-    class {
-      'rvm::passenger::apache':
-        version => '3.0.7',
-        ruby_version => 'ruby-1.9.2-p180',
-        mininstances => '3',
-        maxinstancesperapp => '0',
-        maxpoolsize => '30',
-        spawnmethod => 'smart-lv2';
+    if $rvm_installed == "true" {
+      class {
+        'rvm::passenger::apache':
+          version => '3.0.7',
+          ruby_version => 'ruby-1.9.2-p180',
+          mininstances => '3',
+          maxinstancesperapp => '0',
+          maxpoolsize => '30',
+          spawnmethod => 'smart-lv2';
+      }
     }
 
 
