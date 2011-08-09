@@ -1,6 +1,6 @@
 class rvm::dependencies {
   case $operatingsystem {
-    Ubuntu: { include rvm::dependencies::ubuntu }
-    CentOS: { include rvm::dependencies::centos }
+    Ubuntu: { require rvm::dependencies::ubuntu }
+    CentOS: { require rvm::dependencies::centos }
   }
 }
