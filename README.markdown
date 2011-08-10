@@ -51,7 +51,7 @@ To use RVM without sudo, users need to be added to the `rvm` group.  This can be
 
     rvm::system_user { bturner: ; jdoe: ; jsmith: ; }
 
-**NOTE**: You must have define a [user](http://docs.puppetlabs.com/references/stable/type.html#user-3) elsewhere in your manifest to use `rvm::system_user`.
+**NOTE**: You must define a [user](http://docs.puppetlabs.com/references/stable/type.html#user-3) elsewhere in your manifest to use `rvm::system_user`.
 
 
 ## Installing Ruby
@@ -115,7 +115,7 @@ Alternatively, you can use this less verbose, but slightly uglier syntax:
       }
     }
 
-Gems will be installed to the default RVM gemset.  This module doesn't allow configuring gemsets.
+Gems will be installed to the default RVM gemset.  This module doesn't support configuring gemsets.
 
 
 ## Installing Passenger
