@@ -13,7 +13,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def exists?
     begin
-      rvmcmd("list", "strings").any? do |line|
+      rvmcmd("list", "strings").lines.any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -24,7 +24,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def default_use
     begin
-      rvmcmd("list", "default", "string").any? do |line|
+      rvmcmd("list", "default", "string").lines.any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
