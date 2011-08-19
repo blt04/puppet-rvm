@@ -135,10 +135,4 @@ Puppet::Type.newtype(:rvm_gem) do
     isnamevar
   end
 
-  newparam(:rvm_prefix) do
-    desc "The prefix to use for RVM."
-
-    defaultto "/usr/local/"
-  end
-
 end

@@ -18,7 +18,6 @@ class rvm::passenger::apache(
       'rvm::passenger::gem':
         ruby_version => $ruby_version,
         version => $version,
-        rvm_prefix => $rvm_prefix
     }
     
     # TODO: How can we get the gempath automatically using the ruby version
