@@ -131,7 +131,7 @@ Puppet::Type.newtype(:rvm_gem) do
     (including gemset if applicable).  For example: 'ruby-1.9.2-p136@mygemset'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "ruby-1.9.2-p136"
+    defaultto "ruby-1.9.2-p290"
     isnamevar
   end
 
