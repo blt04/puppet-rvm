@@ -127,7 +127,7 @@ Puppet::Type.newtype(:rvm_gem) do
   end
 
   newparam(:ruby_version) do
-    desc "The ruby version to use.  This should be the full qualified RVM string
+    desc "The ruby version to use.  This should be the fully qualified RVM string
     (including gemset if applicable).  For example: 'ruby-1.9.2-p136@mygemset'
     For a full list of known strings: `rvm list known_strings`."
 
