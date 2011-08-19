@@ -115,7 +115,18 @@ Alternatively, you can use this less verbose, but slightly uglier syntax:
       }
     }
 
-Gems will be installed to the default RVM gemset.  This module doesn't support configuring gemsets.
+
+## Creating Gemsets
+
+Create a gemset with:
+
+    if $rvm_installed == "true" {
+        rvm_gemset {
+          "ruby-1.9.2-p290/myproject":
+            ensure => present,
+            require => Rvm_system_ruby['ruby-1.9.2-p290'];
+        }
+    }
 
 
 ## Installing Passenger
