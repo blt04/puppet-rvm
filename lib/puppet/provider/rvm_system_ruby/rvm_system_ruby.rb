@@ -1,3 +1,11 @@
+# Backport :lines to 1.8 if necessary
+# See http://oreilly.com/ruby/excerpts/ruby-best-practices/writing-backward-compatible.html
+class String
+  unless "".respond_to?(:lines)
+    alias_method :lines, :to_a
+  end
+end
+
 Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   desc "Ruby RVM support."
 

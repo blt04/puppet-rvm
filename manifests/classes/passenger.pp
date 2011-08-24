@@ -11,7 +11,7 @@ class rvm::passenger::apache(
 
     case $operatingsystem {
       Ubuntu: { include rvm::passenger::apache::ubuntu::pre }
-      CentOS: { include rvm::passenger::apache::centos::pre }
+      CentOS,RedHat: { include rvm::passenger::apache::centos::pre }
     }
     
     class {
@@ -28,6 +28,6 @@ class rvm::passenger::apache(
 
     case $operatingsystem {
       Ubuntu: { include rvm::passenger::apache::ubuntu::post }
-      CentOS: { include rvm::passenger::apache::centos::post }
+      CentOS,RedHat: { include rvm::passenger::apache::centos::post }
     }
 }
