@@ -72,60 +72,43 @@ You can tell RVM to install one or more Ruby versions with:
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
 
 
-## Installing Gems
-
-Install a gem with:
-
-    if $rvm_installed == "true" {
-      rvm_gem {
-        'bundler':
-          ruby_version => 'ruby-1.9.2-p180',
-          ensure => '1.0.13',
-          require => Rvm_system_ruby['ruby-1.9.2-p180'];
-      }
-    }
-
-Sometimes you need to install the same gem for multiple rubies:
-
-    if $rvm_installed == "true" {
-      rvm_gem {
-        'bundler192':
-          name => 'bundler',
-          ruby_version => 'ruby-1.9.2-p180',
-          ensure => '1.0.13',
-          require => Rvm_system_ruby['ruby-1.9.2-p180'];
-        'bundler187':
-          name => 'bundler',
-          ruby_version => 'ruby-1.8.7-p334',
-          ensure => '1.0.13',
-          require => 'Rvm_system_ruby['ruby-1.8.7-p334'];
-      }
-    }
-
-Alternatively, you can use this less verbose, but slightly uglier syntax:
-
-    if $rvm_installed == "true" {
-      rvm_gem {
-        'ruby-1.9.2-p180/bundler':
-          ensure => '1.0.13',
-          require => Rvm_system_ruby['ruby-1.9.2-p180'];
-        'ruby-1.8.7-p334/bundler':
-          ensure => '1.0.13',
-          require => Rvm_system_ruby['ruby-1.8.7-p334'];
-      }
-    }
-
-
 ## Creating Gemsets
 
 Create a gemset with:
 
     if $rvm_installed == "true" {
         rvm_gemset {
-          "ruby-1.9.2-p290/myproject":
+          "ruby-1.9.2-p290@myproject":
             ensure => present,
             require => Rvm_system_ruby['ruby-1.9.2-p290'];
         }
+    }
+
+
+## Installing Gems
+
+Install a gem with:
+
+    if $rvm_installed == "true" {
+      rvm_gem {
+        'ruby-1.9.2-p290@myproject/bundler':
+          ensure => '1.0.18',
+          require => Rvm_gemset['ruby-1.9.2-p290@myproject'];
+      }
+    }
+
+The *name* of the gem should be `<ruby-version>[@<gemset>]/<gemname>`.  For example, you can install bundler for ruby-1.9.2 using `ruby-1.9.2-p290/bundler`.  You could install rails in your project's gemset with: `ruby-1.9.2-p290@myproject/rails`.
+
+Alternatively, you can use this more verbose syntax:
+
+    if $rvm_installed == "true" {
+       rvm_gem {
+         'bundler':
+           name => 'bundler',
+           ruby_version => 'ruby-1.9.2-p290',
+           ensure => latest,
+           require => Rvm_system_ruby['ruby-1.9.2-p334'];
+       }
     }
 
 
