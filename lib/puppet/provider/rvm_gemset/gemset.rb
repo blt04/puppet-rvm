@@ -25,7 +25,7 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
 
     command = gemsetcommand + ['list']
     output = execute(command)
-    output.lines do |line|
+    output.each do |line|
       if line =~ /^\s+\S+/
         list << line.strip
       end
