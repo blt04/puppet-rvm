@@ -1,9 +1,20 @@
-class rvm::passenger::apache::centos::post {
+class rvm::passenger::apache::centos::post(
+  $ruby_version,
+  $version,
+  $rvm_prefix = '/usr/local/',
+  $mininstances = '1',
+  $maxpoolsize = '6',
+  $poolidletime = '300',
+  $maxinstancesperapp = '0',
+  $spawnmethod = 'smart-lv2',
+  $gempath,
+  $binpath
+) {
   
   exec {
     'passenger-install-apache2-module':
-      command => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-      creates => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+      command => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
+      creates => "${rvm::passenger::apache::gempath}/passenger-${rvm::passenger::apache::version}/ext/apache2/mod_passenger.so",
       logoutput => 'on_failure',
       require => [Rvm_gem['passenger'], Package['httpd','httpd-devel','mod_ssl']];
   }
