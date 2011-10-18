@@ -1,7 +1,7 @@
 class rvm::passenger::apache::ubuntu::pre {
 
-  include apache
   # Dependencies
+  if ! defined(Package['apache2'])              { package { apache2:              ensure => installed } }
   if ! defined(Package['build-essential'])      { package { build-essential:      ensure => installed } }
   if ! defined(Package['apache2-prefork-dev'])  { package { apache2-prefork-dev:  ensure => installed } }
   if ! defined(Package['libapr1-dev'])          { package { libapr1-dev:          ensure => installed, alias => 'libapr-dev' } }
