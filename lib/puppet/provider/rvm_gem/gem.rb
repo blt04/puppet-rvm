@@ -13,7 +13,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def gembinary
-    [command(:rvmcmd), ruby_version, "gem"]
+    [command(:rvmcmd), ruby_version, "do", "gem"]
   end
 
 
