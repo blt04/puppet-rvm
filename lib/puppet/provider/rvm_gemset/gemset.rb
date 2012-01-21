@@ -21,12 +21,15 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   end
 
   def gemset_list
-    list = []
-
     command = gemsetcommand + ['list']
-    list = execute(command).split("\n").collect do |line|
-      line.strip if line =~ /^\s+\S+/
-    end.compact
+
+    list = []
+    begin
+      list = execute(command).split("\n").collect do |line|
+        line.strip if line =~ /^\s+\S+/
+      end.compact
+    rescue Puppet::ExecutionFailure => detail
+    end
 
     list
   end

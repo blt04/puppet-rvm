@@ -30,6 +30,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << name + "$"
     end
 
+    list = []
     begin
       list = execute(command).split("\n").collect do |set|
         if gemhash = self.class.gemsplit(set)
@@ -40,7 +41,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         end
       end.compact
     rescue Puppet::ExecutionFailure => detail
-      raise Puppet::Error, "Could not list gems: #{detail}"
     end
 
     if hash[:justme]
@@ -53,6 +53,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   def self.gemsplit(desc)
     case desc
     when /^\*\*\*/, /^\s*$/, /^\s+/; return nil
+    when /gem: not found/; return nil
     when /^(\S+)\s+\(([^ ]+).*\)/
       name = $1
       version = $2.split(/,\s*/)[0]
