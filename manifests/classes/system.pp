@@ -10,5 +10,4 @@ class rvm::system($version='latest') {
       Class['rvm::dependencies'],
     ],
   }
-
 }
