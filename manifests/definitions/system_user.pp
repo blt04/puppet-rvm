@@ -5,8 +5,20 @@ define rvm::system_user () {
     default => 'rvm',
   }
 
+  if ! defined(User[$username]) {
+    user { $username:
+      ensure => present;
+    }
+  }
+
+  if ! defined(Group[$group]) {
+    group { $group:
+      ensure => present;
+    }
+  }
+
   exec { "/usr/sbin/usermod -a -G $group $username":
     unless  => "/bin/cat /etc/group | grep $group | grep $username",
-    require => [User[$username], Exec['system-rvm']];
+    require => [User[$username], Group[$group]];
   }
 }
