@@ -51,7 +51,7 @@ To use RVM without sudo, users need to be added to the `rvm` group.  This can be
 
     rvm::system_user { bturner: ; jdoe: ; jsmith: ; }
 
-**NOTE**: You must define a [user](http://docs.puppetlabs.com/references/stable/type.html#user-3) elsewhere in your manifest to use `rvm::system_user`.
+**NOTE**: You must define a [user](http://docs.puppetlabs.com/references/stable/type.html#user) elsewhere in your manifest to use `rvm::system_user`.
 
 
 ## Installing Ruby
@@ -60,10 +60,10 @@ You can tell RVM to install one or more Ruby versions with:
 
     if $rvm_installed == "true" {
       rvm_system_ruby {
-        'ruby-1.9.2-p180':
+        'ruby-1.9.2-p290':
           ensure => 'present',
           default_use => true;
-        'ruby-1.8.7-p334':
+        'ruby-1.8.7-p357':
           ensure => 'present',
           default_use => false;
       }
@@ -92,7 +92,7 @@ Install a gem with:
     if $rvm_installed == "true" {
       rvm_gem {
         'ruby-1.9.2-p290@myproject/bundler':
-          ensure => '1.0.18',
+          ensure => '1.0.21',
           require => Rvm_gemset['ruby-1.9.2-p290@myproject'];
       }
     }
@@ -107,7 +107,7 @@ Alternatively, you can use this more verbose syntax:
            name => 'bundler',
            ruby_version => 'ruby-1.9.2-p290',
            ensure => latest,
-           require => Rvm_system_ruby['ruby-1.9.2-p334'];
+           require => Rvm_system_ruby['ruby-1.9.2-p357'];
        }
     }
 
@@ -119,8 +119,8 @@ Install passenger with:
     if $rvm_installed == "true" {
       class {
         'rvm::passenger::apache':
-          version => '3.0.7',
-          ruby_version => 'ruby-1.9.2-p180',
+          version => '3.0.11',
+          ruby_version => 'ruby-1.9.2-p290',
           mininstances => '3',
           maxinstancesperapp => '0',
           maxpoolsize => '30',
@@ -168,7 +168,7 @@ for installing Ruby with RVM looked like:
     # NOTE: This does not work
     package {'ruby':
         provider => 'rvm',
-        ensure => '1.9.2-p180';
+        ensure => '1.9.2-p290';
     }
 
 While this may be possible, it becomes harder to manage multiple Ruby versions and
