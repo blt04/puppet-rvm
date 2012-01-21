@@ -147,6 +147,10 @@ configure RVM.
 
 The RVM module requires Puppet version 2.6.7 or higher.
 
+There is a bug in Puppet versions 2.7.4 through 2.7.9 that also causes this
+error.  The error can be safely ignored in these versions.  For best results,
+upgrade to Puppet 2.7.10.
+
 
 ### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev).
 
