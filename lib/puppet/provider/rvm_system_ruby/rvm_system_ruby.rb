@@ -5,6 +5,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def create
     rvmcmd "install", resource[:name]
+    set_default if resource.value(:default_use)
   end
 
   def destroy
@@ -24,7 +25,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def default_use
     begin
-      rvmcmd("list", "default", "string").split("\n").any? do |line|
+      rvmcmd("list", "default").split("\n").any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -33,6 +34,10 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def default_use=(value)
-    rvmcmd "--default", "use", resource[:name] if value
+    set_default if value
+  end
+
+  def set_default
+    rvmcmd "alias", "create", "default", resource[:name]
   end
 end
