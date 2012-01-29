@@ -1,4 +1,3 @@
-stage { 'rvm-install': before => Stage['main'] }
-
-import "classes/*.pp"
-import "definitions/*.pp"
+class rvm {
+  stage { 'rvm-install': before => Stage['main'] }
+}
