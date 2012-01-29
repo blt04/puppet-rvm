@@ -1,6 +1,7 @@
 class rvm::system($version='latest', stage='rvm-install') {
 
-  class {'rvm::dependencies': stage => 'rvm-install';}
+  include rvm
+  class {'rvm::dependencies': stage => $stage;}
 
   exec { 'system-rvm':
     path    => '/usr/bin:/usr/sbin:/bin',
