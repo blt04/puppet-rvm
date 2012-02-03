@@ -11,13 +11,6 @@ define rvm::system_user () {
     }
   }
 
-  if ! defined(Group[$group]) {
-    group { $group:
-      ensure => present,
-      system => true,
-    }
-  }
-
   exec { "/usr/sbin/usermod -a -G $group $username":
     unless  => "/bin/cat /etc/group | grep $group | grep $username",
     require => [User[$username], Group[$group]],
