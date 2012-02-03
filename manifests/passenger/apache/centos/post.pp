@@ -6,7 +6,7 @@ class rvm::passenger::apache::centos::post(
   $poolidletime = '300',
   $maxinstancesperapp = '0',
   $spawnmethod = 'smart-lv2',
-  $rvmpath = ${rvm::system::rvmpath},
+  $rvmpath = $rvm::system::rvmpath,
   $gempath
 ) {
   exec {
