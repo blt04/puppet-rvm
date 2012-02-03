@@ -1,11 +1,11 @@
 class rvm::system(
   $version='latest',
-  $stage='rvm-install',
+  $depstage='rvm-install',
   $use_rpm=false
 ) {
 
   include rvm
-  class {'rvm::dependencies': stage => $stage;}
+  class {'rvm::dependencies': stage => $depstage;}
 
   # If you set $use_rpm to true, then this module expects that you have made
   # the rvm-ruby RPM available in some yum repository
