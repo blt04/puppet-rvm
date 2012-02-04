@@ -11,10 +11,13 @@ end
 Facter.add(:rvm_binary) do
   confine :rvm_installed => :true
   setcode do
+    result = ''
     [ '/usr/local/rvm/bin/rvm', '/usr/bin/rvm' ].each do |binfile|
       if File.exist?(binfile)
-        return binfile
+        result = binfile
+        break
       end
     end
+    result
   end
 end
