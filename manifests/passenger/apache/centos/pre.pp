@@ -11,12 +11,4 @@ class rvm::passenger::apache::centos::pre {
     group  => 0,
     mode   => 0755,
   }
-
-  if $selinux == 'true' {
-    # Allows apache/passenger to adjust its file descriptor limits
-    selboolean { 'httpd_setrlimit':
-      value      => on,
-      persistent => true,
-    }
-  }
 }
