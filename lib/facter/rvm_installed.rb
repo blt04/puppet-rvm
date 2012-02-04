@@ -13,10 +13,8 @@ Facter.add(:rvm_binary) do
   setcode do
     [ '/usr/local/rvm/bin/rvm', '/usr/bin/rvm' ].each do |binfile|
       if File.exist?(binfile)
-        result = binfile
-        break
+        return binfile
       end
     end
-    result
   end
 end
