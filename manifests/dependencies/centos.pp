@@ -43,8 +43,9 @@ class rvm::dependencies::centos {
         /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/ext/apache2(/.*)?' &&
         /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/PassengerWatchdog' &&
         /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/PassengerLoggingAgent' &&
-        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/apache2/PassengerHelperAgent'"
+        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/apache2/PassengerHelperAgent'",
         refreshonly => true,
+        logoutput   => on_error,
         require     => Package['policycoreutils-python'],
     }
   }
