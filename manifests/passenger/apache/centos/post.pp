@@ -24,9 +24,18 @@ class rvm::passenger::apache::centos::post(
   # installed in the system ruby gems directory, but the nonstandard rvm
   # location means they don't get set correctly by the default policy
   if $selinux == 'true' {
-    file { "$passdir/ext/apache2/mod_passenger.so":
-      seltype => 'lib_t',
+    file { "$rvmpath/wrappers":
+      ensure  => directory,
+      recurse => true,
+      group   => 'rvm',
       mode    => 0755,
+      seltype => 'bin_t',
+      before  => File['/etc/httpd/conf.d/passenger.conf'],
+    }
+    file { "$passdir/ext/apache2/mod_passenger.so":
+      group   => 'rvm',
+      mode    => 0755,
+      seltype => 'lib_t',
       require => Exec['passenger-install-apache2-module'],
       before  => File['/etc/httpd/conf.d/passenger.conf'],
     }
@@ -35,8 +44,9 @@ class rvm::passenger::apache::centos::post(
       "$passdir/agents/PassengerWatchdog",
       "$passdir/agents/apache2/PassengerHelperAgent"
     ]:
-      seltype => 'passenger_exec_t',
+      group   => 'rvm',
       mode    => 0755,
+      seltype => 'passenger_exec_t',
       require => Exec['passenger-install-apache2-module'],
       before  => File['/etc/httpd/conf.d/passenger.conf'],
     }
