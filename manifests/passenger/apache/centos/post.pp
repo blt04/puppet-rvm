@@ -26,6 +26,7 @@ class rvm::passenger::apache::centos::post(
   if $selinux == 'true' {
     file { "$passdir/ext/apache2/mod_passenger.so":
       seltype => 'lib_t',
+      mode    => 0755,
       require => Exec['passenger-install-apache2-module'],
       before  => File['/etc/httpd/conf.d/passenger.conf'],
     }
@@ -35,6 +36,7 @@ class rvm::passenger::apache::centos::post(
       "$passdir/agents/apache2/PassengerHelperAgent"
     ]:
       seltype => 'passenger_exec_t',
+      mode    => 0755,
       require => Exec['passenger-install-apache2-module'],
       before  => File['/etc/httpd/conf.d/passenger.conf'],
     }
