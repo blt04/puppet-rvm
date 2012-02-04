@@ -12,7 +12,7 @@ class rvm::passenger::apache::ubuntu::post(
 
   exec {
     'passenger-install-apache2-module':
-      command   => "${rvm::system::binpath}/rvm ${ruby_version} exec passenger-install-apache2-module -a",
+      command   => "$rvm_binary ${ruby_version} exec passenger-install-apache2-module -a",
       creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
       logoutput => 'on_failure',
       require   => [Rvm_gem['passenger'], Package['apache2', 'build-essential', 'apache2-prefork-dev',
