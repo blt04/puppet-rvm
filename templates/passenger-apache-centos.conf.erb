@@ -8,4 +8,5 @@ LoadModule passenger_module <%= gempath %>/passenger-<%= version %>/ext/apache2/
   PassengerMinInstances <%= mininstances %>
   PassengerMaxInstancesPerApp <%= maxinstancesperapp %>
   PassengerSpawnMethod <%= spawnmethod %>
+  PassengerTempDir /var/run/passenger
 </IfModule>
