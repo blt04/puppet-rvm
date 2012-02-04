@@ -1,7 +1,7 @@
 class rvm::system(
-  $version='latest',
-  $depstage='rvm-install',
-  $use_rpm=false
+  $version = 'latest',
+  $depstage = 'rvm-install',
+  $use_rpm = false
 ) {
 
   include rvm

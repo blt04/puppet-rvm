@@ -5,7 +5,7 @@ require 'uri'
 Puppet::Type.type(:rvm_gem).provide(:gem) do
   desc "Ruby Gem support using RVM."
 
-  commands :rvmcmd => "rvm"
+  commands :rvmcmd => Facter.value(:rvm_binary)
 
 
   def ruby_version

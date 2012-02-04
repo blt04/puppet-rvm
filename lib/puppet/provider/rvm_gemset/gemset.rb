@@ -2,7 +2,7 @@
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   desc "RVM gemset support."
 
-  commands :rvmcmd => "rvm"
+  commands :rvmcmd => Facter.value(:rvm_binary)
 
   def ruby_version
     resource[:ruby_version]
