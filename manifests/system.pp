@@ -1,8 +1,4 @@
-class rvm::system($version='latest', stage='rvm-install') {
-
-  include rvm
-  class {'rvm::dependencies': stage => $stage;}
-
+class rvm::system($version='latest') {
   exec { 'system-rvm':
     path    => '/usr/bin:/usr/sbin:/bin',
     command => "bash -c '/usr/bin/curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer -o /tmp/rvm-installer ;

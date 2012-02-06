@@ -40,7 +40,7 @@ You may now continue configuring RVM resources.
 
 Install RVM with:
 
-    include rvm::system
+    include rvm
 
 This will install RVM into `/usr/local/rvm`.
 
