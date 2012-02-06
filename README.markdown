@@ -133,7 +133,7 @@ block:
         rvm_system_ruby ...
     }
 
-Do not surround `include rvm::system` in the if block, as this is used to install RVM.
+Do not surround `include rvm` in the if block, as this is used to install RVM.
 
 NOTE: $rvm\_installed is evaluated at the beginning of each puppet run.  If you
 use this in your manifests, you will need to run puppet twice to fully
