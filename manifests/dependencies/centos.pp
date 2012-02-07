@@ -30,22 +30,23 @@ class rvm::dependencies::centos {
   # installed in the system ruby gems directory, but the alternative rvm
   # location means they don't get set correctly by the default policy
   if $selinux == 'true' {
-    # Make sure we have the semanage command
+    # Make sure we have semanage and restorecon commands
     if ! defined(Package['policycoreutils-python']) {
       package { 'policycoreutils-python': ensure => present }
     }
 
-    # Give rvm-managed files the right contexts
-    exec { 'selinux-contexts':
-      command =>
-        "/usr/sbin/semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/wrappers(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/rubies/ruby-.*/bin(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/rubies/ruby-.*/lib(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents(/.*)?'",
-      logoutput => on_failure,
-      require   => Package['policycoreutils-python'],
-      unless    => '/usr/sbin/semanage fcontext -l | /bin/grep -q rvm',
+    # Install a hook into rvm to correct contexts after ruby installs
+    file { '/root/.rvm/hooks':
+      ensure => directory,
+      owner  => root,
+      group  => 0,
+      mode   => 0755,
+    }
+    file { '/root/.rvm/hooks/after_install':
+      source => 'puppet:///modules/rvm/after_install',
+      owner   => root,
+      group   => 0,
+      mode    => 0755,
     }
   }
 }

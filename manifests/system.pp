@@ -29,16 +29,4 @@ class rvm::system(
       require => Class['rvm::dependencies'],
     }
   }
-
-  # Set correct contexts on files if we have selinux
-  if $selinux == 'true' {
-    exec { 'selinux-restorecon':
-      command     => "/sbin/restorecon -R $rvmpath",
-      refreshonly => true,
-      subscribe   => $use_rpm ? {
-        true  => Package['rvm-ruby'],
-        false => Exec['system-rvm'],
-      },
-    }
-  }
 }
