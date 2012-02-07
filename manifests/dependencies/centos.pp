@@ -36,14 +36,13 @@ class rvm::dependencies::centos {
     }
 
     # Give rvm-managed files the right contexts
-    exec { 'rvm-selinux-contexts':
+    exec { 'selinux-contexts':
       command =>
-        "/usr/sbin/semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/wrappers/ruby-.*' &&
+        "/usr/sbin/semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/wrappers(/.*)?' &&
         /usr/sbin/semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/rubies/ruby-.*/bin(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/ext/apache2(/.*)?' &&
-        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/PassengerWatchdog' &&
-        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/PassengerLoggingAgent' &&
-        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/apache2/PassengerHelperAgent'",
+        /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/rubies/ruby-.*/lib(/.*)?' &&
+        /usr/sbin/semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems(/.*)?' &&
+        /usr/sbin/semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents(/.*)?'",
       logoutput => on_failure,
       require   => Package['policycoreutils-python'],
       unless    => '/usr/sbin/semanage fcontext -l | /bin/grep -q rvm',
