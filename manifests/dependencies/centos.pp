@@ -36,7 +36,7 @@ class rvm::dependencies::centos {
     }
 
     # Install a hook into rvm to correct contexts after ruby installs
-    file { '/root/.rvm/hooks':
+    file { [ '/root/.rvm', '/root/.rvm/hooks' ]:
       ensure => directory,
       owner  => root,
       group  => 0,
