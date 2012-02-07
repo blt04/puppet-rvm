@@ -3,22 +3,20 @@
 # This script will make sure the correct selinux contexts are set on ruby
 # files after each ruby version install.
 
-echo "Test hook executing"
-env | grep -i rvm
-
-if [ -x '/usr/sbin/semanage' -a -x '/sbin/restorecon' ]; then
-  echo "executables good"
-else
-  echo "executables bad"
+if [ ! ( -x '/usr/sbin/semanage' -a -x '/sbin/restorecon' ) ]; then
+  echo "SELinux executables missing, rvm after_install hook failed"
+  exit
 fi
 
-exit
-
-# Set up rvm file contexts if they are not already present
-if ! semanage fcontext -l | /bin/grep -q rvm; then
+# Set up rvm file context patterns if they are not already present
+# This will handle installs in either /usr/local/rvm or /usr/lib/rvm
+semanage fcontext -l | /bin/grep -q rvm; || {
   semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/wrappers(/.*)?'
   semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/rubies/ruby-.*/bin(/.*)?'
   semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/rubies/ruby-.*/lib(/.*)?'
   semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems(/.*)?'
   semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents(/.*)?'
-fi
+}
+
+# Run restorecon on the rvm hierarchy to fix the contexts
+restorecon -R $rvm_path
