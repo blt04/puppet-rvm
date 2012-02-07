@@ -25,28 +25,10 @@ class rvm::dependencies::centos {
   if ! defined(Package['patch'])           { package { 'patch':           ensure => installed } }
   if ! defined(Package['git'])             { package { 'git':             ensure => installed } }
 
-  # If we have selinux, prepare to set the correct file contexts
-  # On RHEL6 with a current policy, these are automatic when passenger is
-  # installed in the system ruby gems directory, but the alternative rvm
-  # location means they don't get set correctly by the default policy
   if $selinux == 'true' {
     # Make sure we have semanage and restorecon commands
     if ! defined(Package['policycoreutils-python']) {
       package { 'policycoreutils-python': ensure => present }
-    }
-
-    # Install a hook into rvm to correct contexts after ruby installs
-    file { [ '/root/.rvm', '/root/.rvm/hooks' ]:
-      ensure => directory,
-      owner  => root,
-      group  => 0,
-      mode   => 0755,
-    }
-    file { '/root/.rvm/hooks/after_install':
-      source => 'puppet:///modules/rvm/after_install',
-      owner   => root,
-      group   => 0,
-      mode    => 0755,
     }
   }
 }

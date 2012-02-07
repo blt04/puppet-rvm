@@ -29,4 +29,18 @@ class rvm::system(
       require => Class['rvm::dependencies'],
     }
   }
+
+  # Install the rvm hook to set selinux file contexts if needed
+  if $selinux == 'true' {
+    file { "$rvmpath/hooks/after_install":
+      source  => 'puppet:///modules/rvm/after_install',
+      owner   => root,
+      group   => 'rvm',
+      mode    => 0755,
+      require => $use_rpm ? {
+        true  => Package['rvm-ruby'],
+        false => Exec['system-rvm'],
+      },
+    }
+  }
 }
