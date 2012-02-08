@@ -15,7 +15,7 @@ semanage fcontext -l | /bin/grep -q rvm || {
   semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/rubies/ruby-.*/bin(/.*)?'
   semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/rubies/ruby-.*/lib(/.*)?'
   semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/gems(/.*)?'
-  semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents(/.*)?'
+  semanage fcontext -a -t passenger_exec_t '/usr/(local|lib)/rvm/gems/ruby-.*/gems/passenger-.*/agents/(apache2/)?Passenger.*'
 }
 
 # Run restorecon on the rvm hierarchy to fix the contexts
