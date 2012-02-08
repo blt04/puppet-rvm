@@ -15,7 +15,6 @@ class rvm::dependencies::centos {
   if ! defined(Package['gettext-devel'])   { package { 'gettext-devel':   ensure => installed } }
   if ! defined(Package['wget'])            { package { 'wget':            ensure => installed } }
   if ! defined(Package['bzip2'])           { package { 'bzip2':           ensure => installed } }
-  if ! defined(Package['sendmail'])        { package { 'sendmail':        ensure => installed } }
   if ! defined(Package['mailx'])           { package { 'mailx':           ensure => installed } }
   if ! defined(Package['libxml2'])         { package { 'libxml2':         ensure => installed } }
   if ! defined(Package['libxml2-devel'])   { package { 'libxml2-devel':   ensure => installed } }
