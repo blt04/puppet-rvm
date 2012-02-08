@@ -7,6 +7,11 @@
 # of rvm (now 1.10.2) such that it cannot find this after_install hook
 # See rvm issues #744 and #745 on github for more information
 
+if [ $EUID -ne 0 ]; then
+  # Don't try to mess with selinux if we are not root
+  exit
+fi
+
 if [ ! \( -x /usr/sbin/semanage -a -x /sbin/restorecon \) ]; then
   echo "SELinux executables missing, rvm after_install hook failed"
   exit 1
