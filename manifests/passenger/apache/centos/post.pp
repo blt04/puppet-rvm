@@ -17,6 +17,15 @@ class rvm::passenger::apache::centos::post(
     require   => [Rvm_gem['passenger'], Package['httpd','httpd-devel','mod_ssl']];
   }
 
+  if $selinux == 'true' {
+    exec { 'passenger-contexts':
+      command     => "/sbin/restorecon -R $rvmpath",
+      refreshonly => true,
+      subscribe   => Exec['passenger-install-apache2-module'],
+      before      => File['/etc/httpd/conf.d/passenger.conf'],
+    }
+  }
+
   file { '/etc/httpd/conf.d/passenger.conf':
     content => template('rvm/passenger-apache-centos.conf.erb'),
     require => Exec['passenger-install-apache2-module'];
