@@ -3,9 +3,13 @@
 # This script will make sure the correct selinux contexts are set on ruby
 # files after each ruby version install.
 
+# WARNING - As of 2012-02-08, there is a bug in current versions
+# of rvm (now 1.10.2) such that it cannot find this after_install hook
+# See rvm issues #744 and #745 on github for more information
+
 if [ ! \( -x /usr/sbin/semanage -a -x /sbin/restorecon \) ]; then
   echo "SELinux executables missing, rvm after_install hook failed"
-  exit
+  exit 1
 fi
 
 # Set up rvm file context patterns if they are not already present
