@@ -10,7 +10,7 @@ fi
 
 # Set up rvm file context patterns if they are not already present
 # This will handle installs in either /usr/local/rvm or /usr/lib/rvm
-semanage fcontext -l | /bin/grep -q rvm; || {
+semanage fcontext -l | /bin/grep -q rvm || {
   semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/wrappers(/.*)?'
   semanage fcontext -a -t bin_t '/usr/(local|lib)/rvm/rubies/ruby-.*/bin(/.*)?'
   semanage fcontext -a -t lib_t '/usr/(local|lib)/rvm/rubies/ruby-.*/lib(/.*)?'
