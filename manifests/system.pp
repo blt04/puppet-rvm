@@ -1,8 +1,8 @@
-class rvm::system($version = 'latest', $use_rpm = false) {
-  # If you set $use_rpm to true, then this module expects that you have made
-  # the rvm-ruby RPM available in some yum repository
-  # https://github.com/mdkent/rvm-rpm
-  if ($use_rpm) {
+class rvm::system($version = 'latest', $use_pkg = false) {
+  # If you set $use_pkg to true, then this module expects that you have made
+  # an rvm-ruby package available in some repository
+  # One source for this package is https://github.com/mdkent/rvm-rpm
+  if ($use_pkg) {
     $rvmpath = '/usr/lib/rvm'
     package { 'rvm-ruby':
       ensure  => $version,
@@ -29,7 +29,7 @@ class rvm::system($version = 'latest', $use_rpm = false) {
       owner   => root,
       group   => 'rvm',
       mode    => 0755,
-      require => $use_rpm ? {
+      require => $use_pkg ? {
         true  => Package['rvm-ruby'],
         false => Exec['system-rvm'],
       },
