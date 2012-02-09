@@ -2,10 +2,11 @@ LoadModule passenger_module <%= gempath %>/passenger-<%= version %>/ext/apache2/
 
 <IfModule passenger_module>
   PassengerRoot <%= gempath %>/passenger-<%= version %>
-  PassengerRuby <%= rvm_prefix %>rvm/wrappers/<%= ruby_version %>/ruby
+  PassengerRuby <%= rvmpath %>/wrappers/<%= ruby_version %>/ruby
   PassengerMaxPoolSize <%= maxpoolsize %>
   PassengerPoolIdleTime <%= poolidletime %>
   PassengerMinInstances <%= mininstances %>
   PassengerMaxInstancesPerApp <%= maxinstancesperapp %>
   PassengerSpawnMethod <%= spawnmethod %>
+  PassengerTempDir /var/run/passenger
 </IfModule>

@@ -1,7 +1,6 @@
 class rvm::passenger::apache(
   $ruby_version,
   $version,
-  $rvm_prefix = '/usr/local/',
   $mininstances = '1',
   $maxpoolsize = '6',
   $poolidletime = '300',
@@ -23,36 +22,31 @@ class rvm::passenger::apache(
   # TODO: How can we get the gempath automatically using the ruby version
   # Can we read the output of a command into a variable?
   # e.g. $gempath = `usr/local/rvm/bin/rvm ${ruby_version} exec rvm gemdir`
-  $gempath = "${rvm_prefix}rvm/gems/${ruby_version}/gems"
-  $binpath = "${rvm_prefix}rvm/bin/"
+  $gempath = "${rvm::system::rvmpath}/gems/${ruby_version}/gems"
 
   case $operatingsystem {
     Ubuntu: {
       class { 'rvm::passenger::apache::ubuntu::post':
         ruby_version       => $ruby_version,
         version            => $version,
-        rvm_prefix         => $rvm_prefix,
         mininstances       => $mininstances,
         maxpoolsize        => $maxpoolsize,
         poolidletime       => $poolidletime,
         maxinstancesperapp => $maxinstancesperapp,
         spawnmethod        => $spawnmethod,
         gempath            => $gempath,
-        binpath            => $binpath;
       }
     }
     CentOS,RedHat: {
       class { 'rvm::passenger::apache::centos::post':
         ruby_version       => $ruby_version,
         version            => $version,
-        rvm_prefix         => $rvm_prefix,
         mininstances       => $mininstances,
         maxpoolsize        => $maxpoolsize,
         poolidletime       => $poolidletime,
         maxinstancesperapp => $maxinstancesperapp,
         spawnmethod        => $spawnmethod,
         gempath            => $gempath,
-        binpath            => $binpath;
       }
     }
   }
