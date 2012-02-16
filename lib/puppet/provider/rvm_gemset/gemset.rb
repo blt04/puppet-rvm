@@ -1,8 +1,10 @@
+require 'puppet/provider/rvm'
+
 # RVM gemset support
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   desc "RVM gemset support."
 
-  commands :rvmcmd => Facter.value(:rvm_binary)
+  commands :rvmcmd => Puppet::Rvm.rvm_binary
 
   def ruby_version
     resource[:ruby_version]

@@ -1,11 +1,12 @@
 require 'puppet/provider/package'
 require 'uri'
+require 'puppet/provider/rvm'
 
 # Ruby gems support.
 Puppet::Type.type(:rvm_gem).provide(:gem) do
   desc "Ruby Gem support using RVM."
 
-  commands :rvmcmd => Facter.value(:rvm_binary)
+  commands :rvmcmd => Puppet::Rvm.rvm_binary
 
 
   def ruby_version
