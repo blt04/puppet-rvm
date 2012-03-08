@@ -5,7 +5,9 @@ LoadModule passenger_module <%= gempath %>/passenger-<%= version %>/ext/apache2/
   PassengerRuby <%= rvm_prefix %>rvm/wrappers/<%= ruby_version %>/ruby
   PassengerMaxPoolSize <%= maxpoolsize %>
   PassengerPoolIdleTime <%= poolidletime %>
-  PassengerMinInstances <%= mininstances %>
   PassengerMaxInstancesPerApp <%= maxinstancesperapp %>
+<% if version >= '3.0.0' %>
+  PassengerMinInstances <%= mininstances %>
   PassengerSpawnMethod <%= spawnmethod %>
+<% end %>
 </IfModule>
