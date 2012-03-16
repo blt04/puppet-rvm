@@ -2,7 +2,16 @@
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   desc "RVM gemset support."
 
-  commands :rvmcmd => "/usr/local/rvm/bin/rvm"
+  #commands :rvmcmd => "/usr/local/rvm/bin/rvm"
+  commands :workaround => "true"
+
+  def rvmcmd(*args)
+    execute( [get_rvm] + args )
+  end
+
+  def get_rvm
+    "/usr/local/rvm/bin/rvm"
+  end
 
   def ruby_version
     resource[:ruby_version]
@@ -13,11 +22,11 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   end
 
   def gemsetcommand
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "gemset"]
+    [get_rvm, ruby_version, "exec", "rvm", "gemset"]
   end
 
   def gemsetcommand_force
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "--force", "gemset"]
+    [get_rvm, ruby_version, "exec", "rvm", "--force", "gemset"]
   end
 
   def gemset_list
