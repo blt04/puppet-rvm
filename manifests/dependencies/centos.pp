@@ -18,7 +18,6 @@ class rvm::dependencies::centos {
   if ! defined(Package['openssl-devel'])   { package { 'openssl-devel':   ensure => installed } }
   if ! defined(Package['perl'])            { package { 'perl':            ensure => installed } }
   if ! defined(Package['cpio'])            { package { 'cpio':            ensure => installed } }
-  if ! defined(Package['expat-devel'])     { package { 'expat-devel':     ensure => installed } }
   if ! defined(Package['gettext-devel'])   { package { 'gettext-devel':   ensure => installed } }
   if ! defined(Package['wget'])            { package { 'wget':            ensure => installed } }
   if ! defined(Package['bzip2'])           { package { 'bzip2':           ensure => installed } }
