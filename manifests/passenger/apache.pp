@@ -28,31 +28,35 @@ class rvm::passenger::apache(
 
   case $::operatingsystem {
     Ubuntu: {
-      class { 'rvm::passenger::apache::ubuntu::post':
-        ruby_version       => $ruby_version,
-        version            => $version,
-        rvm_prefix         => $rvm_prefix,
-        mininstances       => $mininstances,
-        maxpoolsize        => $maxpoolsize,
-        poolidletime       => $poolidletime,
-        maxinstancesperapp => $maxinstancesperapp,
-        spawnmethod        => $spawnmethod,
-        gempath            => $gempath,
-        binpath            => $binpath;
+      if !defined(Class['rvm::passenger::apache::ubuntu::post']) {
+        class { 'rvm::passenger::apache::ubuntu::post':
+          ruby_version       => $ruby_version,
+          version            => $version,
+          rvm_prefix         => $rvm_prefix,
+          mininstances       => $mininstances,
+          maxpoolsize        => $maxpoolsize,
+          poolidletime       => $poolidletime,
+          maxinstancesperapp => $maxinstancesperapp,
+          spawnmethod        => $spawnmethod,
+          gempath            => $gempath,
+          binpath            => $binpath;
+        }
       }
     }
     CentOS,RedHat: {
-      class { 'rvm::passenger::apache::centos::post':
-        ruby_version       => $ruby_version,
-        version            => $version,
-        rvm_prefix         => $rvm_prefix,
-        mininstances       => $mininstances,
-        maxpoolsize        => $maxpoolsize,
-        poolidletime       => $poolidletime,
-        maxinstancesperapp => $maxinstancesperapp,
-        spawnmethod        => $spawnmethod,
-        gempath            => $gempath,
-        binpath            => $binpath;
+      if !defined(Class['rvm::passenger::apache::centos::post']) {
+        class { 'rvm::passenger::apache::centos::post':
+          ruby_version       => $ruby_version,
+          version            => $version,
+          rvm_prefix         => $rvm_prefix,
+          mininstances       => $mininstances,
+          maxpoolsize        => $maxpoolsize,
+          poolidletime       => $poolidletime,
+          maxinstancesperapp => $maxinstancesperapp,
+          spawnmethod        => $spawnmethod,
+          gempath            => $gempath,
+          binpath            => $binpath;
+        }
       }
     }
   }
