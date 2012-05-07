@@ -1,7 +1,7 @@
 define rvm::system_user () {
 
   $username = $title
-  $group = $operatingsystem ? {
+  $group = $::operatingsystem ? {
     default => 'rvm',
   }
 
