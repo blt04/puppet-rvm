@@ -1,6 +1,6 @@
 class rvm::dependencies::centos {
 
-  case $operatingsystemrelease {
+  case $::operatingsystemrelease {
     /^6\..*/: {
       if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel':      ensure => installed } }
     }
