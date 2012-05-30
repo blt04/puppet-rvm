@@ -10,7 +10,7 @@ class rvm::passenger::apache(
 ) {
 
   case $::operatingsystem {
-    Ubuntu: { include rvm::passenger::apache::ubuntu::pre }
+    Ubuntu,Debian: { include rvm::passenger::apache::ubuntu::pre }
     CentOS,RedHat: { include rvm::passenger::apache::centos::pre }
   }
 
@@ -27,7 +27,7 @@ class rvm::passenger::apache(
   $binpath = "${rvm_prefix}rvm/bin/"
 
   case $::operatingsystem {
-    Ubuntu: {
+    Ubuntu,Debian: {
       if !defined(Class['rvm::passenger::apache::ubuntu::post']) {
         class { 'rvm::passenger::apache::ubuntu::post':
           ruby_version       => $ruby_version,
