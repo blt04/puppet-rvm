@@ -5,6 +5,7 @@ require 'uri'
 Puppet::Type.type(:rvm_gem).provide(:gem) do
   desc "Ruby Gem support using RVM."
 
+  has_feature :versionable
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
 
 
@@ -56,7 +57,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     when /gem: not found/; return nil
     when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
       name = $1
-      version = $2.split(/,\s*/)[0]
+      version = $2.split(/,\s*/)
       return {
         :name => name,
         :ensure => version
@@ -107,7 +108,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     # This always gets the latest version available.
     hash = gemlist(:justme => resource[:name])
 
-    hash[:ensure]
+    hash[:ensure][0]
   end
 
   def query
