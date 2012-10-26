@@ -125,6 +125,10 @@ Puppet::Type.newtype(:rvm_gem) do
     isnamevar
   end
 
+  newparam(:withopts) do
+    desc "Install the gem with these makefile opts."
+  end
+
   newparam(:source) do
     desc "If a URL is passed via, then that URL is used as the
     remote gem repository; if a source is present but is not a valid URL, it will be
