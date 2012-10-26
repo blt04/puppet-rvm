@@ -99,6 +99,12 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << "--no-rdoc" << "--no-ri" <<  resource[:name]
     end
 
+    # makefile opts,
+    # must be last
+    if resource[:withopts]
+      command << "--" << resource[:withopts]
+    end
+
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
     self.fail "Could not install: #{output.chomp}" if output.include?("ERROR")
