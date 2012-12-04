@@ -4,8 +4,8 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
 
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
 
-  def ruby_version
-    resource[:ruby_version]
+  def target_ruby
+    resource[:target_ruby]
   end
 
   def alias_name
@@ -29,7 +29,7 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
   end
 
   def create
-    command = aliascmd + ['create', alias_name, ruby_version]
+    command = aliascmd + ['create', alias_name, target_ruby]
     execute(command)
   end
 
@@ -39,6 +39,6 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
   end
 
   def exists?
-    alias_list.match("#{alias_name} => #{ruby_version}")
+    alias_list.match("#{alias_name} => #{target_ruby}")
   end
 end
