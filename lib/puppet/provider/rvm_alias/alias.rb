@@ -25,7 +25,7 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
     rescue Puppet::ExecutionFailure => detail
     end
 
-    list
+    list.to_s
   end
 
   def create
@@ -39,6 +39,6 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
   end
 
   def exists?
-    alias_list.include? alias_name
+    alias_list.match("#{alias_name} => #{ruby_version}")
   end
 end
