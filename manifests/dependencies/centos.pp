@@ -4,6 +4,10 @@ class rvm::dependencies::centos {
     /^6\..*/: {
       if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel':      ensure => installed } }
     }
+    /^5\..*/: {
+      if ! defined(Package['bison'])        { package { 'bison':         ensure => installed } }
+      if ! defined(Package['autoconf'])     { package { 'autoconf':      ensure => installed } }
+    }
     default: {
       if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => installed } }
     }
