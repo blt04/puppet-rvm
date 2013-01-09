@@ -18,8 +18,8 @@ define rvm::system_user () {
   }
 
   case $operatingsystem {
-    freebsd: { $umod => "pw usermod $username -G $group" }
-    default: {  $umod => "/usr/sbin/usermod -a -G $group $username" }
+    freebsd: { $umod = "pw usermod $username -G $group" }
+    default: {  $umod = "/usr/sbin/usermod -a -G $group $username" }
   }
   
   
