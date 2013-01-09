@@ -6,6 +6,7 @@ class rvm::system($version='latest') {
                 rvm_bin_path=/usr/local/rvm/bin rvm_man_path=/usr/local/rvm/man /tmp/rvm-installer --version ${version} ; \
                 rm /tmp/rvm-installer'",
     creates => '/usr/local/rvm/bin/rvm',
+    provider => shell,
     require => [
       Class['rvm::dependencies'],
     ],
