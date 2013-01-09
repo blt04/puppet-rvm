@@ -9,5 +9,6 @@ class rvm::system($version='latest') {
     require => [
       Class['rvm::dependencies'],
     ],
+    user => rails
   }
 }
