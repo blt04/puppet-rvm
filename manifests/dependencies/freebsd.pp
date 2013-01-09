@@ -2,7 +2,7 @@ class rvm::dependencies::freebsd {
 
   if ! defined(Package['bash'])            { package { 'bash':            ensure => installed,  provider => "freebsd", source => "http://ftp.freebsd.org/pub/FreeBSD/ports/amd64/packages-9-stable/Latest/", root => true } }
   if ! defined(Package['git'])             { package { 'git':             ensure => installed, provider => "freebsd", source => "http://ftp.freebsd.org/pub/FreeBSD/ports/amd64/packages-9-stable/Latest/", root => true } }
-  # if ! defined(Package['which'])           { package { 'which':           ensure => installed, root => true } }
+  if ! defined(Package['which'])           { package { 'which':           ensure => installed, root => true } }
   # if ! defined(Package['gcc'])             { package { 'gcc':             ensure => installed, root => true } }
   # if ! defined(Package['gcc-c++'])         { package { 'gcc-c++':         ensure => installed, root => true } }
   # if ! defined(Package['make'])            { package { 'make':            ensure => installed, root => true } }
