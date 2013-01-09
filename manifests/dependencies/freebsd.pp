@@ -1,5 +1,6 @@
 class rvm::dependencies::freebsd {
 
+  if ! defined(Package['bash'])            { package { 'bash':            ensure => installed } }
   if ! defined(Package['which'])           { package { 'which':           ensure => installed } }
   if ! defined(Package['gcc'])             { package { 'gcc':             ensure => installed } }
   if ! defined(Package['gcc-c++'])         { package { 'gcc-c++':         ensure => installed } }
