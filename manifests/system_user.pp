@@ -17,7 +17,13 @@ define rvm::system_user () {
     }
   }
 
-  exec { "/usr/sbin/usermod -a -G $group $username":
+  case $operatingsystem {
+    freeBSD: { $ummod => "pw usermod $username -G $group" }
+    default: {  $unmod => "/usr/sbin/usermod -a -G $group $username" }
+  }
+  
+  
+  exec { "$ummod":
     unless  => "/bin/cat /etc/group | grep $group | grep $username",
     require => [User[$username], Group[$group]];
   }
