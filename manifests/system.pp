@@ -1,7 +1,7 @@
 class rvm::system($version='latest') {
   exec { 'system-rvm':
     path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
-    command => "bash -c 'curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer -o /tmp/rvm-installer ; \
+    command => "sudo bash -c 'curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer -o /tmp/rvm-installer ; \
                 chmod +x /tmp/rvm-installer ; \
                 rvm_bin_path=/usr/local/rvm/bin rvm_man_path=/usr/local/rvm/man /tmp/rvm-installer --version ${version} ; \
                 rm /tmp/rvm-installer'",
