@@ -13,12 +13,12 @@ Puppet::Type.newtype(:rvm_system_ruby) do
     defaultto false
   end
 
-  newproperty(:withopts) do
+  newparam(:install_opts) do
     desc "Flags to compile RVM with ie: --with-openssl-dir=..."
     defaultto ""
   end
 
-  newproperty(:pkg) do
+  newparam(:pkg) do
     desc "install package for this system ruby"
   end
 end
