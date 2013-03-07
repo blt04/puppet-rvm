@@ -5,8 +5,8 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def create
     if resource[:pkg]
-      puts "rvmcmd pkg install #{resource[:pkg]}"
-      rvmcmd "pkg install", resource[:pkg]
+      #puts "rvm pkg install #{resource[:pkg]}"
+      rvmcmd "pkg", "install", resource[:pkg]
     end
 
     options = resource[:withopts]
