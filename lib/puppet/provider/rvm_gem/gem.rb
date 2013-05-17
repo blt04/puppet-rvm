@@ -55,7 +55,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     case desc
     when /^\*\*\*/, /^\s*$/, /^\s+/; return nil
     when /gem: not found/; return nil
-    when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
+    # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
+    when /^(\S+)\s+\((\d+.*)\)/
       name = $1
       version = $2.split(/,\s*/)
       return {
