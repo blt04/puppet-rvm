@@ -5,6 +5,7 @@ require 'uri'
 Puppet::Type.type(:rvm_gem).provide(:gem) do
   desc "Ruby Gem support using RVM."
 
+  has_feature :versionable
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
 
 
@@ -54,9 +55,9 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     case desc
     when /^\*\*\*/, /^\s*$/, /^\s+/; return nil
     when /gem: not found/; return nil
-    when /^(\S+)\s+\(([^ ]+).*\)/
+    when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
       name = $1
-      version = $2.split(/,\s*/)[0]
+      version = $2.split(/,\s*/)
       return {
         :name => name,
         :ensure => version
@@ -71,8 +72,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   def install(useversion = true)
     command = gembinary + ['install']
     command << "-v" << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
-    # Always include dependencies
-    command << "--include-dependencies"
+    # Dependencies are now installed by default
+    # command << "--include-dependencies"
 
     if source = resource[:source]
       begin
@@ -98,6 +99,12 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << "--no-rdoc" << "--no-ri" <<  resource[:name]
     end
 
+    # makefile opts,
+    # must be last
+    if resource[:withopts]
+      command << "--" << resource[:withopts]
+    end
+
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
     self.fail "Could not install: #{output.chomp}" if output.include?("ERROR")
@@ -107,7 +114,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     # This always gets the latest version available.
     hash = gemlist(:justme => resource[:name])
 
-    hash[:ensure]
+    hash[:ensure][0]
   end
 
   def query

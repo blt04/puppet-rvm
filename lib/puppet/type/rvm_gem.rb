@@ -86,6 +86,12 @@ Puppet::Type.newtype(:rvm_gem) do
           end
 
           case is
+          when is.is_a?(Array)
+            if is.include?(@latest)
+              return true
+            else
+              return false
+            end
           when @latest
             return true
           else
@@ -93,7 +99,7 @@ Puppet::Type.newtype(:rvm_gem) do
           end
         when :absent
           return true if is == :absent
-        when is
+        when *Array(is)
           return true
         end
       }
@@ -117,6 +123,10 @@ Puppet::Type.newtype(:rvm_gem) do
     desc "The name of the Ruby gem."
 
     isnamevar
+  end
+
+  newparam(:withopts) do
+    desc "Install the gem with these makefile opts."
   end
 
   newparam(:source) do

@@ -9,8 +9,8 @@ class rvm::passenger::apache(
   $spawnmethod = 'smart-lv2'
 ) {
 
-  case $operatingsystem {
-    Ubuntu: { include rvm::passenger::apache::ubuntu::pre }
+  case $::operatingsystem {
+    Ubuntu,Debian: { include rvm::passenger::apache::ubuntu::pre }
     CentOS,RedHat: { include rvm::passenger::apache::centos::pre }
   }
 
@@ -26,33 +26,37 @@ class rvm::passenger::apache(
   $gempath = "${rvm_prefix}rvm/gems/${ruby_version}/gems"
   $binpath = "${rvm_prefix}rvm/bin/"
 
-  case $operatingsystem {
-    Ubuntu: {
-      class { 'rvm::passenger::apache::ubuntu::post':
-        ruby_version       => $ruby_version,
-        version            => $version,
-        rvm_prefix         => $rvm_prefix,
-        mininstances       => $mininstances,
-        maxpoolsize        => $maxpoolsize,
-        poolidletime       => $poolidletime,
-        maxinstancesperapp => $maxinstancesperapp,
-        spawnmethod        => $spawnmethod,
-        gempath            => $gempath,
-        binpath            => $binpath;
+  case $::operatingsystem {
+    Ubuntu,Debian: {
+      if !defined(Class['rvm::passenger::apache::ubuntu::post']) {
+        class { 'rvm::passenger::apache::ubuntu::post':
+          ruby_version       => $ruby_version,
+          version            => $version,
+          rvm_prefix         => $rvm_prefix,
+          mininstances       => $mininstances,
+          maxpoolsize        => $maxpoolsize,
+          poolidletime       => $poolidletime,
+          maxinstancesperapp => $maxinstancesperapp,
+          spawnmethod        => $spawnmethod,
+          gempath            => $gempath,
+          binpath            => $binpath;
+        }
       }
     }
     CentOS,RedHat: {
-      class { 'rvm::passenger::apache::centos::post':
-        ruby_version       => $ruby_version,
-        version            => $version,
-        rvm_prefix         => $rvm_prefix,
-        mininstances       => $mininstances,
-        maxpoolsize        => $maxpoolsize,
-        poolidletime       => $poolidletime,
-        maxinstancesperapp => $maxinstancesperapp,
-        spawnmethod        => $spawnmethod,
-        gempath            => $gempath,
-        binpath            => $binpath;
+      if !defined(Class['rvm::passenger::apache::centos::post']) {
+        class { 'rvm::passenger::apache::centos::post':
+          ruby_version       => $ruby_version,
+          version            => $version,
+          rvm_prefix         => $rvm_prefix,
+          mininstances       => $mininstances,
+          maxpoolsize        => $maxpoolsize,
+          poolidletime       => $poolidletime,
+          maxinstancesperapp => $maxinstancesperapp,
+          spawnmethod        => $spawnmethod,
+          gempath            => $gempath,
+          binpath            => $binpath;
+        }
       }
     }
   }
