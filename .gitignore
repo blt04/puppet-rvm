@@ -6,3 +6,4 @@
 doc/
 spec/fixtures/
 pkg/
+.vagrant/
