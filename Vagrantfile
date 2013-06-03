@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/etc/puppet/modules/rvm"
 
   # install the epel module needed for rvm in CentOS
-  config.vm.provision :shell, :inline => "test /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
+  config.vm.provision :shell, :inline => "test -d /etc/puppet/modules/epel || puppet module install stahnma/epel -v 0.0.3"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "spec/manifests"
