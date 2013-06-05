@@ -11,3 +11,10 @@ require 'puppet_blacksmith/rake_tasks'
 PuppetLint.configuration.send("disable_80chars")
 
 task :default => [:clean, :spec]
+
+desc "Integration test with Vagrant"
+task :integration do
+  sh %{vagrant destroy --force}
+  sh %{vagrant up}
+  sh %{vagrant destroy --force}
+end
