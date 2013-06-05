@@ -1,8 +1,9 @@
 class rvm::system($version=undef) {
 
   $actual_version = $version ? {
-    /undef|present/ => 'latest',
-    default         => $version,
+    undef     => 'latest',
+    'present' => 'latest',
+    default   => $version,
   }
 
   exec { 'system-rvm':
