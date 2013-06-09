@@ -42,6 +42,10 @@ Install RVM with:
 
     include rvm
 
+or
+
+    class { 'rvm': version => '1.20.12' }
+
 This will install RVM into `/usr/local/rvm`.
 
 To use RVM without sudo, users need to be added to the `rvm` group.  This can be easily done with:
