@@ -66,6 +66,20 @@ You can tell RVM to install one or more Ruby versions with:
 
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
 
+## Installing Ruby with options / or packages (OR: *building Rubies with a modern OpenSSL*)
+
+RVM has several packages that provide required libraries for OS configurations that might not have up to date components. A good example of this is OpenSSL - Ruby 2.0 (for example) depends on OpenSSL 1.x, but most OSes ship with OpenSSL 0.9.x.
+
+There are two new parameters you can use:
+
+    rvm_system_ruby {
+     'ruby-1.8.7':
+       ensure => 'present',
+       pkg => "openssl",
+       install_opts => "--with-openssl-dir=$rvm_path/usr"
+    }
+
+This will tell RVM to install the openSSL package, then compile RVM with options that point the build process to the new OpenSSL path.
 
 ## Creating Gemsets
 

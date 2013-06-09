@@ -4,7 +4,13 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
 
   def create
-    rvmcmd "install", resource[:name]
+    if resource[:pkg]
+      #puts "rvm pkg install #{resource[:pkg]}"
+      rvmcmd "pkg", "install", resource[:pkg]
+    end
+
+    options = resource[:install_opts]
+    rvmcmd "install", resource[:name], options
     set_default if resource.value(:default_use)
   end
 
