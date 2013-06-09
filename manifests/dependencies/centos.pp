@@ -5,7 +5,6 @@ class rvm::dependencies::centos {
       if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel':      ensure => present } }
     }
     /^5\..*/: {
-      if ! defined(Package['bison'])        { package { 'bison':         ensure => present } }
       if ! defined(Package['autoconf'])     { package { 'autoconf':      ensure => present } }
     }
     default: {
@@ -32,4 +31,8 @@ class rvm::dependencies::centos {
   if ! defined(Package['readline-devel'])  { package { 'readline-devel':  ensure => present } }
   if ! defined(Package['patch'])           { package { 'patch':           ensure => present } }
   if ! defined(Package['git'])             { package { 'git':             ensure => present } }
+  if ! defined(Package['libyaml-devel'])   { package { 'libyaml-devel':   ensure => present } }
+  if ! defined(Package['libffi-devel'])    { package { 'libffi-devel':    ensure => present } }
+  if ! defined(Package['libtool'])         { package { 'libtool':         ensure => present } }
+  if ! defined(Package['bison'])           { package { 'bison':           ensure => present } }
 }
