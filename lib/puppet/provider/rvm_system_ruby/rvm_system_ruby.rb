@@ -4,6 +4,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   commands :rvmcmd => "/usr/local/rvm/bin/rvm"
 
   def create
+    set_autolib_mode if resource.value(:autolib_mode)
     options = Array(resource[:build_opts])
     rvmcmd "install", resource[:name], *options
     set_default if resource.value(:default_use)
@@ -40,5 +41,13 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def set_default
     rvmcmd "alias", "create", "default", resource[:name]
+  end
+
+  def set_autolib_mode
+    begin
+      rvmcmd "autolibs", resource[:autolib_mode]
+    rescue Puppet::ExecutionFailure => detail
+      raise Puppet::Error, "Could not set autolib mode: #{detail}"
+    end
   end
 end

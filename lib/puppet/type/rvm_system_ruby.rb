@@ -18,4 +18,8 @@ Puppet::Type.newtype(:rvm_system_ruby) do
     defaultto false
   end
 
+  newproperty(:autolib_mode) do
+    desc "Set RVM autolib mode"
+  end
+
 end
