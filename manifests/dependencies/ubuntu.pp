@@ -19,4 +19,18 @@ class rvm::dependencies::ubuntu {
   if ! defined(Package['autoconf'])             { package { 'autoconf':             ensure => present } }
   if ! defined(Package['libc6-dev'])            { package { 'libc6-dev':            ensure => present } }
 
+  case $::operatingsystemrelease {
+    12.04: {
+      require rvm::dependencies::ubuntu::12_04
+    }
+  }
 }
+
+class rvm::dependencies::ubuntu::12_04 {
+  if ! defined(Package['libgdbm-dev'])          { package { 'libgdbm-dev':          ensure => present } }
+  if ! defined(Package['libncurses5-dev'])      { package { 'libncurses5-dev':      ensure => present } }
+  if ! defined(Package['libtool'])              { package { 'libtool':              ensure => present } }
+  if ! defined(Package['pkg-config'])           { package { 'pkg-config':           ensure => present } }
+  if ! defined(Package['libffi-dev'])           { package { 'libffi-dev':           ensure => present } }
+}
+
