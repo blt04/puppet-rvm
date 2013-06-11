@@ -15,10 +15,17 @@ class rvm::passenger::apache::ubuntu::post(
     'passenger-install-apache2-module':
       environment => ["rvm_prefix=${rvm_prefix}", "rvm_path=${rvm_prefix}/rvm", "rvm_bin_path=${binpath}", "HOME=/tmp"],
       command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-      creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+      unless    => "test -e ${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
       logoutput => 'on_failure',
       require   => [Rvm_gem['passenger'], Package['apache2', 'build-essential', 'apache2-prefork-dev',
                                                   'libapr-dev', 'libaprutil-dev', 'libcurl4-openssl-dev']],
+  } 
+
+  exec {
+    'create-symlink-for-passenger-4.0-modules':
+        command =>  "ln -s ${gempath}/passenger-${version}/libout/apache2/mod_passenger.so ${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+        unless  => "test -e ${gempath}/passenger-${version}/ext",
+        require => Exec['passenger-install-apache2-module'],
   }
 
   file {
