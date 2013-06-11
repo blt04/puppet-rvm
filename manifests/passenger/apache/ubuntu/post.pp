@@ -13,6 +13,7 @@ class rvm::passenger::apache::ubuntu::post(
 
   exec {
     'passenger-install-apache2-module':
+      environment => ["rvm_prefix=${rvm_prefix}", "rvm_path=${rvm_prefix}/rvm", "rvm_bin_path=${binpath}", "HOME=/tmp"],
       command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
       creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
       logoutput => 'on_failure',
