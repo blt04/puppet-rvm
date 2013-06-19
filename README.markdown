@@ -119,6 +119,17 @@ Install passenger with:
         spawnmethod => 'smart-lv2';
     }
 
+## Building the module
+
+To test and build the module
+
+    bundle install
+    # run specs
+    rake
+    # run tests with vagrant vms
+    rake integrate
+    # Release the Puppet module to the Forge, doing a clean, build, tag, push, bump_commit and git push
+    rake module:release
 
 ## Troubleshooting / FAQ
 
@@ -178,7 +189,3 @@ While this may be possible, it becomes harder to manage multiple Ruby versions a
 nearly impossible to install gems for a specific Ruby version.  For this reason,
 I decided it was best to create a completely new set of types for RVM.
 
-
-## TODO
-
-* Allow upgrading the RVM version
