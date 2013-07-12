@@ -8,7 +8,7 @@
   PassengerMaxPoolSize <%= @maxpoolsize %>
   PassengerPoolIdleTime <%= @poolidletime %>
   PassengerMaxInstancesPerApp <%= @maxinstancesperapp %>
-<% if version >= '3.0.0' %>
+<% if @version >= '3.0.0' %>
   PassengerMinInstances <%= @mininstances %>
   PassengerSpawnMethod <%= @spawnmethod %>
 <% end %>
