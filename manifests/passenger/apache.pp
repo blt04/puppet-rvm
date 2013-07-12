@@ -27,9 +27,9 @@ class rvm::passenger::apache(
   $binpath = "${rvm_prefix}rvm/bin/"
 
   # central place to keep the everchanging path unter control
-  if $version >= '4.0.7' {
+  if versioncmp($version, '4.0.7') >= 0 {
     $compiled_module_path = 'buildout/'
-  } elsif $version >= '3.9.0' {
+  } elsif versioncmp($version, '3.9.0') >= 0 {
     $compiled_module_path = 'libout'
   } else {
     $compiled_module_path = 'ext'
