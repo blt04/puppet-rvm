@@ -20,9 +20,9 @@ class rvm::system($version=undef) {
 
   # the fact won't work until rvm is installed before puppet starts
   if "${::rvm_version}" != "" {
-    notify { 'rvm_version': message => "RVM version ${::rvm_version}" }
-
     if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
+      notify { 'rvm_version': message => "RVM version ${::rvm_version}" }
+
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
         message => "RVM updating to version ${version}",
