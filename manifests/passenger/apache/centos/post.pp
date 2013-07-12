@@ -22,7 +22,7 @@ class rvm::passenger::apache::centos::post(
   file {
     '/etc/httpd/conf.d/passenger.conf':
       ensure  => file,
-      content => template('rvm/passenger-apache-centos.conf.erb'),
+      content => template('rvm/passenger-apache.load.erb', 'rvm/passenger-apache.conf.erb'),
       require => Exec['passenger-install-apache2-module'];
   }
 }

@@ -24,7 +24,7 @@ class rvm::passenger::apache::ubuntu::post(
   file {
     '/etc/apache2/mods-available/passenger.load':
       ensure  => file,
-      content => "LoadModule passenger_module ${gempath}/passenger-${version}/${compiled_module_fn}",
+      content => template('rvm/passenger-apache.load.erb'),
       require => Exec['passenger-install-apache2-module'];
 
     '/etc/apache2/mods-available/passenger.conf':
