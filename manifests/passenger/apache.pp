@@ -26,6 +26,16 @@ class rvm::passenger::apache(
   $gempath = "${rvm_prefix}rvm/gems/${ruby_version}/gems"
   $binpath = "${rvm_prefix}rvm/bin/"
 
+  # central place to keep the everchanging path unter control
+  if $version >= '4.0.7' {
+    $compiled_module_path = 'buildout/'
+  } elsif $version >= '3.9.0' {
+    $compiled_module_path = 'libout'
+  } else {
+    $compiled_module_path = 'ext'
+  }
+  $compiled_module_fn = "${compiled_module_path}/apache2/mod_passenger.so"
+
   case $::operatingsystem {
     Ubuntu,Debian: {
       if !defined(Class['rvm::passenger::apache::ubuntu::post']) {
@@ -33,6 +43,7 @@ class rvm::passenger::apache(
           ruby_version       => $ruby_version,
           version            => $version,
           rvm_prefix         => $rvm_prefix,
+          compiled_module_fn => $compiled_module_fn,
           mininstances       => $mininstances,
           maxpoolsize        => $maxpoolsize,
           poolidletime       => $poolidletime,
@@ -49,6 +60,7 @@ class rvm::passenger::apache(
           ruby_version       => $ruby_version,
           version            => $version,
           rvm_prefix         => $rvm_prefix,
+          compiled_module_fn => $compiled_module_fn,
           mininstances       => $mininstances,
           maxpoolsize        => $maxpoolsize,
           poolidletime       => $poolidletime,
