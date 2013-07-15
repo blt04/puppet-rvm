@@ -2,6 +2,8 @@ class rvm::passenger::apache(
   $ruby_version,
   $version,
   $rvm_prefix = '/usr/local/',
+  $rails_env = undef,
+  $rack_env = undef,
   $mininstances = '1',
   $maxpoolsize = '6',
   $poolidletime = '300',

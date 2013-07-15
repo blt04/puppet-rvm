@@ -16,4 +16,12 @@ LoadModule passenger_module <%= @gempath %>/passenger-<%= @version %>/ext/apache
   PassengerMinInstances <%= @mininstances %>
   PassengerSpawnMethod <%= @spawnmethod %>
 <% end %>
+
+<% if @rails_env -%>
+  RailsEnv <%= @rails_env %>
+<% end -%>
+<% if @rails_env -%>
+  RackEnv <%= @rack_env %>
+<% end -%>
+
 </IfModule>
