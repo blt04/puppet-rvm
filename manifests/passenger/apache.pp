@@ -28,7 +28,7 @@ class rvm::passenger::apache(
 
   # central place to keep the everchanging path unter control
   if versioncmp($version, '4.0.7') >= 0 {
-    $compiled_module_path = 'buildout/'
+    $compiled_module_path = 'buildout'
   } elsif versioncmp($version, '3.9.0') >= 0 {
     $compiled_module_path = 'libout'
   } else {
