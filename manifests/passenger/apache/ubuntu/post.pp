@@ -1,15 +1,15 @@
 class rvm::passenger::apache::ubuntu::post(
   $ruby_version,
   $version,
-  $rvm_prefix = '/usr/local/',
-  $compiled_module_fn = 'ext/apache2/mod_passenger.so',
-  $mininstances = '1',
-  $maxpoolsize = '6',
-  $poolidletime = '300',
-  $maxinstancesperapp = '0',
-  $spawnmethod = 'smart-lv2',
   $gempath,
-  $binpath
+  $binpath,
+  $rvm_prefix         = '/usr/local/',
+  $compiled_module_fn = 'ext/apache2/mod_passenger.so',
+  $mininstances       = '1',
+  $maxpoolsize        = '6',
+  $poolidletime       = '300',
+  $maxinstancesperapp = '0',
+  $spawnmethod        = 'smart-lv2',
 ) {
 
   exec {
