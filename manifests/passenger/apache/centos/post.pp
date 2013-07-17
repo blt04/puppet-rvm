@@ -13,8 +13,8 @@ class rvm::passenger::apache::centos::post(
 ) {
   exec {
     'passenger-install-apache2-module':
-      command   => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
-      creates   => "${rvm::passenger::apache::gempath}/passenger-${rvm::passenger::apache::version}/ext/apache2/mod_passenger.so",
+      command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
+      creates   => "${gempath}/passenger-${version}/${compiled_module_fn}",
       logoutput => 'on_failure',
       require   => [Rvm_gem['passenger'], Package['httpd','httpd-devel','mod_ssl']];
   }
