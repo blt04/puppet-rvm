@@ -11,7 +11,7 @@ class rvm::passenger::apache(
 
   case $::operatingsystem {
     Ubuntu,Debian: { include rvm::passenger::apache::ubuntu::pre }
-    CentOS,RedHat: { include rvm::passenger::apache::centos::pre }
+    CentOS,RedHat,Scientific: { include rvm::passenger::apache::centos::pre }
   }
 
   class {
@@ -43,7 +43,7 @@ class rvm::passenger::apache(
         }
       }
     }
-    CentOS,RedHat: {
+    CentOS,RedHat,Scientific: {
       if !defined(Class['rvm::passenger::apache::centos::post']) {
         class { 'rvm::passenger::apache::centos::post':
           ruby_version       => $ruby_version,
