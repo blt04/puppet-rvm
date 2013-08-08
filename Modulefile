@@ -7,3 +7,5 @@ license 'Modified BSD License'
 project_page 'http://github.com/maestrodev/puppet-rvm'
 source 'http://github.com/maestrodev/puppet-rvm'
 description 'Installing and using RVM (Ruby Version Manager)'
+
+dependency 'puppetlabs/stdlib', '>=3.2.0'

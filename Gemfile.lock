@@ -2,19 +2,29 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.4)
-    facter (1.7.1)
+    facter (1.7.2)
     hiera (1.2.1)
       json_pure
+    highline (1.6.19)
+    json (1.8.0)
     json_pure (1.8.0)
+    librarian (0.1.1)
+      highline
+      thor (~> 0.15)
+    librarian-puppet-maestrodev (0.9.9.8)
+      json
+      librarian (>= 0.1.1)
     metaclass (0.0.1)
     mime-types (1.23)
+    mini_portile (0.5.1)
     mocha (0.14.0)
       metaclass (~> 0.0.1)
-    nokogiri (1.5.9)
-    puppet (3.2.1)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
+    puppet (3.2.3)
       facter (~> 1.6)
       hiera (~> 1.0)
-      rgen (~> 0.6)
+      rgen (~> 0.6.5)
     puppet-blacksmith (1.0.5)
       nokogiri
       puppet (>= 2.7.16)
@@ -27,25 +37,27 @@ GEM
       rake
       rspec (>= 2.9.0)
       rspec-puppet (>= 0.1.1)
-    rake (10.0.4)
+    rake (10.1.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rgen (0.6.2)
-    rspec (2.13.0)
-      rspec-core (~> 2.13.0)
-      rspec-expectations (~> 2.13.0)
-      rspec-mocks (~> 2.13.0)
-    rspec-core (2.13.1)
-    rspec-expectations (2.13.0)
+    rgen (0.6.5)
+    rspec (2.14.1)
+      rspec-core (~> 2.14.0)
+      rspec-expectations (~> 2.14.0)
+      rspec-mocks (~> 2.14.0)
+    rspec-core (2.14.4)
+    rspec-expectations (2.14.0)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.13.1)
+    rspec-mocks (2.14.2)
     rspec-puppet (0.1.6)
       rspec
+    thor (0.18.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  librarian-puppet-maestrodev (>= 0.9.7.4)
   puppet
   puppet-blacksmith (>= 1.0.5)
   puppet-lint
