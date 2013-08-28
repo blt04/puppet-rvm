@@ -1,6 +1,11 @@
 class rvm::dependencies::centos {
 
-  case $::operatingsystemrelease {
+  $version = $::operatingsystem ? {
+    'Amazon' => '6.x',
+    default  => $::operatingsystemrelease,
+  }
+
+  case $version {
     /^6\..*/: {
       ensure_packages(['libcurl-devel'])
     }

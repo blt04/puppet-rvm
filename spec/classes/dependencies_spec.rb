@@ -53,7 +53,7 @@ describe 'rvm::dependencies' do
 
     context 'amazon linux' do
       let(:facts) {{ :operatingsystemmajrelease => "3" }}
-      # it_behaves_like 'redhat6', 'Amazon', '3.4.43-43.43.amzn1.x86_64'
+      it_behaves_like 'redhat6', 'Amazon', '3.4.43-43.43.amzn1.x86_64'
     end
   end
 
