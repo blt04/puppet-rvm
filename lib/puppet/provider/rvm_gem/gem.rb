@@ -106,7 +106,24 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << "--" << resource[:withopts]
     end
 
-    output = execute(command)
+    environment = {}
+    if envlist = resource[:environment]
+      envlist = [envlist] unless envlist.is_a? Array
+      envlist.each do |setting|
+        if setting =~ /^(\w+)=((.|\n)+)$/
+          env_name = $1
+          value = $2
+          if environment.include?(env_name) || environment.include?(env_name.to_sym)
+            warning "Overriding environment setting '#{env_name}' with '#{value}'"
+          end
+          environment[env_name] = value
+        else
+          warning "Cannot understand environment setting #{setting.inspect}"
+        end
+      end
+    end
+
+    output = execute(command, :custom_environment => environment)
     # Apparently some stupid gem versions don't exit non-0 on failure
     self.fail "Could not install: #{output.chomp}" if output.include?("ERROR")
   end

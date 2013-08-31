@@ -145,4 +145,20 @@ Puppet::Type.newtype(:rvm_gem) do
     isnamevar
   end
 
+  newparam(:environment) do
+    desc "Any additional environment variables you want to set for a
+      command.  Note that if you use this to set PATH, it will override
+      the `path` attribute.  Multiple environment variables should be
+      specified as an array."
+
+    validate do |values|
+      values = [values] unless values.is_a? Array
+      values.each do |value|
+        unless value =~ /\w+=/
+          raise ArgumentError, "Invalid environment setting '#{value}'"
+        end
+      end
+    end
+  end
+
 end
