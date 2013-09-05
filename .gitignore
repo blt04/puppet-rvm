@@ -1,5 +1,6 @@
 .idea
 .rvmrc
+.ruby-version
 .project
 .librarian/
 .tmp/
