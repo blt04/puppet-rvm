@@ -11,6 +11,12 @@ class rvm::dependencies::centos {
       if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
     }
   }
+  case $::operatingsystemrelease {
+    /^5\..*/: {
+      if ! defined(Package['libyaml-devel'])   { package { 'libyaml-devel':   ensure => present } }
+    }
+  }
+
   if ! defined(Package['which'])           { package { 'which':           ensure => present } }
   if ! defined(Package['gcc'])             { package { 'gcc':             ensure => present } }
   if ! defined(Package['gcc-c++'])         { package { 'gcc-c++':         ensure => present } }
@@ -31,7 +37,6 @@ class rvm::dependencies::centos {
   if ! defined(Package['readline-devel'])  { package { 'readline-devel':  ensure => present } }
   if ! defined(Package['patch'])           { package { 'patch':           ensure => present } }
   if ! defined(Package['git'])             { package { 'git':             ensure => present } }
-  if ! defined(Package['libyaml-devel'])   { package { 'libyaml-devel':   ensure => present } }
   if ! defined(Package['libffi-devel'])    { package { 'libffi-devel':    ensure => present } }
   if ! defined(Package['libtool'])         { package { 'libtool':         ensure => present } }
   if ! defined(Package['bison'])           { package { 'bison':           ensure => present } }
