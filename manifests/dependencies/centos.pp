@@ -6,14 +6,10 @@ class rvm::dependencies::centos {
     }
     /^5\..*/: {
       if ! defined(Package['autoconf'])     { package { 'autoconf':      ensure => present } }
+      if ! defined(Package['libyaml-devel'])   { package { 'libyaml-devel':   ensure => present } }
     }
     default: {
       if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
-    }
-  }
-  case $::operatingsystemrelease {
-    /^5\..*/: {
-      if ! defined(Package['libyaml-devel'])   { package { 'libyaml-devel':   ensure => present } }
     }
   }
 
