@@ -1,8 +1,4 @@
-<% if version >= '3.9.0' %>
-LoadModule passenger_module <%= @gempath %>/passenger-<%= @version %>/libout/apache2/mod_passenger.so
-<% else %>
-LoadModule passenger_module <%= @gempath %>/passenger-<%= @version %>/ext/apache2/mod_passenger.so
-<% end %>
+LoadModule passenger_module <%= @gempath %>/passenger-<%= @version %>/<%= @objdir %>/apache2/mod_passenger.so
 
 <IfModule passenger_module>
   PassengerRoot <%= @gempath %>/passenger-<%= @version %>

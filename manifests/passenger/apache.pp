@@ -9,9 +9,21 @@ class rvm::passenger::apache(
   $spawnmethod = 'smart-lv2'
 ) {
 
-  case $::operatingsystem {
-    Ubuntu,Debian: { include rvm::passenger::apache::ubuntu::pre }
-    CentOS,RedHat,Scientific: { include rvm::passenger::apache::centos::pre }
+  if ( versioncmp( $rvm::passenger::apache::version, '4.0.0' ) < 0 ) {
+    if ( versioncmp( $rvm::passenger::apache::version, '3.9.0' ) < 0 ) {
+      $objdir = 'ext'
+    }
+    else {
+      $objdir = 'libout'
+    }
+  }
+  else {
+    $objdir = 'buildout'
+  }
+
+  case $::osfamily {
+    Debian: { include rvm::passenger::apache::ubuntu::pre }
+    RedHat: { include rvm::passenger::apache::centos::pre }
   }
 
   class {
@@ -33,6 +45,7 @@ class rvm::passenger::apache(
           ruby_version       => $ruby_version,
           version            => $version,
           rvm_prefix         => $rvm_prefix,
+          objdir             => $objdir,
           mininstances       => $mininstances,
           maxpoolsize        => $maxpoolsize,
           poolidletime       => $poolidletime,
@@ -49,6 +62,7 @@ class rvm::passenger::apache(
           ruby_version       => $ruby_version,
           version            => $version,
           rvm_prefix         => $rvm_prefix,
+          objdir             => $objdir,
           mininstances       => $mininstances,
           maxpoolsize        => $maxpoolsize,
           poolidletime       => $poolidletime,

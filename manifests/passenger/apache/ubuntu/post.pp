@@ -2,6 +2,7 @@ class rvm::passenger::apache::ubuntu::post(
   $ruby_version,
   $version,
   $rvm_prefix = '/usr/local/',
+  $objdir = 'ext',
   $mininstances = '1',
   $maxpoolsize = '6',
   $poolidletime = '300',
@@ -11,19 +12,19 @@ class rvm::passenger::apache::ubuntu::post(
   $binpath
 ) {
 
-  exec {
-    'passenger-install-apache2-module':
-      command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-      creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
-      logoutput => 'on_failure',
-      require   => [Rvm_gem['passenger'], Package['apache2', 'build-essential', 'apache2-prefork-dev',
+  exec { 'passenger-install-apache2-module':
+    command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
+    creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+    logoutput => 'on_failure',
+    require   => [Rvm_gem['passenger'], Package['apache2', 'build-essential', 'apache2-prefork-dev',
                                                   'libapr-dev', 'libaprutil-dev', 'libcurl4-openssl-dev']],
+    environment => [ 'HOME=/root', ],
   }
 
   file {
     '/etc/apache2/mods-available/passenger.load':
       ensure  => file,
-      content => "LoadModule passenger_module ${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+      content => "LoadModule passenger_module ${gempath}/passenger-${version}/${objdir}/apache2/mod_passenger.so",
       require => Exec['passenger-install-apache2-module'];
 
     '/etc/apache2/mods-available/passenger.conf':
