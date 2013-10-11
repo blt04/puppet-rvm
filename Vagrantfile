@@ -3,6 +3,7 @@
 
 Vagrant.configure("2") do |config|
 
+  config.vm.synced_folder "spec/fixtures/modules", "/etc/puppet/modules"
   config.vm.synced_folder ".", "/etc/puppet/modules/rvm"
 
   # install the epel module needed for rvm in CentOS
