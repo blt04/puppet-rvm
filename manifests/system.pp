@@ -26,7 +26,6 @@ class rvm::system($version=undef) {
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
         message => "RVM updating to version ${version}",
-        require => Notify['rvm_version'],
       } ->
       exec { 'system-rvm-get':
         path    => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
