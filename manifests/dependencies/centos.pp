@@ -11,6 +11,7 @@ class rvm::dependencies::centos {
     }
     /^5\..*/: {
       ensure_packages(['autoconf'])
+      ensure_packages(['curl-devel'])
     }
     default: {
       ensure_packages(['curl-devel'])
