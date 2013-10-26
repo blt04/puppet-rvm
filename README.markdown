@@ -110,16 +110,17 @@ Alternatively, you can use this more verbose syntax:
 
 ## Installing Passenger
 
-Install passenger with:
+Install passenger using the [puppetlabs/apache](http://forge.puppetlabs.com/puppetlabs/apache) module,
+and using:
 
-    class {
-      'rvm::passenger::apache':
-        version => '3.0.11',
-        ruby_version => 'ruby-1.9.2-p290',
-        mininstances => '3',
+    class { 'apache': }
+    class { 'rvm::passenger::apache':
+        version            => '3.0.11',
+        ruby_version       => 'ruby-1.9.3-p448',
+        mininstances       => '3',
         maxinstancesperapp => '0',
-        maxpoolsize => '30',
-        spawnmethod => 'smart-lv2';
+        maxpoolsize        => '30',
+        spawnmethod        => 'smart-lv2',
     }
 
 ## Building the module
