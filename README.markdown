@@ -8,7 +8,7 @@ configuring passenger is also included.
 We are actively using this module.  It works well, but does have some issues you
 should be aware of.  Due to the way puppet works, certain resources
 (rvm\_sytem\_ruby, rvm\_gem and rvm\_gemset) may generate errors until RVM is
-installed.  The puppet-rvm module uses run stages to install RVM before the rest
+installed.  You may want to use run stages to install RVM before the rest
 of your configuration runs.  However, if you run puppet using the `--noop`
 parameter, you may see _Could not find a default provider_ errors.  See the
 Troubleshooting section for more information.
@@ -25,9 +25,9 @@ Puppet 2.6.7 or higher.
 
 Before you begin, you must add the RVM module to your Puppet installation.  This can be done with:
 
-    $ git clone git://github.com/blt04/puppet-rvm.git /etc/puppet/modules/rvm
+    $ puppet module install maestrodev/rvm
 
-Enable plugin synchronization for custom types.  In your puppet.conf (usually in /etc/puppet)
+In Puppet 2.x enable plugin synchronization for custom types.  In your puppet.conf (usually in /etc/puppet)
 on both the Master and Client ensure you have:
 
     [main]
@@ -52,8 +52,6 @@ To use RVM without sudo, users need to be added to the `rvm` group.  This can be
 
     rvm::system_user { bturner: ; jdoe: ; jsmith: ; }
 
-**NOTE**: You must define a [user](http://docs.puppetlabs.com/references/stable/type.html#user) elsewhere in your manifest to use `rvm::system_user`.
-
 
 ## Installing Ruby
 
@@ -69,6 +67,11 @@ You can tell RVM to install one or more Ruby versions with:
     }
 
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
+
+### Installing JRuby
+
+JRuby has some extra requirements, like ant that you can install using
+[maestrodev/ant](http://forge.puppetlabs.com/maestrodev/ant) module.
 
 
 ## Creating Gemsets
@@ -137,8 +140,8 @@ To test and build the module
 
 This means that puppet cannot find the `/usr/local/rvm/bin/rvm` command
 (probably because RVM isn't installed yet).  Currently, Puppet does not support
-making a provider suitable using another resource (late-binding).  The
-puppet-rvm module uses run stages to install RVM before the rest of the
+making a provider suitable using another resource (late-binding).  You may want
+to use run stages to install RVM before the rest of the
 configuration runs.  When running in _noop_ mode, RVM is not actually installed
 causing rvm\_system\_ruby, rvm\_gem and rvm\_gemset resources to generate this
 error.  You can avoid this error by surrounding your rvm configuration in an if
@@ -170,7 +173,8 @@ RVM works by compiling Ruby from source.  This means you must have all the libra
 
 ### It doesn't work on my operating system.
 
-I've only tested this on Ubuntu 10.04 and Ubuntu 11.04.  [omarqureshi](https://github.com/omarqureshi) was kind enough to add CentOS support.  Other operating systems may require different paths or dependencies.  Feel free to send me a pull request ;)
+Check the rspec-system tests as described above to test in a specific OS
+If that doesn't work feel free to send a pull request ;)
 
 
 ### Why didn't you just add an RVM provider for the existing package type?
