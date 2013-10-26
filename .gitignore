@@ -8,3 +8,4 @@ doc/
 spec/fixtures/
 pkg/
 .vagrant/
+.rspec_system

@@ -129,8 +129,12 @@ To test and build the module
     bundle install
     # run specs
     rake
-    # run tests with vagrant vms
-    rake integrate
+
+    # run rspec-system tests with vagrant vms
+    rake spec:system
+    # to use other vm from the list in .fixtures.yml and not destroy the vm after the tests
+    RSPEC_DESTROY=no RSPEC_SET=centos-59-x64 bundle exec rake spec:system
+
     # Release the Puppet module to the Forge, doing a clean, build, tag, push, bump_commit and git push
     rake module:release
 
