@@ -54,10 +54,9 @@ describe 'rvm' do
       class { 'java': } ->
       class { 'ant': } ->
       class { 'maven::maven': } ->
-      rvm_system_ruby {
-        'jruby-1.7.6':
-          ensure => 'present',
-          default_use => false;
+      rvm_system_ruby { 'jruby-1.7.6':
+        ensure      => 'present',
+        default_use => false;
       }
       EOS
     }

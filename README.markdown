@@ -70,8 +70,18 @@ You should use the full version number.  While the shorthand version may work (e
 
 ### Installing JRuby
 
-JRuby has some extra requirements, like ant that you can install using
-[maestrodev/ant](http://forge.puppetlabs.com/maestrodev/ant) module.
+JRuby has some extra requirements, java, maven and ant that you can install using
+[puppetlabs/java](http://forge.puppetlabs.com/puppetlabs/java),
+[maestrodev/ant](http://forge.puppetlabs.com/maestrodev/ant) and
+[maestrodev/maven](http://forge.puppetlabs.com/maestrodev/maven) modules.
+
+    class { 'java': } ->
+    class { 'ant': } ->
+    class { 'maven::maven': } ->
+    rvm_system_ruby { 'jruby-1.7.6':
+      ensure      => 'present',
+      default_use => false;
+    }
 
 
 ## Creating Gemsets
