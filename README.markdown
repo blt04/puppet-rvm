@@ -60,7 +60,8 @@ You can tell RVM to install one or more Ruby versions with:
     rvm_system_ruby {
       'ruby-1.9':
         ensure      => 'present',
-        default_use => true;
+        default_use => true,
+        build_opts  => ['--binary'];
       'ruby-2.0':
         ensure      => 'present',
         default_use => false;
@@ -68,7 +69,19 @@ You can tell RVM to install one or more Ruby versions with:
 
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
 
-### Installing JRuby
+If rvm fails to install binary rubies you can increase curl's timeout with the `rvm_max_time_flag` in `/etc/rvmrc` or `~/.rvmrc`
+
+    # ensure rvm doesn't timeout finding binary rubies
+    # the umask line is the default content when installing rvm if file does not exist
+    file { '/etc/rvmrc':
+      content => 'umask u=rwx,g=rwx,o=rx
+                  export rvm_max_time_flag=20',
+      mode    => '0664',
+      before  => Class['rvm'],
+    }
+
+
+### Installing JRuby from sources
 
 JRuby has some extra requirements, java, maven and ant that you can install using
 [puppetlabs/java](http://forge.puppetlabs.com/puppetlabs/java),

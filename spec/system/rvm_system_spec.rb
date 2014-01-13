@@ -3,6 +3,7 @@ require 'spec_helper_system'
 describe 'rvm' do
 
   let(:default_ruby_version) { "ruby-1.9.3-p448" }
+  let(:build_opts) { "['--binary']" }
 
   let(:manifest) { <<-EOS
     if $::osfamily == 'RedHat' {
@@ -10,6 +11,15 @@ describe 'rvm' do
         before => Class['rvm'],
       }
     }
+
+    # ensure rvm doesn't timeout finding binary rubies
+    file { '/etc/rvmrc':
+      content => 'umask u=rwx,g=rwx,o=rx
+                  export rvm_max_time_flag=20',
+      mode    => '0664',
+      before  => Class['rvm'],
+    }
+
     class { 'rvm': } ->
     rvm::system_user { 'vagrant': }
     EOS
@@ -28,11 +38,13 @@ describe 'rvm' do
     let(:manifest) { super() + <<-EOS
       rvm_system_ruby {
         '#{default_ruby_version}':
-          ensure => 'present',
-          default_use => true;
+          ensure      => 'present',
+          default_use => true,
+          build_opts  => #{build_opts};
         'ruby-2.0.0-p247':
-          ensure => 'present',
-          default_use => false;
+          ensure      => 'present',
+          default_use => false,
+          build_opts  => #{build_opts};
       }
       EOS
     }
@@ -43,20 +55,11 @@ describe 'rvm' do
   end
 
   context 'when installing jruby' do
-    before do
-      forge_module_install({
-        "puppetlabs/java" => "1.0.1",
-        "maestrodev/ant" => "1.0.4",
-        "maestrodev/maven" => "1.1.7"})
-    end
-
     let(:manifest) { super() + <<-EOS
-      class { 'java': } ->
-      class { 'ant': } ->
-      class { 'maven::maven': } ->
       rvm_system_ruby { 'jruby-1.7.6':
         ensure      => 'present',
-        default_use => false;
+        default_use => false,
+        build_opts  => #{build_opts};
       }
       EOS
     }

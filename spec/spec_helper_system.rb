@@ -20,12 +20,6 @@ RSpec.configure do |c|
     forge_module_install({ "stahnma/epel" => "0.0.3", "puppetlabs/stdlib" => "3.2.0" })
     puppet_module_install source: proj_dir, module_name: 'rvm'
   end
-
-  c.before(:each) do
-    # delete all non required modules installed in specs
-    excludes = ["rvm", "epel", "stdlib"].map{|m| " -not -iname #{m} "}.join
-    shell("find /etc/puppet/modules/ -maxdepth 1 -mindepth 1 -type d #{excludes} -exec rm -rf {} \\;").exit_code.should be_zero
-  end
 end
 
 def fixture_rcp(src, dest)
