@@ -11,9 +11,6 @@ class rvm::system($version=undef) {
     command => "/usr/bin/curl -sSL https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer | \
                 bash -s -- --version ${actual_version}",
     creates => '/usr/local/rvm/bin/rvm',
-    require => [
-      Class['rvm::dependencies'],
-    ],
   }
 
   # the fact won't work until rvm is installed before puppet starts

@@ -24,6 +24,9 @@ class rvm::passenger::apache(
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
   include apache::dev
+
+  class { 'rvm::passenger::dependencies': } ->
+
   exec { 'passenger-install-apache2-module':
     command     => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
     unless      => "test -f ${gemroot}/ext/apache2/mod_passenger.so || test -f ${gemroot}/libout/apache2/mod_passenger.so || test -f ${gemroot}/buildout/apache2/mod_passenger.so",

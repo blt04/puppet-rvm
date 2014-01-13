@@ -1,19 +1,22 @@
 class rvm(
   $version=undef,
   $install_rvm=true,
+  $install_dependencies=false,
   $system_users=[],
   $system_rubies={}) {
 
   if $install_rvm {
-    class { 'rvm::dependencies': }
+
+    # rvm has now autolibs enabled by default so let it manage the dependencies
+    if $install_dependencies {
+      class { 'rvm::dependencies':
+        before => Class['rvm::system']
+      }
+    }
 
     class { 'rvm::system':
       version => $version;
     }
-
-    # NOTE: This relationship is also handled by
-    # Rvm::System/Exec['rvm::dependencies']
-    Class['rvm::dependencies'] -> Class['rvm::system']
   }
 
   rvm::system_user{ $system_users: }

@@ -198,7 +198,7 @@ upgrade to Puppet 2.7.10.
 
 ### Some packages/libraries I don't want or need are installed (e.g. build-essential, libc6-dev, libxml2-dev).
 
-RVM works by compiling Ruby from source.  This means you must have all the libraries and binaries required to compile Ruby installed on your system.  I've tried to include these in `manifests/classes/dependencies.rb`.
+RVM works by compiling Ruby from source.  This means you must have all the libraries and binaries required to compile Ruby installed on your system, which is handled by rvm autolibs in newer versions of RVM.
 
 
 ### It doesn't work on my operating system.
