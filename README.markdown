@@ -58,11 +58,11 @@ To use RVM without sudo, users need to be added to the `rvm` group.  This can be
 You can tell RVM to install one or more Ruby versions with:
 
     rvm_system_ruby {
-      'ruby-1.9.2-p290':
-        ensure => 'present',
+      'ruby-1.9':
+        ensure      => 'present',
         default_use => true;
-      'ruby-1.8.7-p357':
-        ensure => 'present',
+      'ruby-2.0':
+        ensure      => 'present',
         default_use => false;
     }
 
@@ -132,6 +132,21 @@ and using:
         maxpoolsize        => '30',
         spawnmethod        => 'smart-lv2',
     }
+
+## Using Hiera
+
+You can configure the ruby versions to be installed and the system users from hiera
+
+    rvm::system_rubies:
+      '1.9':
+        default_use: true
+      '2.0': {}
+      'jruby-1.7': {}
+
+    rvm::system_users:
+      - john
+      - doe
+
 
 ## Building the module
 
