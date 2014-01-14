@@ -2,7 +2,9 @@
 Puppet::Type.type(:rvm_alias).provide(:alias) do
   desc "RVM alias support."
 
-  commands :rvmcmd => "/usr/local/rvm/bin/rvm"
+  has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
+    environment :HOME => ENV['HOME']
+  end
 
   def target_ruby
     resource[:target_ruby]

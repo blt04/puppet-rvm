@@ -2,7 +2,9 @@
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   desc "RVM gemset support."
 
-  commands :rvmcmd => "/usr/local/rvm/bin/rvm"
+  has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
+    environment :HOME => ENV['HOME']
+  end
 
   def ruby_version
     resource[:ruby_version]

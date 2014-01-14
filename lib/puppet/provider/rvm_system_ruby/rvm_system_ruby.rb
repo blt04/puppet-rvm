@@ -1,7 +1,9 @@
 Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   desc "Ruby RVM support."
 
-  commands :rvmcmd => "/usr/local/rvm/bin/rvm"
+  has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
+    environment :HOME => ENV['HOME']
+  end
 
   def create
     set_autolib_mode if resource.value(:autolib_mode)
