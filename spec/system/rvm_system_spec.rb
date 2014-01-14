@@ -3,6 +3,7 @@ require 'spec_helper_system'
 describe 'rvm' do
 
   let(:default_ruby_version) { "ruby-1.9.3-p448" }
+  let(:default_ruby2_version) { "ruby-2.0.0-p247" }
   let(:build_opts) { "['--binary']" }
 
   let(:manifest) { <<-EOS
@@ -41,7 +42,7 @@ describe 'rvm' do
           ensure      => 'present',
           default_use => true,
           build_opts  => #{build_opts};
-        'ruby-2.0.0-p247':
+        '#{default_ruby2_version}':
           ensure      => 'present',
           default_use => false,
           build_opts  => #{build_opts};
@@ -51,6 +52,37 @@ describe 'rvm' do
 
     it 'should install with no errors' do
       puppet_apply(manifest).exit_code.should_not == 1
+    end
+
+    context 'and installing gems' do
+      let(:manifest) { super() + <<-EOS
+          rvm_gemset {
+            '#{default_ruby_version}@myproject':
+              ensure  => present,
+              require => Rvm_system_ruby['#{default_ruby_version}'];
+          }
+          rvm_gem {
+            '#{default_ruby_version}@myproject/rspec':
+              ensure  => '2.14.7',
+              require => Rvm_gemset['#{default_ruby_version}@myproject'];
+          }
+
+          rvm_gemset {
+            '#{default_ruby2_version}@myproject':
+              ensure  => present,
+              require => Rvm_system_ruby['#{default_ruby2_version}'];
+          }
+          rvm_gem {
+            '#{default_ruby2_version}@myproject/rspec':
+              ensure  => '2.14.7',
+              require => Rvm_gemset['#{default_ruby2_version}@myproject'];
+          }
+        EOS
+      }
+
+      it 'should install with no errors' do
+        puppet_apply(manifest).exit_code.should_not == 1
+      end
     end
   end
 
