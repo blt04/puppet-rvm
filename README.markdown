@@ -18,7 +18,7 @@ Please read the troubleshooting section below before opening an issue.
 
 ## System Requirements
 
-Puppet 2.6.7 or higher.
+Puppet 3.0.0 or higher.
 
 
 ## Add Puppet Module
