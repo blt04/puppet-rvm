@@ -14,6 +14,8 @@ class rvm(
       }
     }
 
+    ensure_resource('class', 'rvm::rvmrc')
+
     class { 'rvm::system':
       version => $version;
     }
