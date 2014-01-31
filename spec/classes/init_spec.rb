@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe 'rvm' do
-  context "default parameters" do
+  context "default parameters", :compile do
     it { should_not contain_class('rvm::dependencies') }
     it { should contain_class('rvm::system') }
   end
 
-  context "with install_rvm false" do
+  context "with install_rvm false", :compile do
     let(:params) {{
       :install_rvm => false
     }}
@@ -14,7 +14,7 @@ describe 'rvm' do
     it { should_not contain_class('rvm::system') }
   end
 
-  context "with system_rubies" do
+  context "with system_rubies", :compile do
     let(:params) {{
       :system_rubies => {
         'ruby-1.9' => {
@@ -33,7 +33,7 @@ describe 'rvm' do
     }) }
   end
 
-  context "with system_users" do
+  context "with system_users", :compile do
     let(:params) {{ :system_users => ['john','doe'] }}
     it { should contain_rvm__system_user('john') }
     it { should contain_rvm__system_user('doe') }

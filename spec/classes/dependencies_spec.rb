@@ -46,22 +46,22 @@ describe 'rvm::dependencies' do
     operatingsystems = ['centos', 'fedora', 'rhel', 'redhat', 'scientific']
     versions = { '5.0' => 'redhat5', '6.4' => 'redhat6' }
     operatingsystems.each do |os|
-      context os do
+      context os, :compile do
         versions.each {|version,example| it_behaves_like example, os, version }
       end
     end
 
-    context 'amazon linux' do
+    context 'amazon linux', :compile do
       let(:facts) {{ :operatingsystemmajrelease => "3" }}
       it_behaves_like 'redhat6', 'Amazon', '3.4.43-43.43.amzn1.x86_64'
     end
   end
 
-  context 'debian' do
+  context 'debian', :compile do
     it_behaves_like 'debian', 'ubuntu'
   end
 
-  context 'other' do
+  context 'other', :compile do
     let(:facts) {{ :operatingsystem => 'xxx' }}
     it_behaves_like 'package creation', []
   end
