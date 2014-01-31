@@ -2,9 +2,8 @@ class rvm(
   $version=undef,
   $install_rvm=true,
   $install_dependencies=false,
-  $group='rvm',
   $system_users=[],
-  $system_rubies={}) {
+  $system_rubies={}) inherits rvm::params {
 
   if $install_rvm {
 
@@ -15,7 +14,7 @@ class rvm(
       }
     }
 
-    ensure_resource('group', $group, {'ensure' => 'present' })
+    ensure_resource('group', $rvm::params::group, {'ensure' => 'present' })
     ensure_resource('class', 'rvm::rvmrc')
 
     class { 'rvm::system':
