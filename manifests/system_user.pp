@@ -2,7 +2,7 @@ define rvm::system_user () {
   include rvm::params
 
   ensure_resource('user', $name, {'ensure' => 'present' })
-  ensure_resource('group', $rvm::params::group, {'ensure' => 'present' })
+  include rvm::group
 
   exec { "rvm-system-user-${name}":
     command => "/usr/sbin/usermod -a -G ${rvm::params::group} ${name}",

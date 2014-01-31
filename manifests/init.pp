@@ -14,7 +14,6 @@ class rvm(
       }
     }
 
-    ensure_resource('group', $rvm::params::group, {'ensure' => 'present' })
     ensure_resource('class', 'rvm::rvmrc')
 
     class { 'rvm::system':

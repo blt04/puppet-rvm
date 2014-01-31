@@ -5,6 +5,8 @@ class rvm::rvmrc(
   $max_time_flag = undef,
   $autoupdate_flag = 0) inherits rvm::params {
 
+  include rvm::group
+
   file { '/etc/rvmrc':
     content => template($template),
     mode    => '0664',
