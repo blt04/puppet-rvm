@@ -25,6 +25,11 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   def gemset_list
     command = gemsetcommand + ['list']
 
+    # use proxy if proxy_url is set
+    if resource[:proxy_url]
+      command << "--http-proxy" << resource[:proxy_url]
+    end
+
     list = []
     begin
       list = execute(command).split("\n").collect do |line|

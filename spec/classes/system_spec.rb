@@ -23,4 +23,10 @@ describe 'rvm::system' do
     let(:params) {{ :version => '1.20.0' }}
     it { should contain_exec('system-rvm-get').with_command('rvm get 1.20.0') }
   end
+
+  context "with proxy_url parameter", :compile do
+    let(:params) {{ :version => 'latest', :proxy_url => 'http://dummy.bogus.local:8080' }}
+    it { should contain_exec('system-rvm-get').with_environment("[\"http_proxy=#{params[:proxy_url]}\", \"https_proxy=#{params[:proxy_url]}\"]") }
+  end
+
 end

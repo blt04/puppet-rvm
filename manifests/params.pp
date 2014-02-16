@@ -4,4 +4,5 @@ class rvm::params() {
     default => 'rvm',
   }
 
+  $proxy_url = undef
 }

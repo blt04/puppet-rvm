@@ -6,9 +6,17 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def create
+    unless resource[:proxy_url].nil?
+      ENV['http_proxy'] = resource[:proxy_url]
+      ENV['https_proxy'] = resource[:proxy_url]
+    end
     set_autolib_mode if resource.value(:autolib_mode)
     options = Array(resource[:build_opts])
-    rvmcmd "install", resource[:name], *options
+    if resource[:proxy_url]
+      rvmcmd "install", resource[:name], "--proxy", resource[:proxy_url], *options
+    else
+      rvmcmd "install", resource[:name], *options
+    end
     set_default if resource.value(:default_use)
   end
 

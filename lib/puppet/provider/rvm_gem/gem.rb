@@ -33,6 +33,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << name + "$"
     end
 
+    # use proxy if proxy_url is set
+    if resource[:proxy_url]
+      command << "--http-proxy" << resource[:proxy_url]
+    end
+
     list = []
     begin
       list = execute(command).split("\n").collect do |set|
@@ -77,6 +82,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     command << "-v" << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
     # Dependencies are now installed by default
     # command << "--include-dependencies"
+
+    # use proxy if proxy_url is set
+    if resource[:proxy_url]
+      command << "--http-proxy" << resource[:proxy_url]
+    end
 
     if source = resource[:source]
       begin
