@@ -1,4 +1,4 @@
-require 'spec_helper_system'
+require 'spec_helper_acceptance'
 
 describe 'rvm' do
 
@@ -14,12 +14,9 @@ describe 'rvm' do
     }
 
     # ensure rvm doesn't timeout finding binary rubies
-    file { '/etc/rvmrc':
-      content => 'umask u=rwx,g=rwx,o=rx
-                  export rvm_max_time_flag=20',
-      mode    => '0664',
-      before  => Class['rvm'],
-    }
+    class { 'rvm::rvmrc':
+      max_time_flag => '20',
+    } ->
 
     class { 'rvm': } ->
     rvm::system_user { 'vagrant': }
@@ -28,11 +25,9 @@ describe 'rvm' do
 
   it 'rvm should install and configure system user' do
     # Run it twice and test for idempotency
-    puppet_apply(manifest) do |r|
-      r.exit_code.should_not == 1
-      r.refresh
-      r.exit_code.should be_zero
-    end
+    apply_manifest(manifest, :catch_failures => true)
+    apply_manifest(manifest, :catch_changes => true)
+    shell("su - vagrant -c 'rvm list'").exit_code.should be_zero
   end
 
   context 'when installing rubies' do
@@ -51,7 +46,7 @@ describe 'rvm' do
     }
 
     it 'should install with no errors' do
-      puppet_apply(manifest).exit_code.should_not == 1
+      apply_manifest(manifest, :catch_failures => true)
     end
 
     context 'and installing gems' do
@@ -63,7 +58,7 @@ describe 'rvm' do
           }
           rvm_gem {
             '#{default_ruby_version}@myproject/rspec':
-              ensure  => '2.14.7',
+              ensure  => '2.14.1',
               require => Rvm_gemset['#{default_ruby_version}@myproject'];
           }
 
@@ -74,14 +69,14 @@ describe 'rvm' do
           }
           rvm_gem {
             '#{default_ruby2_version}@myproject/rspec':
-              ensure  => '2.14.7',
+              ensure  => '2.14.1',
               require => Rvm_gemset['#{default_ruby2_version}@myproject'];
           }
         EOS
       }
 
       it 'should install with no errors' do
-        puppet_apply(manifest).exit_code.should_not == 1
+        apply_manifest(manifest, :catch_failures => true)
       end
     end
   end
@@ -97,13 +92,15 @@ describe 'rvm' do
     }
 
     it 'should install with no errors' do
-      puppet_apply(manifest).exit_code.should_not == 1
+      apply_manifest(manifest, :catch_failures => true)
     end
   end
 
   context 'when installing passenger' do
     before do
-      forge_module_install({"puppetlabs/apache" => "0.9.0"})
+      hosts.each do |host|
+        on host, puppet('module','install','puppetlabs/apache','--version','0.9.0'), { :acceptable_exit_codes => [0,1] }
+      end
     end
 
     let(:manifest) { super() + <<-EOS
@@ -126,11 +123,8 @@ describe 'rvm' do
 
     it 'should install with no errors' do
       # Run it twice and test for idempotency
-      puppet_apply(manifest) do |r|
-        r.exit_code.should_not == 1
-        r.refresh
-        r.exit_code.should be_zero
-      end
+      apply_manifest(manifest, :catch_failures => true)
+      apply_manifest(manifest, :catch_changes => true)
 
       shell("su - vagrant -c 'rvm #{default_ruby_version} do gem list passenger | grep passenger'").exit_code.should be_zero
     end

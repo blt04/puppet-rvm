@@ -8,6 +8,5 @@ group :rake do
   gem 'puppetlabs_spec_helper'
   gem 'puppet-blacksmith', '>=1.0.5'
   gem 'librarian-puppet-maestrodev', '>=0.9.8'
-  gem 'rspec-system-puppet'
-  gem 'rspec-system-serverspec'
+  gem 'beaker-rspec'
 end
