@@ -7,6 +7,6 @@ group :rake do
   gem 'puppet-lint'
   gem 'puppetlabs_spec_helper'
   gem 'puppet-blacksmith', '>=1.0.5'
-  gem 'librarian-puppet-maestrodev', '>=0.9.8'
+  gem 'librarian-puppet', '>=0.9.13'
   gem 'beaker-rspec'
 end
