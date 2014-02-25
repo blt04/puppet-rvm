@@ -3,6 +3,10 @@ Puppet::Type.newtype(:rvm_alias) do
 
   ensurable
 
+  autorequire(:rvm_system_ruby) do
+    [self[:target_ruby]]
+  end
+
   newparam(:name) do
     desc "The name of the alias to be managed."
     isnamevar

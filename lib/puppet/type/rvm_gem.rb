@@ -119,6 +119,10 @@ Puppet::Type.newtype(:rvm_gem) do
 
   end
 
+  autorequire(:rvm_system_ruby) do
+    [self[:ruby_version].split("@").first]
+  end
+
   newparam(:name) do
     desc "The name of the Ruby gem."
 
@@ -141,7 +145,7 @@ Puppet::Type.newtype(:rvm_gem) do
     (including gemset if applicable).  For example: 'ruby-1.9.2-p136@mygemset'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "ruby-1.9.2-p290"
+    defaultto "1.9"
     isnamevar
   end
 

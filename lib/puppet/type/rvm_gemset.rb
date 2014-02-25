@@ -7,6 +7,10 @@ Puppet::Type.newtype(:rvm_gemset) do
 
   ensurable
 
+  autorequire(:rvm_system_ruby) do
+    [self[:ruby_version]]
+  end
+
   newparam(:name) do
     desc "The name of the gemset to be managed."
     isnamevar
@@ -17,7 +21,7 @@ Puppet::Type.newtype(:rvm_gemset) do
     For example: 'ruby-1.9.2-p290'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "ruby-1.9.2-p290"
+    defaultto "1.9"
     isnamevar
   end
 
