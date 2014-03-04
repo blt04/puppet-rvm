@@ -141,6 +141,17 @@ To create an RVM alias, you can use:
         require     => Rvm_gemset['ruby-1.9.3-p448@myproject'];
     }
 
+## Creating Wrappers
+
+To create an RVM wrapper, you can use:
+
+    rvm_wrapper {
+      'god':
+        target_ruby => 'ruby-1.9.3-p448',
+        prefix      => 'bootup',
+        ensure      => present,
+        require     => Rvm_system_ruby['ruby-1.9.3-p448'];
+    }
 
 ## Installing Passenger
 
