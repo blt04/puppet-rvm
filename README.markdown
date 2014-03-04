@@ -130,6 +130,17 @@ Alternatively, you can use this more verbose syntax:
         require      => Rvm_system_ruby['ruby-1.9.2-p357'];
     }
 
+## Creating Aliases
+
+To create an RVM alias, you can use:
+
+    rvm_alias {
+      'myproject':
+        target_ruby => 'ruby-1.9.3-p448@myproject',
+        ensure      => present,
+        require     => Rvm_gemset['ruby-1.9.3-p448@myproject'];
+    }
+
 
 ## Installing Passenger
 
