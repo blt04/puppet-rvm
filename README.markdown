@@ -127,7 +127,7 @@ Alternatively, you can use this more verbose syntax:
         name         => 'bundler',
         ruby_version => 'ruby-1.9.3-p448',
         ensure       => latest,
-        require      => Rvm_system_ruby['ruby-1.9.2-p357'];
+        require      => Rvm_system_ruby['ruby-1.9.3-p448'];
     }
 
 ## Creating Aliases
