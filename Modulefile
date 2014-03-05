@@ -1,5 +1,5 @@
 name 'maestrodev-rvm'
-version '1.4.4'
+version '1.4.5'
 
 summary 'A puppet module for installing and using RVM (Ruby Version Manager)'
 author 'maestrodev & Brandon Turner <bt@brandonturner.net>'
