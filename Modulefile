@@ -1,5 +1,5 @@
 name 'maestrodev-rvm'
-version '1.4.5'
+version '1.5.0'
 
 summary 'A puppet module for installing and using RVM (Ruby Version Manager)'
 author 'maestrodev & Brandon Turner <bt@brandonturner.net>'
@@ -9,4 +9,5 @@ source 'http://github.com/maestrodev/puppet-rvm'
 description 'Installing and using RVM (Ruby Version Manager)'
 
 dependency 'puppetlabs/stdlib', '>=3.2.0'
-dependency 'puppetlabs/apache', '>=0.9.0'
+# not included as a dependency to avoid installing it when is not needed most times.
+#dependency 'puppetlabs/apache', '>=0.9.0'

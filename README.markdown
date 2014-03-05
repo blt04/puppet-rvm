@@ -20,6 +20,10 @@ Please read the troubleshooting section below before opening an issue.
 
 Puppet 3.0.0 or higher.
 
+## Upgrading
+
+Version 1.5 no longer includes a dependency on puppetlabs/apache, you must install it yourself
+if you want to use the passenger module.
 
 ## Add Puppet Module
 
@@ -154,6 +158,9 @@ To create an RVM wrapper, you can use:
     }
 
 ## Installing Passenger
+
+NOTE: You must install the [puppetlabs/apache](http://forge.puppetlabs.com/puppetlabs/apache) module by yourself.
+It is not included as a dependency to this module to avoid installing it when is not needed most times.
 
 Install passenger using the [puppetlabs/apache](http://forge.puppetlabs.com/puppetlabs/apache) module,
 and using:
