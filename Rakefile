@@ -15,6 +15,11 @@ task :librarian_spec_prep do
  sh "librarian-puppet install --path=spec/fixtures/modules/"
 end
 task :spec_prep => :librarian_spec_prep
-task :spec_system => :clean
+
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:beaker) do |c|
+  c.pattern = "spec/acceptance/**/*_spec.rb"
+end
+task :beaker => :librarian_spec_prep
 
 task :default => [:clean, :spec]
