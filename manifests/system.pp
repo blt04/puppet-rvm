@@ -8,6 +8,15 @@ class rvm::system(
     default   => $version,
   }
 
+  # curl needs to be installed
+  case $::kernel {
+    Linux: {
+      ensure_packages(['curl'])
+      Package['curl'] -> Exec['system-rvm']
+    }
+    default: {}
+  }
+
   exec { 'system-rvm':
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "/usr/bin/curl -sSL https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer | \
