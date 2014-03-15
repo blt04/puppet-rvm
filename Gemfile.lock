@@ -121,4 +121,4 @@ DEPENDENCIES
   puppet-lint
   puppetlabs_spec_helper
   rake
-  rspec-puppet
+  rspec-puppet (>= 1.0.0)
