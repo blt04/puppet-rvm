@@ -6,12 +6,14 @@ class rvm::passenger::apache(
   $maxpoolsize = '6',
   $poolidletime = '300',
   $maxinstancesperapp = '0',
-  $spawnmethod = 'smart-lv2'
+  $spawnmethod = 'smart-lv2',
+  $proxy_url = undef
 ) {
 
   class { 'rvm::passenger::gem':
     ruby_version => $ruby_version,
     version      => $version,
+    proxy_url    => $proxy_url
   }
 
   # TODO: How can we get the gempath automatically using the ruby version
