@@ -11,10 +11,20 @@ class rvm::passenger::apache::ubuntu::post(
   $binpath
 ) {
 
+  if $version > '4.0.0' {
+    $install_out_directory = 'buildout'
+  } elsif $version > '3.9.0' {
+    $install_out_directory = 'libout'
+  }  else {
+    $install_out_directory = 'ext'
+  }
+
+  $install_creates = "${gempath}/passenger-${version}/${install_out_directory}/apache2/mod_passenger.so"
+
   exec {
     'passenger-install-apache2-module':
       command   => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-      creates   => "${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+      creates   => $install_creates,
       logoutput => 'on_failure',
       require   => [Rvm_gem['passenger'], Package['apache2', 'build-essential', 'apache2-prefork-dev',
                                                   'libapr-dev', 'libaprutil-dev', 'libcurl4-openssl-dev']],
@@ -23,7 +33,7 @@ class rvm::passenger::apache::ubuntu::post(
   file {
     '/etc/apache2/mods-available/passenger.load':
       ensure  => file,
-      content => "LoadModule passenger_module ${gempath}/passenger-${version}/ext/apache2/mod_passenger.so",
+      content => "LoadModule passenger_module ${install_creates}",
       require => Exec['passenger-install-apache2-module'];
 
     '/etc/apache2/mods-available/passenger.conf':
