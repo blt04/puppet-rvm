@@ -192,16 +192,18 @@ You can configure the ruby versions to be installed and the system users from hi
 
 ## Building the module
 
+Testing is done with rspec, [Beaker-rspec](https://github.com/puppetlabs/beaker-rspec), [Beaker](https://github.com/puppetlabs/beaker))
+
 To test and build the module
 
     bundle install
     # run specs
     rake
 
-    # run rspec-system tests with vagrant vms
-    rake spec:system
-    # to use other vm from the list in .fixtures.yml and not destroy the vm after the tests
-    RSPEC_DESTROY=no RSPEC_SET=centos-59-x64 bundle exec rake spec:system
+    # run Beaker system tests with vagrant vms
+    rake beaker
+    # to use other vm from the list spec/acceptance/nodesets and not destroy the vm after the tests
+    BEAKER_destroy=no BEAKER_set=centos-64-x64 bundle exec rake beaker
 
     # Release the Puppet module to the Forge, doing a clean, build, tag, push, bump_commit and git push
     rake module:release
