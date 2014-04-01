@@ -24,6 +24,18 @@ class rvm::passenger::apache(
   $binpath = "${rvm_prefix}/rvm/bin/"
   $gemroot = "${gempath}/passenger-${version}"
 
+  if ( versioncmp( $rvm::passenger::apache::version, '4.0.0' ) < 0 ) {
+    if ( versioncmp( $rvm::passenger::apache::version, '3.9.0' ) < 0 ) {
+      $objdir = 'ext'
+    } else {
+      $objdir = 'libout'
+    }
+  } else {
+    $objdir = 'buildout'
+  }
+  
+  $modpath = "${gemroot}/${objdir}/apache2"
+  
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
   include apache::dev
@@ -31,8 +43,8 @@ class rvm::passenger::apache(
   class { 'rvm::passenger::dependencies': } ->
 
   exec { 'passenger-install-apache2-module':
-    command     => "${rvm::passenger::apache::binpath}rvm ${rvm::passenger::apache::ruby_version} exec passenger-install-apache2-module -a",
-    unless      => "test -f ${gemroot}/ext/apache2/mod_passenger.so || test -f ${gemroot}/libout/apache2/mod_passenger.so || test -f ${gemroot}/buildout/apache2/mod_passenger.so",
+    command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
+    creates      => "${modpath}/mod_passenger.so",
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
@@ -44,6 +56,7 @@ class rvm::passenger::apache(
     passenger_ruby           => "${rvm_prefix}/rvm/wrappers/${ruby_version}/ruby",
     passenger_max_pool_size  => $maxpoolsize,
     passenger_pool_idle_time => $poolidletime,
+    mod_lib_path             => $modpath,
     require                  => Exec['passenger-install-apache2-module'],
     subscribe                => Exec['passenger-install-apache2-module'],
   }
