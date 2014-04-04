@@ -8,7 +8,7 @@ class rvm::passenger::apache(
   $maxinstancesperapp = '0',
   $spawnmethod = 'smart-lv2',
   $proxy_url = undef,
-  $install_timeout = 300
+  $install_timeout = 600
 ) {
 
   class { 'rvm::passenger::gem':
