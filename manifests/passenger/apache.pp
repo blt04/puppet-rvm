@@ -7,7 +7,8 @@ class rvm::passenger::apache(
   $poolidletime = '300',
   $maxinstancesperapp = '0',
   $spawnmethod = 'smart-lv2',
-  $proxy_url = undef
+  $proxy_url = undef,
+  $install_timeout = 600
 ) {
 
   class { 'rvm::passenger::gem':
@@ -35,6 +36,7 @@ class rvm::passenger::apache(
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
+    timeout     => $install_timeout,
   }
 
   class { 'apache::mod::passenger':
