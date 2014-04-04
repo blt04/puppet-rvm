@@ -35,6 +35,7 @@ class rvm::passenger::apache(
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
+    timeout     => 600,
   }
 
   class { 'apache::mod::passenger':
