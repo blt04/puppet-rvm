@@ -19,8 +19,7 @@ class rvm::system(
 
   exec { 'system-rvm':
     path        => '/usr/bin:/usr/sbin:/bin',
-    command     => "/usr/bin/curl -sSL https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer | \
-                    bash -s -- --version ${actual_version}",
+    command     => "/usr/bin/curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
     creates     => '/usr/local/rvm/bin/rvm',
     environment => $proxy_url ? { undef => undef, default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ]},
   }
