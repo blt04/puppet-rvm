@@ -9,12 +9,14 @@ class rvm::system(
   }
 
   # curl needs to be installed
-  case $::kernel {
-    Linux: {
-      ensure_packages(['curl'])
-      Package['curl'] -> Exec['system-rvm']
+  if ! defined(Package['curl']) {
+    case $::kernel {
+      Linux: {
+        ensure_packages(['curl'])
+        Package['curl'] -> Exec['system-rvm']
+      }
+      default: {}
     }
-    default: {}
   }
 
   exec { 'system-rvm':
