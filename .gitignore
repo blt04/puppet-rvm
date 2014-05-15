@@ -10,3 +10,4 @@ pkg/
 .vagrant/
 .rspec_system
 .bundle/
+modules/
