@@ -31,12 +31,6 @@ Before you begin, you must add the RVM module to your Puppet installation.  This
 
     $ puppet module install maestrodev/rvm
 
-In Puppet 2.x enable plugin synchronization for custom types.  In your puppet.conf (usually in /etc/puppet)
-on both the Master and Client ensure you have:
-
-    [main]
-        pluginsync = true
-
 You may now continue configuring RVM resources.
 
 
