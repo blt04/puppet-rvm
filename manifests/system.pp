@@ -28,12 +28,10 @@ class rvm::system(
 
   # the fact won't work until rvm is installed before puppet starts
   if "${::rvm_version}" != "" {
-    notice("RVM version ${::rvm_version}")
-
     if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
-        message => "RVM updating to version ${version}",
+        message => "RVM updating from version ${::rvm_version} to ${version}",
       }
       exec { 'system-rvm-get':
         path        => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
