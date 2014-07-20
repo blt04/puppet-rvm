@@ -33,9 +33,9 @@ class rvm::passenger::apache(
   } else {
     $objdir = 'buildout'
   }
-  
+
   $modpath = "${gemroot}/${objdir}/apache2"
-  
+
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
   include apache::dev
@@ -44,7 +44,7 @@ class rvm::passenger::apache(
 
   exec { 'passenger-install-apache2-module':
     command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-    creates      => "${modpath}/mod_passenger.so",
+    creates     => "${modpath}/mod_passenger.so",
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
@@ -59,5 +59,20 @@ class rvm::passenger::apache(
     mod_lib_path             => $modpath,
     require                  => Exec['passenger-install-apache2-module'],
     subscribe                => Exec['passenger-install-apache2-module'],
+  }
+
+  case $::osfamily {
+    # for debian OSs Apache configures passenger_extra.conf with the details that passenger.conf should have - so just copy one onto the other
+    'debian': {
+      $apache_mods_path = '/etc/apache2/mods-available'
+      exec { 'passenger_extra.conf':
+        command     => "/bin/cp ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
+        unless      => "/usr/bin/diff ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
+        environment => [ 'HOME=/root', ],
+        path        => '/usr/bin:/usr/sbin:/bin',
+        require     => Class['apache::mod::passenger'],
+      }
+    }
+    default: {}
   }
 }

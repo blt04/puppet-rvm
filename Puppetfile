@@ -2,5 +2,4 @@ forge 'http://forge.puppetlabs.com'
 
 modulefile
 
-mod 'apache',
-  :git => 'https://github.com/puppetlabs/puppetlabs-apache.git'
+mod 'puppetlabs/apache', '>= 1.1.0'
