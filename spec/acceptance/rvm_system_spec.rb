@@ -98,7 +98,7 @@ describe "rvm" do
         rvm_system_ruby {
           '#{ruby19_version}':
             ensure      => 'present',
-            default_use => true;
+            default_use => false;
           '#{ruby20_version}':
             ensure      => 'present',
             default_use => false;
@@ -113,7 +113,7 @@ describe "rvm" do
 
     it "should reflect installed rubies" do
       shell("/usr/local/rvm/bin/rvm list") do |r|
-        r.stdout.should =~ Regexp.new(Regexp.escape("\n=* #{ruby19_version}"))
+        r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby19_version}"))
         r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby20_version}"))
         r.exit_code.should be_zero
       end
@@ -154,14 +154,14 @@ describe "rvm" do
       end
 
       it "should reflect installed gems and gemsets" do
-        shell(". #{ruby19_environment}; /usr/local/rvm/bin/rvm gemset list") do |r|
+        shell("/usr/local/rvm/bin/rvm #{ruby19_version} gemset list") do |r|
           r.stdout.should =~ Regexp.new(Regexp.escape("\n=> (default)"))
           r.stdout.should =~ Regexp.new(Regexp.escape("\n   global"))
           r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby19_gemset}"))
           r.exit_code.should be_zero
         end
 
-        shell(". #{ruby20_environment}; /usr/local/rvm/bin/rvm gemset list") do |r|
+        shell("/usr/local/rvm/bin/rvm #{ruby20_version} gemset list") do |r|
           r.stdout.should =~ Regexp.new(Regexp.escape("\n=> (default)"))
           r.stdout.should =~ Regexp.new(Regexp.escape("\n   global"))
           r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby20_gemset}"))
@@ -173,7 +173,6 @@ describe "rvm" do
 
   context "when installing jruby" do
     let(:jruby_version) { "jruby-1.7.6" }
-    let(:jruby_environment) { "#{rvm_path}environments/#{jruby_version}" }
 
     let(:manifest) {
       base_manifest + <<-EOS
@@ -212,9 +211,11 @@ describe "rvm" do
         rvm_system_ruby {
           '#{ruby19_version}':
             ensure      => 'present',
-            default_use => true,
+            default_use => false,
         }
-        class { 'apache': }
+        class { 'apache':
+          service_enable => false, # otherwise detects changes in 2nd run in ubuntu and docker
+        }
         class { 'rvm::passenger::apache':
           version            => '#{passenger_version}',
           ruby_version       => '#{ruby19_version}',
@@ -243,42 +244,36 @@ describe "rvm" do
           docroot_group => '#{rackapp_group}' ,
           docroot_owner => '#{rackapp_user}' ,
           custom_fragment => "PassengerRuby  #{passenger_ruby}\\nRailsEnv  development" ,
+          default_vhost => true ,
           require => File['/var/www/passenger/config.ru'] ,
         }
-        host { '#{passenger_domain}': ip => '127.0.0.1', }
       EOS
     }
 
     it "should install with no errors" do
       # Run it twice and test for idempotency
       apply_manifest(manifest, :catch_failures => true)
-      # on some ubuntu systems, puppet detects (apparently non-existent) changes
-      # on subsequent manifest applications, resulting in false test failures
-      if operatingsystem == "Ubuntu"
-        apply_manifest(manifest, :catch_failures => true)
-      else
-        apply_manifest(manifest, :catch_changes => true)
-      end
+      apply_manifest(manifest, :catch_changes => true)
 
-      shell(". #{ruby19_environment}; #{ruby19_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
+      shell("rvm #{ruby19_version} do #{ruby19_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
     end
 
-    it "should be enabled and run" do
+    it "should be running" do
       service(service_name) do |s|
-        s.should be_enabled
+        s.should_not be_enabled
         s.should be_running
       end
     end
 
-    it "should answer at the expected domain" do
-      shell("/usr/bin/curl #{passenger_domain}:80") do |r|
+    it "should answer" do
+      shell("/usr/bin/curl localhost:80") do |r|
         r.stdout.should =~ /^hello <b>world<\/b>$/
         r.exit_code.should == 0
       end
     end
 
     it "should output status via passenger-status" do
-      shell(". #{ruby19_environment}; rvmsudo_secure_path=1 #{rvm_path}/bin/rvmsudo passenger-status") do |r|
+      shell("rvmsudo_secure_path=1 /usr/local/rvm/bin/rvm #{ruby19_version} do passenger-status") do |r|
         # spacing may vary
         r.stdout.should =~ /[\-]+ General information [\-]+/
         r.stdout.should =~ /max[ ]+= [0-9]+/
@@ -322,7 +317,9 @@ describe "rvm" do
             ensure      => 'present',
             default_use => false,
         }
-        class { 'apache': }
+        class { 'apache':
+          service_enable => false, # otherwise detects changes in 2nd run in ubuntu and docker
+        }
         class { 'rvm::passenger::apache':
           version            => '#{passenger_version}',
           ruby_version       => '#{ruby20_version}',
@@ -351,42 +348,36 @@ describe "rvm" do
           docroot_group => '#{rackapp_group}' ,
           docroot_owner => '#{rackapp_user}' ,
           custom_fragment => "PassengerRuby  #{passenger_ruby}\\nRailsEnv  development" ,
+          default_vhost => true ,
           require => File['/var/www/passenger/config.ru'] ,
         }
-        host { '#{passenger_domain}': ip => '127.0.0.1', }
       EOS
     }
 
     it "should install with no errors" do
       # Run it twice and test for idempotency
       apply_manifest(manifest, :catch_failures => true)
-      # on some ubuntu systems, puppet detects (apparently non-existent) changes
-      # on subsequent manifest applications, resulting in false test failures
-      if operatingsystem == "Ubuntu"
-        apply_manifest(manifest, :catch_failures => true)
-      else
-        apply_manifest(manifest, :catch_changes => true)
-      end
+      apply_manifest(manifest, :catch_changes => true)
 
-      shell(". #{ruby20_environment}; #{ruby20_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
+      shell("/usr/local/rvm/bin/rvm #{ruby20_version} do #{ruby20_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
     end
 
-    it "should be enabled and run" do
+    it "should be running" do
       service(service_name) do |s|
-        s.should be_enabled
+        s.should_not be_enabled
         s.should be_running
       end
     end
 
-    it "should answer at the expected domain" do
-      shell("/usr/bin/curl #{passenger_domain}:80") do |r|
+    it "should answer" do
+      shell("/usr/bin/curl localhost:80") do |r|
         r.stdout.should =~ /^hello <b>world<\/b>$/
         r.exit_code.should == 0
       end
     end
 
     it "should output status via passenger-status" do
-      shell(". #{ruby20_environment}; rvmsudo_secure_path=1 #{rvm_path}/bin/rvmsudo passenger-status") do |r|
+      shell("rvmsudo_secure_path=1 /usr/local/rvm/bin/rvm #{ruby20_version} do passenger-status") do |r|
         # spacing may vary
         r.stdout.should =~ /[\-]+ General information [\-]+/
         r.stdout.should =~ /Max pool size \: [0-9]+/

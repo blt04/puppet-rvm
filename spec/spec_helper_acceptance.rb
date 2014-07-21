@@ -30,10 +30,14 @@ RSpec.configure do |c|
   c.before :suite do
     hosts.each do |host|
       unless (ENV['RS_PROVISION'] == 'no' || ENV['BEAKER_provision'] == 'no')
-        if host.is_pe?
-          install_pe
-        else
-          install_puppet(host)
+        begin
+          on host, 'puppet --version'
+        rescue
+          if host.is_pe?
+            install_pe
+          else
+            install_puppet(host)
+          end
         end
       end
 
