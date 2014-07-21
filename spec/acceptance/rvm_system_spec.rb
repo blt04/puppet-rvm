@@ -122,7 +122,6 @@ describe 'rvm' do
     end
   end
 
-=begin
   context 'when installing jruby' do
     jruby_version = 'jruby-1.7.6'
     jruby_environment = "#{rvm_path}environments/#{jruby_version}"
@@ -146,7 +145,6 @@ describe 'rvm' do
       end
     end
   end
-=end
 
   context 'when installing passenger 3.0.x' do
 
