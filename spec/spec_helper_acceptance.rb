@@ -17,19 +17,6 @@ def install_puppet(host)
   end
 end
 
-# install puppet before configuring rspec to enable calling facter in
-# spec/acceptance tests
-unless (ENV['RS_PROVISION'] == 'no' || ENV['BEAKER_provision'] == 'no')
-  hosts.each do |host|
-    if host.is_pe?
-      install_pe
-    else
-      install_puppet(host)
-      # on host, "mkdir -p #{host['distmoduledir']}"
-    end
-  end
-end
-
 RSpec.configure do |c|
 
   # Project root
@@ -42,11 +29,19 @@ RSpec.configure do |c|
 
   c.before :suite do
     hosts.each do |host|
+      unless (ENV['RS_PROVISION'] == 'no' || ENV['BEAKER_provision'] == 'no')
+        if host.is_pe?
+          install_pe
+        else
+          install_puppet(host)
+        end
+      end
+
       # Install module and dependencies
       puppet_module_install(:source => proj_root, :module_name => 'rvm')
 
-      # not included in Puppetfile.lock, version based on latest when Puppetfile.lock last set
       if fact('osfamily') == 'RedHat'
+        # not included in Puppetfile.lock, version based on latest when Puppetfile.lock last set
         on host, puppet('module', 'install', 'stahnma/epel', '--version=0.1.0'), { :acceptable_exit_codes => [0,1] }
       end
       # version based on current Puppetfile.lock
