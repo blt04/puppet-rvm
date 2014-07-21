@@ -62,10 +62,21 @@ class rvm::passenger::apache(
   }
 
   case $::osfamily {
-    # for debian OSs Apache configures passenger_extra.conf with the details that passenger.conf should have - so just copy one onto the other
-    'debian': {
-      $apache_mods_path = '/etc/apache2/mods-available'
-      exec { 'passenger_extra.conf':
+    # for redhat and debian OSs Apache configures passenger_extra.conf
+    # with the details that should be located in
+    # passenger.conf;apache::mod::passenger can't be written directly to
+    # passenger.conf without creating a conflict within the apache
+    # module, but copying the file contents works fine
+    'debian','redhat': {
+      case $::osfamily {
+        'redhat': {
+          $apache_mods_path = '/etc/httpd/conf.d'
+        }
+        'debian': {
+          $apache_mods_path = '/etc/apache2/mods-available'
+        }
+      }
+      exec { 'copy passenger_extra.conf to passenger.conf':
         command     => "/bin/cp ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
         unless      => "/usr/bin/diff ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
         environment => [ 'HOME=/root', ],

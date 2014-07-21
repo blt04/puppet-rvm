@@ -167,7 +167,6 @@ describe 'rvm' do
     end
 
     conf_file = "#{mod_dir}passenger.conf"
-    conf_extra_file = "#{mod_dir}passenger_extra.conf"
     load_file = "#{mod_dir}passenger.load"
     passenger_ruby = "#{rvm_path}wrappers/#{ruby19_version}/ruby"
     passenger_root = "#{ruby19_gems}passenger-#{passenger_version}"
@@ -253,17 +252,9 @@ describe 'rvm' do
       end
     end
 
-    case fact('osfamily')
-    when 'Debian'
-      describe file(conf_file) do
-        it { should contain "PassengerRoot \"#{passenger_root}\"" }
-        it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
-      end
-    when 'RedHat'
-      describe file(conf_extra_file) do
-        it { should contain "PassengerRoot \"#{passenger_root}\"" }
-        it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
-      end
+    describe file(conf_file) do
+      it { should contain "PassengerRoot \"#{passenger_root}\"" }
+      it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
     end
 
     describe file(load_file) do
@@ -291,7 +282,6 @@ describe 'rvm' do
     end
 
     conf_file = "#{mod_dir}passenger.conf"
-    conf_extra_file = "#{mod_dir}passenger_extra.conf"
     load_file = "#{mod_dir}passenger.load"
     passenger_ruby = "#{rvm_path}wrappers/#{ruby20_version}/ruby"
     passenger_root = "#{ruby20_gems}passenger-#{passenger_version}"
@@ -379,17 +369,9 @@ describe 'rvm' do
       end
     end
 
-    case fact('osfamily')
-    when 'Debian'
-      describe file(conf_file) do
-        it { should contain "PassengerRoot \"#{passenger_root}\"" }
-        it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
-      end
-    when 'RedHat'
-      describe file(conf_extra_file) do
-        it { should contain "PassengerRoot \"#{passenger_root}\"" }
-        it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
-      end
+    describe file(conf_file) do
+      it { should contain "PassengerRoot \"#{passenger_root}\"" }
+      it { should contain "PassengerRuby \"#{passenger_ruby}\"" }
     end
 
     describe file(load_file) do
