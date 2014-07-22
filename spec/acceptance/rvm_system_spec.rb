@@ -62,7 +62,7 @@ describe "rvm" do
   let(:load_file) { "#{mod_dir}passenger.load" }
 
   # baseline manifest
-  let(:base_manifest) {
+  let(:manifest) {
     <<-EOS
       if $::osfamily == 'RedHat' {
         class { 'epel':
@@ -82,7 +82,6 @@ describe "rvm" do
 
   it "rvm should install and configure system user" do
     # Run it twice and test for idempotency
-    manifest = base_manifest
     apply_manifest(manifest, :catch_failures => true)
     apply_manifest(manifest, :catch_changes => true)
     shell("/usr/local/rvm/bin/rvm list") do |r|
@@ -94,7 +93,7 @@ describe "rvm" do
   context "when installing rubies" do
 
     let(:manifest) {
-      base_manifest + <<-EOS
+      super() + <<-EOS
         rvm_system_ruby {
           '#{ruby19_version}':
             ensure      => 'present',
@@ -175,7 +174,7 @@ describe "rvm" do
     let(:jruby_version) { "jruby-1.7.6" }
 
     let(:manifest) {
-      base_manifest + <<-EOS
+      super() + <<-EOS
         rvm_system_ruby { '#{jruby_version}':
           ensure      => 'present',
           default_use => false;
@@ -207,7 +206,7 @@ describe "rvm" do
     let(:passenger_module_path) { "#{passenger_root}/ext/apache2/mod_passenger.so" }
 
     let(:manifest) { 
-      base_manifest + <<-EOS
+      super() + <<-EOS
         rvm_system_ruby {
           '#{ruby19_version}':
             ensure      => 'present',
@@ -311,7 +310,7 @@ describe "rvm" do
     let(:passenger_module_path) { "#{passenger_root}/buildout/apache2/mod_passenger.so" }
 
     let(:manifest) {
-      base_manifest + <<-EOS
+      super() + <<-EOS
         rvm_system_ruby {
           '#{ruby20_version}':
             ensure      => 'present',
