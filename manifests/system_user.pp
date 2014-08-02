@@ -1,7 +1,14 @@
-define rvm::system_user () {
+define rvm::system_user (
+  $create=true ) {
+
   include rvm::params
 
+  if $create {
+
   ensure_resource('user', $name, {'ensure' => 'present' })
+
+  }
+
   include rvm::group
 
   $add_to_group = $osfamily ? {
