@@ -69,17 +69,23 @@ You can tell RVM to install one or more Ruby versions with:
 
 You should use the full version number.  While the shorthand version may work (e.g. '1.9.2'), the provider will be unable to detect if the correct version is installed.
 
-If rvm fails to install binary rubies you can increase curl's timeout with the `rvm_max_time_flag` in `/etc/rvmrc` or `~/.rvmrc`
+If rvm fails to install binary rubies you can increase curl's timeout with the `rvm_max_time_flag` in `~/.rvmrc` with a fully qualified path to the home directory.
 
     # ensure rvm doesn't timeout finding binary rubies
     # the umask line is the default content when installing rvm if file does not exist
-    file { '/etc/rvmrc':
+    file { '/home/user/rvmrc':
       content => 'umask u=rwx,g=rwx,o=rx
                   export rvm_max_time_flag=20',
       mode    => '0664',
       before  => Class['rvm'],
     }
 
+Or, to configure `/etc/rvmrc` you can use use `Class['rvm::rvmrc]`
+
+    class{ 'rvm::rvmrc':
+      max_time_flag => 20,
+      before  => Class['rvm'],
+    }
 
 ### Installing JRuby from sources
 
