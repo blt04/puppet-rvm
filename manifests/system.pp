@@ -11,7 +11,7 @@ class rvm::system(
   # curl needs to be installed
   if ! defined(Package['curl']) {
     case $::kernel {
-      Linux: {
+      'Linux': {
         ensure_packages(['curl'])
         Package['curl'] -> Exec['system-rvm']
       }
