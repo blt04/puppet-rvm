@@ -3,6 +3,7 @@ class rvm(
   $version=undef,
   $install_rvm=true,
   $install_dependencies=false,
+  $manage_rvmrc=true,
   $system_users=[],
   $system_rubies={},
   $proxy_url=$rvm::params::proxy_url,
@@ -17,7 +18,9 @@ class rvm(
       }
     }
 
-    ensure_resource('class', 'rvm::rvmrc')
+    if $manage_rvmrc {
+      ensure_resource('class', 'rvm::rvmrc')
+    }
 
     class { 'rvm::system':
       version   => $version,

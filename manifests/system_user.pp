@@ -1,14 +1,24 @@
 # Create a user that belongs to the correct group to have access to RVM
 define rvm::system_user (
-  $create = true) {
+  $create = true,
+  $manage_group = undef) {
 
   include rvm::params
 
-  if $create {
-    ensure_resource('user', $name, {'ensure' => 'present' })
+  $manage_group_real = $manage_group ? {
+    undef   => $rvm::params::manage_group,
+    default => $manage_group
   }
 
-  include rvm::group
+  if $create {
+    ensure_resource('user', $name, {'ensure' => 'present' })
+    User[$name] -> Exec["rvm-system-user-${name}"]
+  }
+
+  if $manage_group_real {
+    include rvm::group
+    Group[$rvm::params::group] -> Exec["rvm-system-user-${name}"]
+  }
 
   $add_to_group = $::osfamily ? {
     'Darwin' => "/usr/sbin/dseditgroup -o edit -a ${name} -t user ${rvm::params::group}",
@@ -21,6 +31,5 @@ define rvm::system_user (
   exec { "rvm-system-user-${name}":
     command => $add_to_group,
     unless  => $check_in_group,
-    require => [User[$name], Group[$rvm::params::group]];
   }
 }

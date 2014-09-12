@@ -1,5 +1,5 @@
 # Default module parameters
-class rvm::params() {
+class rvm::params($manage_group = true) {
 
   $group = $::operatingsystem ? {
     default => 'rvm',
