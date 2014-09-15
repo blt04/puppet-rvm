@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :rake do
-  gem 'puppet', :require => false
+  gem 'puppet', ENV['PUPPET_VERSION'] || '>=3.0.0', :require => false
   gem 'rspec-puppet', '>=1.0.0', :require => false
   gem 'rake', :require => false
   gem 'puppet-lint', '>=1.0.0', :require => false
