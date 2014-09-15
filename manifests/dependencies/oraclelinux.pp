@@ -1,3 +1,4 @@
+# Install packages needed by RVM on Oracle Linux when not using autolibs
 class rvm::dependencies::oraclelinux {
 
   ensure_packages(['which','gcc','gcc-c++','make','gettext-devel','expat-devel','libcurl-devel',

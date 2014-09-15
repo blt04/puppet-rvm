@@ -1,3 +1,4 @@
+# Install packages needed by RVM on Ubuntu when not using autolibs
 class rvm::dependencies::ubuntu {
 
   ensure_packages(['build-essential','bison','openssl','libreadline6','libreadline6-dev','curl','git-core',

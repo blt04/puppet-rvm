@@ -138,7 +138,7 @@ GEM
       nokogiri
       puppet (>= 2.7.16)
       rest-client
-    puppet-lint (0.3.2)
+    puppet-lint (1.0.1)
     puppet_forge (1.0.3)
       her (~> 0.6)
     puppetlabs_spec_helper (0.7.0)
@@ -201,7 +201,7 @@ DEPENDENCIES
   minitest (< 5.0.0)
   puppet
   puppet-blacksmith (>= 1.0.5)
-  puppet-lint
+  puppet-lint (>= 1.0.0)
   puppetlabs_spec_helper
   rake
   rspec-puppet (>= 1.0.0)

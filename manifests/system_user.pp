@@ -1,3 +1,4 @@
+# Create a user that belongs to the correct group to have access to RVM
 define rvm::system_user (
   $create = true) {
 

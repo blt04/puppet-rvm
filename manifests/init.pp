@@ -1,3 +1,4 @@
+# Install RVM, create system user a install system level rubies
 class rvm(
   $version=undef,
   $install_rvm=true,

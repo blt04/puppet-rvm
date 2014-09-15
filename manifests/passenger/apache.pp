@@ -1,3 +1,4 @@
+# Install Passenger dependencies and Apache module
 class rvm::passenger::apache(
   $ruby_version,
   $version,
@@ -74,6 +75,9 @@ class rvm::passenger::apache(
         }
         'debian': {
           $apache_mods_path = '/etc/apache2/mods-available'
+        }
+        default: {
+          $apache_mods_path = '/etc/httpd/conf.d'
         }
       }
       exec { 'copy passenger_extra.conf to passenger.conf':

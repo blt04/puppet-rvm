@@ -1,3 +1,4 @@
+# Install the RVM system
 class rvm::system(
   $version=undef,
   $proxy_url=undef) {
@@ -19,15 +20,20 @@ class rvm::system(
     }
   }
 
+  $proxy_environment = $proxy_url ? {
+    undef   => undef,
+    default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ],
+  }
+
   exec { 'system-rvm':
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "/usr/bin/curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
     creates     => '/usr/local/rvm/bin/rvm',
-    environment => $proxy_url ? { undef => undef, default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ]},
+    environment => $proxy_environment,
   }
 
   # the fact won't work until rvm is installed before puppet starts
-  if "${::rvm_version}" != "" {
+  if !empty($::rvm_version) {
     if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
@@ -37,7 +43,7 @@ class rvm::system(
         path        => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
         command     => "rvm get ${version}",
         before      => Exec['system-rvm'], # so it doesn't run after being installed the first time
-        environment => $proxy_url ? { undef => undef, default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ]},
+        environment => $proxy_environment,
         require     => Notify['rvm-get_version'],
       }
     }

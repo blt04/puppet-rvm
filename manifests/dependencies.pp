@@ -1,3 +1,4 @@
+# Install packages needed by RVM when not using autolibs
 class rvm::dependencies {
   case $::operatingsystem {
     'Ubuntu','Debian': { require rvm::dependencies::ubuntu }
