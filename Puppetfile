@@ -1,5 +1,5 @@
 forge 'http://forge.puppetlabs.com'
 
-modulefile
+metadata
 
 mod 'puppetlabs/apache', '>= 1.1.0'
