@@ -25,6 +25,13 @@ class rvm::system(
     default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ],
   }
 
+  exec { 'system-rvm-gpg-key':
+    command     => 'gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3',
+    path        => $::path,
+    environment => 'HOME=/root',
+    unless      => 'gpg2 --list-keys D39DC0E3',
+  } ->
+
   exec { 'system-rvm':
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "/usr/bin/curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
