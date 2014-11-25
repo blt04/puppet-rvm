@@ -3,6 +3,8 @@ class rvm::system(
   $version=undef,
   $proxy_url=undef) {
 
+  class {'rvm::gpg':}
+
   $actual_version = $version ? {
     undef     => 'latest',
     'present' => 'latest',
@@ -30,6 +32,7 @@ class rvm::system(
     path        => $::path,
     environment => 'HOME=/root',
     unless      => 'gpg2 --list-keys D39DC0E3',
+    require     => Class['::rvm::gpg']
   } ->
 
   exec { 'system-rvm':
