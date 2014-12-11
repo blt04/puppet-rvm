@@ -9,6 +9,9 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
     unless resource[:proxy_url].nil?
       ENV['http_proxy'] = resource[:proxy_url]
       ENV['https_proxy'] = resource[:proxy_url]
+      unless resource[:no_proxy].nil?
+        ENV['no_proxy'] = resource[:no_proxy]
+      end
     end
     set_autolib_mode if resource.value(:autolib_mode)
     options = Array(resource[:build_opts])

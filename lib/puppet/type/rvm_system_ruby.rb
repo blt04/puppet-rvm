@@ -18,6 +18,11 @@ Puppet::Type.newtype(:rvm_system_ruby) do
     defaultto ""
   end
 
+  newparam(:no_proxy) do
+    desc "exclude addresses from proxy use"
+    defaultto ""
+  end
+
   newproperty(:default_use) do
     desc "Should this Ruby be the system default for new terminals?"
     defaultto false

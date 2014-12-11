@@ -6,6 +6,7 @@ class rvm::params() {
   }
 
   $proxy_url = undef
+  $no_proxy = undef
 
   $gpg_package = $::osfamily ? {
     /(Debian|RedHat)/ => 'gnupg2',

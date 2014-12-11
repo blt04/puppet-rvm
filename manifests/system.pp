@@ -1,7 +1,8 @@
 # Install the RVM system
 class rvm::system(
   $version=undef,
-  $proxy_url=undef) {
+  $proxy_url=undef,
+  $no_proxy=undef) {
 
   class {'rvm::gpg':}
 
@@ -21,16 +22,21 @@ class rvm::system(
       default: {}
     }
   }
-
-  $proxy_environment = $proxy_url ? {
-    undef   => undef,
-    default => [ "http_proxy=${proxy_url}" , "https_proxy=${proxy_url}" ],
+  
+  if $proxy_url == undef {
+    $environment = [ 'HOME=/root' ]
+  }
+  else {
+    $environment = $no_proxy ? {
+      undef   => [ "http_proxy=${proxy_url}", "https_proxy=${proxy_url}", 'HOME=/root' ],
+      default => [ "http_proxy=${proxy_url}", "https_proxy=${proxy_url}", "no_proxy=${no_proxy}", 'HOME=/root' ],
+    }
   }
 
   exec { 'system-rvm-gpg-key':
     command     => 'gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3',
     path        => $::path,
-    environment => 'HOME=/root',
+    environment => $environment,
     unless      => 'gpg2 --list-keys D39DC0E3',
     require     => Class['::rvm::gpg']
   } ->
@@ -39,7 +45,7 @@ class rvm::system(
     path        => '/usr/bin:/usr/sbin:/bin',
     command     => "/usr/bin/curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
     creates     => '/usr/local/rvm/bin/rvm',
-    environment => $proxy_environment,
+    environment => $environment,
   }
 
   # the fact won't work until rvm is installed before puppet starts
@@ -53,7 +59,7 @@ class rvm::system(
         path        => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
         command     => "rvm get ${version}",
         before      => Exec['system-rvm'], # so it doesn't run after being installed the first time
-        environment => $proxy_environment,
+        environment => $environment,
         require     => Notify['rvm-get_version'],
       }
     }
