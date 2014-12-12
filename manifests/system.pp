@@ -52,13 +52,13 @@ class rvm::system(
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
         message => "RVM updating from version ${::rvm_version} to ${version}",
-      }
+      } ->
       exec { 'system-rvm-get':
         path        => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
         command     => "rvm get ${version}",
         before      => Exec['system-rvm'], # so it doesn't run after being installed the first time
         environment => $environment,
-        require     => Notify['rvm-get_version'],
+        require     => Exec['system-rvm-gpg-key'],
       }
     }
   }
