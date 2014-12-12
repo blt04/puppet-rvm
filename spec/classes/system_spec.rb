@@ -29,7 +29,7 @@ describe 'rvm::system' do
 
   context "with proxy_url parameter", :compile do
     let(:params) {{ :version => 'latest', :proxy_url => 'http://dummy.bogus.local:8080' }}
-    it { should contain_exec('system-rvm-get').with_environment("[\"http_proxy=#{params[:proxy_url]}\", \"https_proxy=#{params[:proxy_url]}\", \"HOME=/root\"]") }
+    it { should contain_exec('system-rvm-get').with_environment("[\"http_proxy=#{params[:proxy_url]}\", \"https_proxy=#{params[:proxy_url]}\", \"no_proxy=\", \"HOME=/root\"]") }
   end
 
   context "with no_proxy parameter", :compile do
