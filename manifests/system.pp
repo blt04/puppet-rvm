@@ -33,7 +33,7 @@ class rvm::system(
     default => ["no_proxy=${no_proxy}"]
   }
   $proxy_environment = concat($http_proxy_environment, $no_proxy_environment)
-  $environment = concat($proxy_environment, "HOME=${home}")
+  $environment = concat($proxy_environment, ["HOME=${home}"])
 
   exec { 'system-rvm-gpg-key':
     command     => 'gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3',
