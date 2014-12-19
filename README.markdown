@@ -1,7 +1,7 @@
 Puppet Module for Ruby Version Manager (RVM)
 ==============================================
 
-[![Build Status](https://maestro.maestrodev.com/api/v1/projects/24/compositions/324/badge/icon)](https://maestro.maestrodev.com/projects/24/compositions/324)
+[![Build Status](https://travis-ci.org/maestrodev/puppet-rvm.svg?branch=maestrodev)](https://travis-ci.org/maestrodev/puppet-rvm)
 
 This module handles installing system RVM (also known as multi-user installation
 as root) and using it to install rubies and gems.  Support for installing and
