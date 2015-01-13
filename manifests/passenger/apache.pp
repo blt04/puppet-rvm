@@ -83,6 +83,7 @@ class rvm::passenger::apache(
       exec { 'copy passenger_extra.conf to passenger.conf':
         command     => "/bin/cp ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
         unless      => "/usr/bin/diff ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
+        onlyif      => "test -f ${apache_mods_path}/passenger_extra.conf",
         environment => [ 'HOME=/root', ],
         path        => '/usr/bin:/usr/sbin:/bin',
         require     => Class['apache::mod::passenger'],
