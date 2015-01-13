@@ -72,11 +72,11 @@ class rvm::passenger::apache(
   }
 
   case $::osfamily {
-    # for redhat and debian OSs Apache configures passenger_extra.conf
-    # with the details that should be located in
-    # passenger.conf;apache::mod::passenger can't be written directly to
-    # passenger.conf without creating a conflict within the apache
-    # module, but copying the file contents works fine
+    # for redhat and (some versions of) debian OSs Apache configures
+    # passenger_extra.conf with the details that should be located in
+    # passenger.conf; passenger.conf can't be written to directly
+    # without conflicting with apache module settings for that file, but
+    # copying the file contents works fine
     'debian','redhat': {
       case $::osfamily {
         'redhat': {
