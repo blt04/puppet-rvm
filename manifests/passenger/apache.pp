@@ -36,6 +36,7 @@ class rvm::passenger::apache(
   }
 
   $modpath = "${gemroot}/${objdir}/apache2"
+  $modobjectpath = "${modpath}/mod_passenger.so"
 
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
@@ -45,11 +46,19 @@ class rvm::passenger::apache(
 
   exec { 'passenger-install-apache2-module':
     command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-    creates     => "${modpath}/mod_passenger.so",
+    creates     => $modobjectpath,
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
     timeout     => $install_timeout,
+  }
+
+  # ensure that the passenger apache module build process succeeded by
+  # checking for the existence of the compiled module object file
+  file { 'passenger_module_object':
+    ensure  => 'file',
+    path    => $modobjectpath,
+    require => Exec['passenger-install-apache2-module'],
   }
 
   class { 'apache::mod::passenger':
@@ -58,7 +67,7 @@ class rvm::passenger::apache(
     passenger_max_pool_size  => $maxpoolsize,
     passenger_pool_idle_time => $poolidletime,
     mod_lib_path             => $modpath,
-    require                  => Exec['passenger-install-apache2-module'],
+    require                  => [ Exec['passenger-install-apache2-module'], File['passenger_module_object'], ],
     subscribe                => Exec['passenger-install-apache2-module'],
   }
 
