@@ -3,7 +3,8 @@ require 'spec_helper'
 describe 'rvm' do
 
   let(:facts) {{
-    :path => '/bin'
+    :path => '/bin',
+    :rvm_version => ''
   }}
 
   context "default parameters", :compile do
