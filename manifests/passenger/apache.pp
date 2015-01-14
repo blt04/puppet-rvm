@@ -36,6 +36,7 @@ class rvm::passenger::apache(
   }
 
   $modpath = "${gemroot}/${objdir}/apache2"
+  $modobjectpath = "${modpath}/mod_passenger.so"
 
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
@@ -45,11 +46,19 @@ class rvm::passenger::apache(
 
   exec { 'passenger-install-apache2-module':
     command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
-    creates     => "${modpath}/mod_passenger.so",
+    creates     => $modobjectpath,
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
     require     => Class['rvm::passenger::gem','apache::dev'],
     timeout     => $install_timeout,
+  }
+
+  # ensure that the passenger apache module build process succeeded by
+  # checking for the existence of the compiled module object file
+  file { 'passenger_module_object':
+    ensure  => 'file',
+    path    => $modobjectpath,
+    require => Exec['passenger-install-apache2-module'],
   }
 
   class { 'apache::mod::passenger':
@@ -58,16 +67,16 @@ class rvm::passenger::apache(
     passenger_max_pool_size  => $maxpoolsize,
     passenger_pool_idle_time => $poolidletime,
     mod_lib_path             => $modpath,
-    require                  => Exec['passenger-install-apache2-module'],
+    require                  => [ Exec['passenger-install-apache2-module'], File['passenger_module_object'], ],
     subscribe                => Exec['passenger-install-apache2-module'],
   }
 
   case $::osfamily {
-    # for redhat and debian OSs Apache configures passenger_extra.conf
-    # with the details that should be located in
-    # passenger.conf;apache::mod::passenger can't be written directly to
-    # passenger.conf without creating a conflict within the apache
-    # module, but copying the file contents works fine
+    # for redhat and (some versions of) debian OSs Apache configures
+    # passenger_extra.conf with the details that should be located in
+    # passenger.conf; passenger.conf can't be written to directly
+    # without conflicting with apache module settings for that file, but
+    # copying the file contents works fine
     'debian','redhat': {
       case $::osfamily {
         'redhat': {
@@ -83,6 +92,7 @@ class rvm::passenger::apache(
       exec { 'copy passenger_extra.conf to passenger.conf':
         command     => "/bin/cp ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
         unless      => "/usr/bin/diff ${apache_mods_path}/passenger_extra.conf ${apache_mods_path}/passenger.conf",
+        onlyif      => "test -f ${apache_mods_path}/passenger_extra.conf",
         environment => [ 'HOME=/root', ],
         path        => '/usr/bin:/usr/sbin:/bin',
         require     => Class['apache::mod::passenger'],
