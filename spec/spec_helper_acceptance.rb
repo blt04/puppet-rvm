@@ -42,14 +42,10 @@ RSpec.configure do |c|
       end
 
       # Install module and dependencies
-      puppet_module_install(:source => proj_root, :module_name => 'rvm')
+      puppet_module_install(:source => proj_root, :module_name => File.basename(proj_root).gsub(/^puppet-/,''))
 
-      if fact('osfamily') == 'RedHat'
-        # not included in Puppetfile.lock, version based on latest when Puppetfile.lock last set
-        on host, puppet('module', 'install', 'stahnma/epel', '--version=0.1.0'), { :acceptable_exit_codes => [0,1] }
-      end
-      # version based on current Puppetfile.lock
-      on host, puppet('module', 'install', 'puppetlabs-apache', '--version=1.1.0'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module', 'install', 'stahnma-epel', '--version=0.1.0'), { :acceptable_exit_codes => [0,1] } if fact('osfamily') == 'RedHat'
+      on host, puppet('module', 'install', 'puppetlabs-apache', '--version=1.1.0'), { :acceptable_exit_codes => [0,1] } 
     end
   end
 
