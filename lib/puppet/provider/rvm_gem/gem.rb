@@ -30,7 +30,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     end
 
     if name = hash[:justme]
-      command << name + "$"
+      command << '^' + name + '$'
     end
 
     # use proxy if proxy_url is set
