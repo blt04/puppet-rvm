@@ -16,7 +16,8 @@ RSpec.configure do |c|
     :operatingsystemrelease => '6.6',
     :kernel => 'Linux',
     :osfamily => 'RedHat',
-    :architecture => 'x86_64'
+    :architecture => 'x86_64',
+    :root_home => '/root'
   }
 
   c.before do

@@ -3,7 +3,7 @@ class rvm::system(
   $version=undef,
   $proxy_url=undef,
   $no_proxy=undef,
-  $home='/root') {
+  $home=$::root_home) {
 
   class {'rvm::gpg':}
 

@@ -4,7 +4,8 @@ describe 'rvm' do
 
   let(:facts) {{
     :path => '/bin',
-    :rvm_version => ''
+    :rvm_version => '',
+    :root_home => '/root'
   }}
 
   context "default parameters", :compile do
