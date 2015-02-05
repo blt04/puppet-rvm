@@ -5,8 +5,6 @@ class rvm::system(
   $no_proxy=undef,
   $home=$::root_home) {
 
-  class {'rvm::gpg':}
-
   $actual_version = $version ? {
     undef     => 'latest',
     'present' => 'latest',
@@ -35,12 +33,13 @@ class rvm::system(
   $proxy_environment = concat($http_proxy_environment, $no_proxy_environment)
   $environment = concat($proxy_environment, ["HOME=${home}"])
 
+  # ignore gpg check if it is not installed, same as rvm does
   exec { 'system-rvm-gpg-key':
     command     => 'gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3',
     path        => $::path,
     environment => $environment,
     unless      => 'gpg2 --list-keys D39DC0E3',
-    require     => Class['::rvm::gpg']
+    onlyif      => ['gpg2 --version'],
   } ->
 
   exec { 'system-rvm':
