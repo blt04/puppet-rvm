@@ -5,7 +5,8 @@ describe 'rvm::system' do
   # assume RVM is already installed
   let(:facts) {{
     :rvm_version => '1.10.0',
-    :path => '/bin'
+    :path => '/bin',
+    :root_home => '/root'
   }}
 
   context "default parameters", :compile do
