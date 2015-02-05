@@ -5,6 +5,7 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 
 RSpec.configure do |c|
   c.treat_symbols_as_metadata_keys_with_true_values = true
+  c.mock_with :rspec
 
   c.before(:each) do
     Puppet::Util::Log.level = :warning
@@ -16,8 +17,7 @@ RSpec.configure do |c|
     :operatingsystemrelease => '6.6',
     :kernel => 'Linux',
     :osfamily => 'RedHat',
-    :architecture => 'x86_64',
-    :root_home => '/root'
+    :architecture => 'x86_64'
   }
 
   c.before do

@@ -17,7 +17,7 @@ HOSTS:
     docker_cmd:
       - 'sh'
       - '-c'
-      - 'service ssh start; tail -f /dev/null'
+      - 'service sshd start; tail -f /dev/null'
 CONFIG:
   log_level: debug
   type: git
