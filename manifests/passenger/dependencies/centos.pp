@@ -7,7 +7,7 @@ class rvm::passenger::dependencies::centos {
   }
 
   case $version {
-    /^6\..*/: {
+    /^[67]\..*/: {
       ensure_packages(['libcurl-devel'])
     }
     default: {
