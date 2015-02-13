@@ -4,6 +4,7 @@ describe 'rvm::gpg' do
 
   context "RedHat", :compile do
     let(:facts) {{
+      :kernel => 'Linux',
       :osfamily => 'RedHat'
     }}
     it { should contain_package('gnupg2') }
@@ -11,6 +12,7 @@ describe 'rvm::gpg' do
 
   context "Debian", :compile do
     let(:facts) {{
+      :kernel => 'Linux',
       :osfamily => 'Debian'
     }}
     it { should contain_package('gnupg2') }
@@ -18,8 +20,9 @@ describe 'rvm::gpg' do
 
   context "OS X", :compile do
     let(:facts) {{
+      :kernel => 'Darwin',
       :osfamily => 'Darwin'
     }}
-    it { should_not contain_package('gnupg2') }
+    it { should contain_package('gnupg2') }
   end
 end

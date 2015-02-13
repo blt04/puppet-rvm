@@ -8,8 +8,8 @@ class rvm::params($manage_group = true) {
   $proxy_url = undef
   $no_proxy = undef
 
-  $gpg_package = $::osfamily ? {
-    /(Debian|RedHat)/ => 'gnupg2',
-    default => undef,
+  $gpg_package = $::kernel ? {
+    /(Linux|Darwin)/ => 'gnupg2',
+    default          => undef,
   }
 }
