@@ -6,6 +6,7 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 RSpec.configure do |c|
   c.treat_symbols_as_metadata_keys_with_true_values = true
   c.mock_with :rspec
+  c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
 
   c.before(:each) do
     Puppet::Util::Log.level = :warning
@@ -17,8 +18,9 @@ RSpec.configure do |c|
     :operatingsystemrelease => '6.6',
     :kernel => 'Linux',
     :osfamily => 'RedHat',
-    :architecture => 'x86_64'
-  }
+    :architecture => 'x86_64',
+    :clientcert => 'puppet.acme.com'
+  }.merge({})
 
   c.before do
     # avoid "Only root can execute commands as other users"
