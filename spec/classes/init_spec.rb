@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'rvm' do
 
   let(:facts) {{
-    :path => '/bin',
     :rvm_version => '',
     :root_home => '/root'
   }}

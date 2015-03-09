@@ -36,7 +36,7 @@ class rvm::system(
   # ignore gpg check if it is not installed, same as rvm does
   exec { 'system-rvm-gpg-key':
     command     => 'which gpg && gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3',
-    path        => $::path,
+    path        => '/usr/bin:/usr/sbin:/bin',
     environment => $environment,
     unless      => 'which gpg && gpg --list-keys D39DC0E3',
     onlyif      => 'which gpg',
