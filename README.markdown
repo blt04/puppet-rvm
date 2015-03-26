@@ -191,6 +191,12 @@ You can configure the ruby versions to be installed and the system users from hi
       - john
       - doe
 
+    rvm::rvm_gems:
+      'bundler':
+        name: 'bundler'
+        ruby_version: '1.9'
+        ensure: latest
+
 
 ## Building the module
 
