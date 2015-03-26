@@ -6,6 +6,7 @@ class rvm(
   $manage_rvmrc=true,
   $system_users=[],
   $system_rubies={},
+  $rvm_gems={},
   $proxy_url=$rvm::params::proxy_url,
   $no_proxy=$rvm::params::no_proxy,
   $key_server=$rvm::params::key_server) inherits rvm::params {
@@ -33,4 +34,8 @@ class rvm(
 
   rvm::system_user{ $system_users: }
   create_resources('rvm_system_ruby', $system_rubies, {'ensure' => present, 'proxy_url' => $proxy_url, 'no_proxy' => $no_proxy})
+  if $rvm_gems != {} {
+    validate_hash($rvm_gems)
+    create_resources('rvm_gem', $rvm_gems )
+  }
 }
