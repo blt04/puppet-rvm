@@ -38,3 +38,15 @@ matrix:
       env: PUPPET_VERSION="~> 3.3.0"
     - rvm: 2.1.0
       env: PUPPET_VERSION="~> 3.4.0"
+
+deploy:
+  provider: puppetforge
+  user: 
+  password:
+    secure: "P0disPGZg4I9kuO98yZOPxpdJjBWV+3U9iFCfRKpCO4jzBiqkCaofnr79Iy+7aqyWAKdbp54JUIbKenvz+WixbVjxvJNiTV991B6anaDXOZfk5oudoxy+hMmkor881ZznWJgwaim4BA3qcTghpIhMSqFP5FF0CaJUfzTEaj73s8="
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
+    # Only publish if our main Ruby target builds
+    condition: "$PUPPET_VERSION = '~> 3.6.0'"

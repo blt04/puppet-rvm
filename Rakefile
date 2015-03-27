@@ -25,4 +25,8 @@ PuppetLint::RakeTask.new :lint do |config|
   # config.relative = true
 end
 
+Blacksmith::RakeTask.new do |t|
+  t.build = false # do not build the module nor push it to the Forge, just do the tagging [:clean, :tag, :bump_commit]
+end
+
 task :default => [:clean, :validate, :lint, :spec]
