@@ -1,6 +1,6 @@
 {
   "name": "maestrodev-rvm",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "author": "maestrodev & Brandon Turner <bt@brandonturner.net>",
   "summary": "A puppet module for installing and using RVM (Ruby Version Manager)",
   "license": "Modified BSD License",
