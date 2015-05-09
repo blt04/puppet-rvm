@@ -4,6 +4,7 @@ class rvm::system(
   $proxy_url=undef,
   $no_proxy=undef,
   $key_server=undef,
+  $key_id=undef,
   $home=$::root_home) {
 
   $actual_version = $version ? {
@@ -22,7 +23,7 @@ class rvm::system(
       default: {}
     }
   }
-  
+
   $http_proxy_environment = $proxy_url ? {
     undef   => [],
     default => ["http_proxy=${proxy_url}", "https_proxy=${proxy_url}"]
@@ -36,10 +37,10 @@ class rvm::system(
 
   # ignore gpg check if it is not installed, same as rvm does
   exec { 'system-rvm-gpg-key':
-    command     => "which gpg && gpg --keyserver hkp://${key_server} --recv-keys D39DC0E3",
+    command     => "which gpg && gpg --keyserver hkp://${key_server} --recv-keys ${key_id}",
     path        => '/usr/bin:/usr/sbin:/bin',
     environment => $environment,
-    unless      => 'which gpg && gpg --list-keys D39DC0E3',
+    unless      => 'which gpg && gpg --list-keys ${key_id}',
     onlyif      => 'which gpg',
   } ->
 
