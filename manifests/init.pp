@@ -9,7 +9,8 @@ class rvm(
   $rvm_gems={},
   $proxy_url=$rvm::params::proxy_url,
   $no_proxy=$rvm::params::no_proxy,
-  $key_server=$rvm::params::key_server) inherits rvm::params {
+  $key_server=$rvm::params::key_server,
+  $key_id=$rvm::params::key_id) inherits rvm::params {
 
   if $install_rvm {
 
@@ -28,7 +29,8 @@ class rvm(
       version    => $version,
       proxy_url  => $proxy_url,
       no_proxy   => $no_proxy,
-      key_server => $key_server
+      key_server => $key_server,
+      key_id     => $key_id
     }
   }
 
