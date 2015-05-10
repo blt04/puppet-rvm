@@ -40,7 +40,7 @@ class rvm::system(
     command     => "which gpg && gpg --keyserver hkp://${key_server} --recv-keys ${key_id}",
     path        => '/usr/bin:/usr/sbin:/bin',
     environment => $environment,
-    unless      => 'which gpg && gpg --list-keys ${key_id}',
+    unless      => "which gpg && gpg --list-keys ${key_id}",
     onlyif      => 'which gpg',
   } ->
 
