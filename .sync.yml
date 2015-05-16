@@ -1,5 +1,7 @@
 Gemfile:
   puppet_version: '>= 3.0'
+Rakefile:
+  strict_variables: false
 spec/spec_helper_acceptance.rb:
   modules:
     - name: stahnma-epel
