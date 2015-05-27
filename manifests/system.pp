@@ -23,7 +23,7 @@ class rvm::system(
       default: {}
     }
   }
-  
+
   $http_proxy_environment = $proxy_url ? {
     undef   => [],
     default => ["http_proxy=${proxy_url}", "https_proxy=${proxy_url}"]
@@ -38,7 +38,8 @@ class rvm::system(
   # install the gpg key
   if $gnupg_key_id {
     class { 'rvm::gnupg_key':
-      before => Exec['system-rvm'],
+      key_server => $key_server,
+      before     => Exec['system-rvm'],
     }
   }
 
