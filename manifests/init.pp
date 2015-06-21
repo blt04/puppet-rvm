@@ -1,6 +1,7 @@
 # Install RVM, create system user a install system level rubies
 class rvm(
   $version=undef,
+  $install_from=undef,
   $install_rvm=true,
   $install_dependencies=false,
   $manage_rvmrc=$rvm::params::manage_rvmrc,
@@ -31,6 +32,7 @@ class rvm(
       no_proxy     => $no_proxy,
       key_server   => $key_server,
       gnupg_key_id => $gnupg_key_id,
+      install_from => $install_from,
     }
   }
 

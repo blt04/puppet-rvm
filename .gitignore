@@ -27,6 +27,9 @@ vendor/
 .rvmrc*
 .ruby-*
 
+# IntelliJ/RubyMine
+.idea/*
+
 ## rspec
 spec/fixtures/manifests/
 spec/fixtures/modules/
