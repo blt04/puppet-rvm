@@ -1,6 +1,14 @@
 Puppet Module for Ruby Version Manager (RVM)
 ==============================================
 
+## DEPRECATION NOTICE
+This module is no more actively maintained and will hardly be updated.
+
+Please find an alternative module from other authors or consider [Tiny Puppet](https://github.com/example42/puppet-tp) as replacement.
+
+If you want to maintain this module, contact [Alessandro Franceschi](https://github.com/alvagante)
+
+
 This module handles installing system RVM (also known as multi-user installation
 as root) and using it to install rubies and gems.  Support for installing and
 configuring passenger is also included.
