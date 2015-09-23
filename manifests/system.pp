@@ -52,7 +52,7 @@ class rvm::system(
   }
 
   # the fact won't work until rvm is installed before puppet starts
-  if !empty($::rvm_version) {
+  if getvar('::rvm_version') and !empty($::rvm_version) {
     if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
 
       if defined(Class['rvm::gnupg_key']) {
