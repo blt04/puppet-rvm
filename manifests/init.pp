@@ -3,7 +3,7 @@ class rvm(
   $version=undef,
   $install_rvm=true,
   $install_dependencies=false,
-  $manage_rvmrc=true,
+  $manage_rvmrc=$rvm::params::manage_rvmrc,
   $system_users=[],
   $system_rubies={},
   $rvm_gems={},
