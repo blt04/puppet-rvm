@@ -11,7 +11,10 @@ define rvm::system_user (
   }
 
   if $create {
-    ensure_resource('user', $name, {'ensure' => 'present' })
+    ensure_resource('user', $name, {
+      'ensure' => 'present',
+      'system' => true,
+    })
     User[$name] -> Exec["rvm-system-user-${name}"]
   }
 
