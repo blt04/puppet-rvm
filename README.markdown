@@ -187,9 +187,9 @@ and using:
 You can configure the ruby versions to be installed and the system users from hiera
 
     rvm::system_rubies:
-      '1.9':
+      'ruby-1.9':
         default_use: true
-      '2.0': {}
+      'ruby-2.0': {}
       'jruby-1.7': {}
 
     rvm::system_users:
@@ -199,7 +199,7 @@ You can configure the ruby versions to be installed and the system users from hi
     rvm::rvm_gems:
       'bundler':
         name: 'bundler'
-        ruby_version: '1.9'
+        ruby_version: 'ruby-1.9'
         ensure: latest
 
 
