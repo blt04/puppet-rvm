@@ -2,6 +2,8 @@
 # This file is managed centrally by modulesync
 #   https://github.com/maestrodev/puppet-modulesync
 
+sudo: false
+
 before_install:
   - rm -f Gemfile.lock
 
