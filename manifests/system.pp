@@ -1,6 +1,7 @@
 # Install the RVM system
 class rvm::system(
   $version=undef,
+  $install_from=undef,
   $proxy_url=undef,
   $no_proxy=undef,
   $key_server=undef,
@@ -20,7 +21,7 @@ class rvm::system(
         ensure_packages(['curl'])
         Package['curl'] -> Exec['system-rvm']
       }
-      default: {}
+      default: { }
     }
   }
 
@@ -44,11 +45,34 @@ class rvm::system(
     }
   }
 
-  exec { 'system-rvm':
-    path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
-    command     => "curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
-    creates     => '/usr/local/rvm/bin/rvm',
-    environment => $environment,
+  if $install_from {
+
+    file { '/tmp/rvm':
+      ensure => directory,
+    }
+
+    exec { 'unpack-rvm':
+      path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      command => "tar --strip-components=1 -xzf ${install_from}",
+      cwd     => '/tmp/rvm',
+    }
+
+    exec { 'system-rvm':
+      path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      command     => './install --auto-dotfiles',
+      cwd         => '/tmp/rvm',
+      creates     => '/usr/local/rvm/bin/rvm',
+      environment => $environment,
+    }
+
+  }
+  else {
+    exec { 'system-rvm':
+      path        => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+      command     => "curl -fsSL https://get.rvm.io | bash -s -- --version ${actual_version}",
+      creates     => '/usr/local/rvm/bin/rvm',
+      environment => $environment,
+    }
   }
 
   # the fact won't work until rvm is installed before puppet starts
