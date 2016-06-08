@@ -28,8 +28,20 @@ Puppet::Type.newtype(:rvm_system_ruby) do
     defaultto false
   end
 
-  newproperty(:autolib_mode) do
-    desc "Set RVM autolib mode"
+  newparam(:autolib_mode) do
+    desc "Set RVM autolib mode for the Ruby installation"
+
+    validate do |value|
+      modes = [
+        0, 'disable', 'disabled',
+        1, 'read', 'read-only',
+        2, 'fail', 'read-fail',
+        3, 'packages', 'install-packages',
+        4, 'enable', 'enabled',
+      ]
+
+      fail("Invalid autolib mode: #{value}") unless modes.include? value
+    end
   end
 
   newparam(:mount_from) do
