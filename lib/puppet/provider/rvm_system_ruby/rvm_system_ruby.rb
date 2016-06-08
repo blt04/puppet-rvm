@@ -47,14 +47,6 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
     rvmcmd "alias", "create", "default", resource[:name]
   end
 
-  def set_autolib_mode
-    begin
-      rvmcmd "autolibs", resource[:autolib_mode]
-    rescue Puppet::ExecutionFailure => detail
-      raise Puppet::Error, "Could not set autolib mode: #{detail}"
-    end
-  end
-
   private
 
   def install
@@ -65,8 +57,10 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
         ENV['no_proxy'] = resource[:no_proxy]
       end
     end
-    set_autolib_mode if resource.value(:autolib_mode)
     options = Array(resource[:build_opts])
+    if resource[:autolibs_mode]
+      options << "--autolibs #{resource[:autolibs_mode]}"
+    end
     if resource[:proxy_url] and !resource[:proxy_url].empty?
       rvmcmd "install", resource[:name], "--proxy", resource[:proxy_url], *options
     else
