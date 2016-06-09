@@ -58,8 +58,8 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
       end
     end
     options = Array(resource[:build_opts])
-    if resource[:autolibs_mode]
-      options << "--autolibs #{resource[:autolibs_mode]}"
+    if resource[:autolib_mode]
+      options << "--autolibs #{resource[:autolib_mode]}"
     end
     if resource[:proxy_url] and !resource[:proxy_url].empty?
       rvmcmd "install", resource[:name], "--proxy", resource[:proxy_url], *options
