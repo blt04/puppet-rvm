@@ -14,6 +14,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     resource[:ruby_version]
   end
 
+  def rubygems_version
+    command = gembinary + ['-v']
+    execute(command)
+  end
+
   def gembinary
     [command(:rvmcmd), ruby_version, 'do', 'gem']
   end
@@ -102,7 +107,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << '--source' << source.to_s << resource[:name]
       end
     else
-      command << '--no-rdoc' << '--no-ri' << resource[:name]
+      if Gem::Version.new(rubygems_version) < Gem::Version.new('3.0.0')
+        command << '--no-rdoc' << '--no-ri' << resource[:name] # Deprecated options (backwards compatible)
+      else
+        command << '--no-document' << resource[:name]
+      end
     end
 
     # makefile opts,
