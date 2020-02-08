@@ -72,14 +72,14 @@ class rvm::passenger::apache(
     subscribe                => Exec['passenger-install-apache2-module'],
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     # for redhat and (some versions of) debian OSs Apache configures
     # passenger_extra.conf with the details that should be located in
     # passenger.conf; passenger.conf can't be written to directly
     # without conflicting with apache module settings for that file, but
     # copying the file contents works fine
     'debian','redhat': {
-      case $::osfamily {
+      case $facts['os']['family'] {
         'redhat': {
           $apache_mods_path = '/etc/httpd/conf.d'
         }
