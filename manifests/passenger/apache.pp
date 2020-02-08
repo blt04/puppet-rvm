@@ -16,7 +16,7 @@ class rvm::passenger::apache(
   class { 'rvm::passenger::gem':
     ruby_version => $ruby_version,
     version      => $version,
-    proxy_url    => $proxy_url
+    proxy_url    => $proxy_url,
   }
 
   # TODO: How can we get the gempath automatically using the ruby version
