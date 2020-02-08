@@ -3,7 +3,7 @@
   "version": "1.13.2",
   "author": "maestrodev & Brandon Turner <bt@brandonturner.net>",
   "summary": "A puppet module for installing and using RVM (Ruby Version Manager)",
-  "license": "Modified BSD License",
+  "license": "BSD-3-Clause",
   "source": "https://github.com/maestrodev/puppet-rvm",
   "project_page": "https://github.com/maestrodev/puppet-rvm",
   "issues_url": "https://github.com/maestrodev/puppet-rvm/issues",
@@ -114,10 +114,6 @@
     }
   ],
   "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": ">=3.2.0"
-    },
     {
       "name": "puppet",
       "version_requirement": ">=3.0.0"
