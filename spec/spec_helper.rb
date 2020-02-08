@@ -2,6 +2,8 @@
 #   https://github.com/maestrodev/puppet-modulesync
 
 require 'puppetlabs_spec_helper/module_spec_helper'
+require 'rspec-puppet-facts'
+include RspecPuppetFacts
 
 RSpec.configure do |c|
   c.mock_with :rspec
@@ -18,7 +20,18 @@ RSpec.configure do |c|
     :kernel => 'Linux',
     :osfamily => 'RedHat',
     :architecture => 'x86_64',
-    :clientcert => 'puppet.acme.com'
+    :clientcert => 'puppet.acme.com',
+    :os => {
+      'architecture' => 'x86_64',
+      'family'       => 'RedHat',
+      'hardware'     => 'x86_64',
+      'name'         => 'CentOS',
+      'release'      => {
+        'full'  => '6.6',
+        'major' => '6',
+        'minor' => '6'
+      }
+    },
   }.merge({})
 
   c.before do

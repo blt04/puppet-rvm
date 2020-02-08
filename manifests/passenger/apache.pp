@@ -16,7 +16,7 @@ class rvm::passenger::apache(
   class { 'rvm::passenger::gem':
     ruby_version => $ruby_version,
     version      => $version,
-    proxy_url    => $proxy_url
+    proxy_url    => $proxy_url,
   }
 
   # TODO: How can we get the gempath automatically using the ruby version
@@ -42,15 +42,14 @@ class rvm::passenger::apache(
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
   include apache::dev
-
-  class { 'rvm::passenger::dependencies': } ->
+  include rvm::passenger::dependencies
 
   exec { 'passenger-install-apache2-module':
     command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
     creates     => $modobjectpath,
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
-    require     => Class['rvm::passenger::gem','apache::dev'],
+    require     => Class['rvm::passenger::gem','rvm::passenger::dependencies','apache::dev'],
     timeout     => $install_timeout,
   }
 
@@ -73,14 +72,14 @@ class rvm::passenger::apache(
     subscribe                => Exec['passenger-install-apache2-module'],
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     # for redhat and (some versions of) debian OSs Apache configures
     # passenger_extra.conf with the details that should be located in
     # passenger.conf; passenger.conf can't be written to directly
     # without conflicting with apache module settings for that file, but
     # copying the file contents works fine
     'debian','redhat': {
-      case $::osfamily {
+      case $facts['os']['family'] {
         'redhat': {
           $apache_mods_path = '/etc/httpd/conf.d'
         }

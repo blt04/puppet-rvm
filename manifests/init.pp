@@ -18,7 +18,7 @@ class rvm(
     # rvm has now autolibs enabled by default so let it manage the dependencies
     if $install_dependencies {
       class { 'rvm::dependencies':
-        before => Class['rvm::system']
+        before => Class['rvm::system'],
       }
     }
 

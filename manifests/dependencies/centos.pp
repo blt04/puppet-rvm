@@ -1,9 +1,9 @@
 # Install packages needed by RVM on RedHat systems when not using autolibs
 class rvm::dependencies::centos {
 
-  $version = $::operatingsystem ? {
+  $version = $facts['os']['name'] ? {
     'Amazon' => '6.x',
-    default  => $::operatingsystemrelease,
+    default  => $facts['os']['release']['full'],
   }
 
   case $version {
