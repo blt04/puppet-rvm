@@ -42,15 +42,14 @@ class rvm::passenger::apache(
   # build the Apache module
   # different passenger versions put the built module in different places (ext, libout, buildout)
   include apache::dev
-
-  class { 'rvm::passenger::dependencies': } ->
+  include rvm::passenger::dependencies
 
   exec { 'passenger-install-apache2-module':
     command     => "${binpath}rvm ${ruby_version} exec passenger-install-apache2-module -a",
     creates     => $modobjectpath,
     environment => [ 'HOME=/root', ],
     path        => '/usr/bin:/usr/sbin:/bin',
-    require     => Class['rvm::passenger::gem','apache::dev'],
+    require     => Class['rvm::passenger::gem','rvm::passenger::dependencies','apache::dev'],
     timeout     => $install_timeout,
   }
 
