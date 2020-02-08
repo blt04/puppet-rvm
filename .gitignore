@@ -1,44 +1,21 @@
-# This file is managed centrally by modulesync
-#   https://github.com/maestrodev/puppet-modulesync
-
-## MAC OS
-.DS_Store
-
-## TEXTMATE
-*.tmproj
-tmtags
-
-## EMACS
-*~
-\#*
-.\#*
-
-## VIM
-*.swp
-*.swo
-tags
-
-## Bundler
-.bundle
+pkg/
+Gemfile.lock
+Gemfile.local
 vendor/
-
-## rbenv / rvm
-.rbenv*
-.rvmrc*
-.ruby-*
-
-# IntelliJ/RubyMine
-.idea/*
-
-## rspec
+.vendor/
 spec/fixtures/manifests/
 spec/fixtures/modules/
-
-## Puppet module
-pkg/
+.vagrant/
+.bundle/
+.ruby-version
 coverage/
-
-## Librarian-puppet
-.tmp/
+log/
+.idea/
+.dependencies/
 .librarian/
-
+Puppetfile.lock
+*.iml
+.*.sw?
+.yardoc/
+Guardfile
+spec/fixtures/tmpdir/
