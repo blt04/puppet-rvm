@@ -27,7 +27,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
                  '--remote'
                end
 
-    if name = hash[:justme]
+    if (name = hash[:justme])
       command << '^' + name + '$'
     end
 
@@ -39,7 +39,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     list = []
     begin
       list = execute(command).split("\n").map do |set|
-        if gemhash = self.class.gemsplit(set)
+        if (gemhash = self.class.gemsplit(set))
           gemhash[:provider] = :gem
           gemhash
         end
@@ -83,7 +83,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       command << '--http-proxy' << resource[:proxy_url]
     end
 
-    if source = resource[:source]
+    if (source = resource[:source])
       begin
         uri = URI.parse(source)
       rescue => detail
