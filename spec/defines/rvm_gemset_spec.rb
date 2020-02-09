@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'rvm_gemset' do
-
   let(:title) { 'ruby-1.9@myproject' }
 
   context 'when using default parameters', :compile do

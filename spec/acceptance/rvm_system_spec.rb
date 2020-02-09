@@ -1,7 +1,6 @@
 require 'spec_helper_acceptance'
 
 describe 'rvm' do
-
   # host variables
   let(:osfamily) { fact('osfamily') }
   let(:osname) { fact('operatingsystem') }
@@ -92,7 +91,6 @@ describe 'rvm' do
   end
 
   context 'when installing rubies' do
-
     let(:manifest) {
       super() + <<-EOS
         rvm_system_ruby {
@@ -197,7 +195,6 @@ describe 'rvm' do
   end
 
   context 'when installing passenger 3.0.x' do
-
     let(:passenger_version) { '3.0.21' }
     let(:passenger_domain) { 'passenger3.example.com' }
 
@@ -302,11 +299,9 @@ describe 'rvm' do
         f.should contain "PassengerRuby \"#{passenger_ruby}\""
       end
     end
-
   end
 
   context 'when installing passenger 4.0.x' do
-
     let(:passenger_version) { '4.0.46' }
     let(:passenger_domain) { 'passenger4.example.com' }
 
@@ -413,7 +408,5 @@ describe 'rvm' do
         f.should contain "PassengerRuby \"#{passenger_ruby}\""
       end
     end
-
   end
-
 end

@@ -47,5 +47,4 @@ Puppet::Type.newtype(:rvm_system_ruby) do
   newparam(:mount_from) do
     desc 'If you wish to specify a Ruby archive to mount'
   end
-
 end

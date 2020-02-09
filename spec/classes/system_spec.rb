@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'rvm::system' do
-
   # assume RVM is already installed
   let(:facts) { {
     rvm_version: '1.10.0',

@@ -16,5 +16,4 @@ Puppet::Type.newtype(:rvm_alias) do
     desc "The ruby version that is the target of our alias.
     For example: 'ruby-1.9.2-p290'"
   end
-
 end

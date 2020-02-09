@@ -18,7 +18,6 @@ def install_puppet(host)
 end
 
 RSpec.configure do |c|
-
   # Project root
   proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
@@ -48,5 +47,4 @@ RSpec.configure do |c|
       on host, puppet('module', 'install', 'puppetlabs-apache', '--version=1.1.0'), { acceptable_exit_codes: [0, 1] } 
     end
   end
-
 end

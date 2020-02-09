@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'rvm_wrapper' do
-
   let(:title) { 'god' }
   let(:params) { {
     target_ruby: 'ruby-1.9.3-p448',

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'rvm' do
-
   let(:facts) { {
     rvm_version: '',
     root_home: '/root'
@@ -50,5 +49,4 @@ describe 'rvm' do
     it { is_expected.not_to contain_gnupg_key('rvm_D39DC0E3') }
     it { is_expected.not_to contain_gnupg_key('rvm_') }
   end
-
 end

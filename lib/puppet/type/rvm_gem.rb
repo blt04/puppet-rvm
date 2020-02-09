@@ -116,7 +116,6 @@ Puppet::Type.newtype(:rvm_gem) do
     end
 
     defaultto :installed
-
   end
 
   autorequire(:rvm_system_ruby) do
@@ -153,5 +152,4 @@ Puppet::Type.newtype(:rvm_gem) do
     desc 'Proxy to use when downloading ruby installation'
     defaultto ''
   end 
-
 end

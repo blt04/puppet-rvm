@@ -15,5 +15,4 @@ describe 'rvm::rvmrc' do
     let(:params) { { max_time_flag: 20 } }
     it { is_expected.to contain_file(file).with_content(%r{^export rvm_max_time_flag=20$}) }
   end
-
 end
