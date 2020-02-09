@@ -21,7 +21,7 @@ describe 'rvm::dependencies' do
             it { is_expected.to contain_package('curl-devel') }
             it { is_expected.not_to contain_package('libcurl-devel') }
           end
-        when '6','7'
+        when '6', '7'
           it { is_expected.to contain_package('libcurl-devel') }
           it { is_expected.not_to contain_package('autoconf') }
           it { is_expected.not_to contain_package('curl-devel') }

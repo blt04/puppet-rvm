@@ -40,7 +40,7 @@ describe 'rvm' do
   end
 
   context 'with system_users', :compile do
-    let(:params) {{ system_users: ['john','doe'] }}
+    let(:params) {{ system_users: ['john', 'doe'] }}
     it { should contain_rvm__system_user('john') }
     it { should contain_rvm__system_user('doe') }
   end
