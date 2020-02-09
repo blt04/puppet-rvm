@@ -109,9 +109,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
     # makefile opts,
     # must be last
-    if resource[:withopts]
-      command << '--' << resource[:withopts]
-    end
+    command << '--' << resource[:withopts] if resource[:withopts]
 
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
