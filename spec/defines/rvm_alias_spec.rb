@@ -6,6 +6,6 @@ describe 'rvm_alias' do
   let(:params) { { target_ruby: '2.0-384' } }
 
   context 'when using default parameters', :compile do
-    it { should contain_rvm_alias('2.0').with_target_ruby('2.0-384') }
+    it { is_expected.to contain_rvm_alias('2.0').with_target_ruby('2.0-384') }
   end
 end

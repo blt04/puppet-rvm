@@ -10,6 +10,6 @@ describe 'rvm_wrapper' do
   }}
 
   context 'when using default parameters', :compile do
-    it { should contain_rvm_wrapper('god').with_prefix('bootup') }
+    it { is_expected.to contain_rvm_wrapper('god').with_prefix('bootup') }
   end
 end

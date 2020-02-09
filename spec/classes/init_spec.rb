@@ -8,16 +8,16 @@ describe 'rvm' do
   }}
 
   context 'default parameters', :compile do
-    it { should_not contain_class('rvm::dependencies') }
-    it { should contain_class('rvm::system') }
+    it { is_expected.not_to contain_class('rvm::dependencies') }
+    it { is_expected.to contain_class('rvm::system') }
   end
 
   context 'with install_rvm false', :compile do
     let(:params) { {
       install_rvm: false
     }}
-    it { should_not contain_class('rvm::dependencies') }
-    it { should_not contain_class('rvm::system') }
+    it { is_expected.not_to contain_class('rvm::dependencies') }
+    it { is_expected.not_to contain_class('rvm::system') }
   end
 
   context 'with system_rubies', :compile do
@@ -29,11 +29,11 @@ describe 'rvm' do
         'ruby-2.0' => {}
       }
     }}
-    it { should contain_rvm_system_ruby('ruby-1.9').with({
+    it { is_expected.to contain_rvm_system_ruby('ruby-1.9').with({
       ensure: 'present',
       default_use: true
     }) }
-    it { should contain_rvm_system_ruby('ruby-2.0').with({
+    it { is_expected.to contain_rvm_system_ruby('ruby-2.0').with({
       ensure: 'present',
       default_use: nil
     }) }
@@ -41,14 +41,14 @@ describe 'rvm' do
 
   context 'with system_users', :compile do
     let(:params) { { system_users: ['john', 'doe'] } }
-    it { should contain_rvm__system_user('john') }
-    it { should contain_rvm__system_user('doe') }
+    it { is_expected.to contain_rvm__system_user('john') }
+    it { is_expected.to contain_rvm__system_user('doe') }
   end
 
   context 'with no gnupg key id', :compile do
     let(:params) { { gnupg_key_id: false } }
-    it { should_not contain_gnupg_key('rvm_D39DC0E3') }
-    it { should_not contain_gnupg_key('rvm_') }
+    it { is_expected.not_to contain_gnupg_key('rvm_D39DC0E3') }
+    it { is_expected.not_to contain_gnupg_key('rvm_') }
   end
 
 end
