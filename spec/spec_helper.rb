@@ -15,13 +15,13 @@ RSpec.configure do |c|
   end
 
   c.default_facts = {
-    :operatingsystem => 'CentOS',
-    :operatingsystemrelease => '6.6',
-    :kernel => 'Linux',
-    :osfamily => 'RedHat',
-    :architecture => 'x86_64',
-    :clientcert => 'puppet.acme.com',
-    :os => {
+    operatingsystem: 'CentOS',
+    operatingsystemrelease: '6.6',
+    kernel: 'Linux',
+    osfamily: 'RedHat',
+    architecture: 'x86_64',
+    clientcert: 'puppet.acme.com',
+    os: {
       'architecture' => 'x86_64',
       'family'       => 'RedHat',
       'hardware'     => 'x86_64',
@@ -31,16 +31,15 @@ RSpec.configure do |c|
         'major' => '6',
         'minor' => '6'
       }
-    },
+    }
   }.merge({})
 
   c.before do
     # avoid "Only root can execute commands as other users"
-    Puppet.features.stubs(:root? => true)
+    Puppet.features.stubs(root?: true)
   end
 end
 
-shared_examples :compile, :compile => true do
-  it { should compile.with_all_deps }
+shared_examples :compile, compile: true do
+  it { is_expected.to compile.with_all_deps }
 end
-

@@ -1,8 +1,8 @@
 Puppet::Type.newtype(:rvm_gemset) do
-  @doc = "Manage RVM Gemsets."
+  @doc = 'Manage RVM Gemsets.'
 
   def self.title_patterns
-    [ [ /^(?:(.*)@)?(.*)$/, [ [ :ruby_version, lambda{|x| x} ], [ :name, lambda{|x| x} ] ] ] ]
+    [[%r{^(?:(.*)@)?(.*)$}, [[:ruby_version, ->(x) { x }], [:name, ->(x) { x }]]]]
   end
 
   ensurable
@@ -12,7 +12,7 @@ Puppet::Type.newtype(:rvm_gemset) do
   end
 
   newparam(:name) do
-    desc "The name of the gemset to be managed."
+    desc 'The name of the gemset to be managed.'
     isnamevar
   end
 
@@ -21,13 +21,12 @@ Puppet::Type.newtype(:rvm_gemset) do
     For example: 'ruby-1.9.2-p290'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "1.9"
+    defaultto '1.9'
     isnamevar
   end
 
   newparam(:proxy_url) do
-    desc "Proxy to use when downloading ruby installation"
-    defaultto ""
+    desc 'Proxy to use when downloading ruby installation'
+    defaultto ''
   end
-
 end

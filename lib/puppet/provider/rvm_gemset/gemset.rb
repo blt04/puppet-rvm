@@ -1,9 +1,9 @@
 # RVM gemset support
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
-  desc "RVM gemset support."
+  desc 'RVM gemset support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
-    environment :HOME => ENV['HOME']
+    environment HOME: ENV['HOME']
   end
 
   def ruby_version
@@ -15,25 +15,25 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   end
 
   def gemsetcommand
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "gemset"]
+    [command(:rvmcmd), ruby_version, 'exec', 'rvm', 'gemset']
   end
 
   def gemsetcommand_force
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "--force", "gemset"]
+    [command(:rvmcmd), ruby_version, 'exec', 'rvm', '--force', 'gemset']
   end
 
   def gemset_list
     command = gemsetcommand + ['list']
 
     # use proxy if proxy_url is set
-    if resource[:proxy_url] and !resource[:proxy_url].empty?
-      command << "--http-proxy" << resource[:proxy_url]
+    if resource[:proxy_url] && !resource[:proxy_url].empty?
+      command << '--http-proxy' << resource[:proxy_url]
     end
 
     list = []
     begin
-      list = execute(command).split("\n").collect do |line|
-        line.strip if line =~ /^\s+\S+/
+      list = execute(command).split("\n").map do |line|
+        line.strip if line =~ %r{^\s+\S+}
       end.compact
     rescue Puppet::ExecutionFailure => detail
     end
