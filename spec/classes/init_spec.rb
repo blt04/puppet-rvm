@@ -44,7 +44,7 @@ describe 'rvm' do
   end
 
   context 'with system_users', :compile do
-    let(:params) { { system_users: ['john', 'doe'] } }
+    let(:params) { { system_users: %w[john doe] } }
 
     it { is_expected.to contain_rvm__system_user('john') }
     it { is_expected.to contain_rvm__system_user('doe') }
