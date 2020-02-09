@@ -104,12 +104,12 @@ describe 'rvm' do
       EOS
     }
 
-    it 'should install with no errors' do
+    it 'installs with no errors' do
       apply_manifest(manifest, catch_failures: true)
       apply_manifest(manifest, catch_changes: true)
     end
 
-    it 'should reflect installed rubies' do
+    it 'reflects installed rubies' do
       shell('/usr/local/rvm/bin/rvm list') do |r|
         r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby19_version}"))
         r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{ruby20_version}"))
@@ -146,12 +146,12 @@ describe 'rvm' do
         EOS
       }
 
-      it 'should install with no errors' do
+      it 'installs with no errors' do
         apply_manifest(gemset_manifest, catch_failures: true)
         apply_manifest(gemset_manifest, catch_changes: true)
       end
 
-      it 'should reflect installed gems and gemsets' do
+      it 'reflects installed gems and gemsets' do
         shell("/usr/local/rvm/bin/rvm #{ruby19_version} gemset list") do |r|
           r.stdout.should =~ Regexp.new(Regexp.escape("\n=> (default)"))
           r.stdout.should =~ Regexp.new(Regexp.escape("\n   global"))
@@ -181,12 +181,12 @@ describe 'rvm' do
       EOS
     }
 
-    it 'should install with no errors' do
+    it 'installs with no errors' do
       apply_manifest(manifest, catch_failures: true)
       apply_manifest(manifest, catch_changes: true)
     end
 
-    it 'should reflect installed rubies' do
+    it 'reflects installed rubies' do
       shell('/usr/local/rvm/bin/rvm list') do |r|
         r.stdout.should =~ Regexp.new(Regexp.escape("\n   #{jruby_version}"))
         r.exit_code.should be_zero
@@ -247,7 +247,7 @@ describe 'rvm' do
       EOS
     }
 
-    it 'should install with no errors' do
+    it 'installs with no errors' do
       # Run it twice and test for idempotency
       apply_manifest(manifest, catch_failures: true)
       # swapping expectations under Ubuntu 12.04, 14.04 - apache2-prefork-dev is being purged/restored by puppetlabs/apache, which is beyond the scope of this module
@@ -260,21 +260,21 @@ describe 'rvm' do
       shell("/usr/local/rvm/bin/rvm #{ruby19_version} do #{ruby19_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
     end
 
-    it 'should be running' do
+    it 'is running' do
       service(service_name) do |s|
         s.should_not be_enabled
         s.should be_running
       end
     end
 
-    it 'should answer' do
+    it 'answers' do
       shell('/usr/bin/curl localhost:80') do |r|
         r.stdout.should =~ /^hello <b>world<\/b>$/
         r.exit_code.should == 0
       end
     end
 
-    it 'should output status via passenger-status' do
+    it 'outputs status via passenger-status' do
       shell("rvmsudo_secure_path=1 /usr/local/rvm/bin/rvm #{ruby19_version} do passenger-status") do |r|
         # spacing may vary
         r.stdout.should =~ /[\-]+ General information [\-]+/
@@ -354,7 +354,7 @@ describe 'rvm' do
       EOS
     }
 
-    it 'should install with no errors' do
+    it 'installs with no errors' do
       # Run it twice and test for idempotency
       apply_manifest(manifest, catch_failures: true)
       # swapping expectations under Ubuntu 14.04 - apache2-prefork-dev is being purged/restored by puppetlabs/apache, which is beyond the scope of this module
@@ -367,21 +367,21 @@ describe 'rvm' do
       shell("/usr/local/rvm/bin/rvm #{ruby20_version} do #{ruby20_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
     end
 
-    it 'should be running' do
+    it 'is running' do
       service(service_name) do |s|
         s.should_not be_enabled
         s.should be_running
       end
     end
 
-    it 'should answer' do
+    it 'answers' do
       shell('/usr/bin/curl localhost:80') do |r|
         r.stdout.should =~ /^hello <b>world<\/b>$/
         r.exit_code.should == 0
       end
     end
 
-    it 'should output status via passenger-status' do
+    it 'outputs status via passenger-status' do
       shell("rvmsudo_secure_path=1 /usr/local/rvm/bin/rvm #{ruby20_version} do passenger-status") do |r|
         # spacing may vary
         r.stdout.should =~ /[\-]+ General information [\-]+/
