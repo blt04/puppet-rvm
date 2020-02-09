@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'rvm' do
 
-  let(:facts) {{
+  let(:facts) { {
     rvm_version: '',
     root_home: '/root'
   }}
@@ -13,7 +13,7 @@ describe 'rvm' do
   end
 
   context 'with install_rvm false', :compile do
-    let(:params) {{
+    let(:params) { {
       install_rvm: false
     }}
     it { should_not contain_class('rvm::dependencies') }
@@ -21,7 +21,7 @@ describe 'rvm' do
   end
 
   context 'with system_rubies', :compile do
-    let(:params) {{
+    let(:params) { {
       system_rubies: {
         'ruby-1.9' => {
           'default_use' => true
@@ -40,13 +40,13 @@ describe 'rvm' do
   end
 
   context 'with system_users', :compile do
-    let(:params) {{ system_users: ['john', 'doe'] }}
+    let(:params) { { system_users: ['john', 'doe'] } }
     it { should contain_rvm__system_user('john') }
     it { should contain_rvm__system_user('doe') }
   end
 
   context 'with no gnupg key id', :compile do
-    let(:params) {{ gnupg_key_id: false }}
+    let(:params) { { gnupg_key_id: false } }
     it { should_not contain_gnupg_key('rvm_D39DC0E3') }
     it { should_not contain_gnupg_key('rvm_') }
   end
