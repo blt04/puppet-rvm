@@ -62,8 +62,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     when %r{gem: not found}; nil
     # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
     when %r{^(\S+)\s+\((\d+.*)\)}
-      name = $1
-      version = $2.split(%r{,\s*})
+      name = Regexp.last_match(1)
+      version = Regexp.last_match(2).split(%r{,\s*})
       {
         name: name,
         ensure: version

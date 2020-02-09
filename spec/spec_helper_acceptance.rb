@@ -8,8 +8,8 @@ def install_puppet(host)
   host['platform'] =~ %r{(fedora|el)-(\d+)}
   if host['platform'] =~ %r{(fedora|el)-(\d+)}
     safeversion = '3.4.2'
-    platform = $1
-    relver = $2
+    platform = Regexp.last_match(1)
+    relver = Regexp.last_match(2)
     on host, "rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-#{platform}-#{relver}.noarch.rpm"
     on host, "yum install -y puppet-#{safeversion}"
   else
