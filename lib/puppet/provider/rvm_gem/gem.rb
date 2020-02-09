@@ -38,7 +38,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
     list = []
     begin
-      list = execute(command).split("\n").collect do |set|
+      list = execute(command).split("\n").map do |set|
         if gemhash = self.class.gemsplit(set)
           gemhash[:provider] = :gem
           gemhash

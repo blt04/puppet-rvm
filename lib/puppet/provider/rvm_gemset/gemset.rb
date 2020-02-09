@@ -32,7 +32,7 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
 
     list = []
     begin
-      list = execute(command).split("\n").collect do |line|
+      list = execute(command).split("\n").map do |line|
         line.strip if line =~ %r{^\s+\S+}
       end.compact
     rescue Puppet::ExecutionFailure => detail
