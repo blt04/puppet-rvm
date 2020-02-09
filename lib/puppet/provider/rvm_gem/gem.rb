@@ -21,11 +21,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   def gemlist(hash)
     command = gembinary + ['list']
 
-    if hash[:local]
-      command << '--local'
-    else
-      command << '--remote'
-    end
+    command << if hash[:local]
+                 '--local'
+               else
+                 '--remote'
+               end
 
     if name = hash[:justme]
       command << '^' + name + '$'
