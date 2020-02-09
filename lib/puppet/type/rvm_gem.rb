@@ -31,7 +31,7 @@ Puppet::Type.newtype(:rvm_gem) do
       begin
         provider.update
       rescue => detail
-        fail "Could not update: #{detail}"
+        raise "Could not update: #{detail}"
       end
 
       if current == :absent
@@ -45,7 +45,7 @@ Puppet::Type.newtype(:rvm_gem) do
       begin
         provider.install
       rescue => detail
-        fail "Could not update: #{detail}"
+        raise "Could not update: #{detail}"
       end
 
       if retrieve == :absent

@@ -40,7 +40,7 @@ Puppet::Type.newtype(:rvm_system_ruby) do
         4, 'enable', 'enabled'
       ]
 
-      fail("Invalid autolib mode: #{value}") unless modes.include? value
+      raise("Invalid autolib mode: #{value}") unless modes.include? value
     end
   end
 

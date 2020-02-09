@@ -87,7 +87,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       begin
         uri = URI.parse(source)
       rescue => detail
-        fail "Invalid source '#{uri}': #{detail}"
+        raise "Invalid source '#{uri}': #{detail}"
       end
 
       case uri.scheme
@@ -115,7 +115,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
-    fail "Could not install: #{output.chomp}" if output.include?('ERROR')
+    raise "Could not install: #{output.chomp}" if output.include?('ERROR')
   end
 
   def latest
