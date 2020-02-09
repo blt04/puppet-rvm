@@ -2,7 +2,7 @@ Puppet::Type.newtype(:rvm_gemset) do
   @doc = 'Manage RVM Gemsets.'
 
   def self.title_patterns
-    [[/^(?:(.*)@)?(.*)$/, [[:ruby_version, lambda { |x| x }], [:name, lambda { |x| x }]]]]
+    [[/^(?:(.*)@)?(.*)$/, [[:ruby_version, ->(x) { x }], [:name, ->(x) { x }]]]]
   end
 
   ensurable
