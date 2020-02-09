@@ -27,11 +27,11 @@ Puppet::Type.newtype(:rvm_gem) do
     aliasvalue(:installed, :present)
 
     newvalue(:latest) do
-      current = self.retrieve
+      current = retrieve
       begin
         provider.update
       rescue => detail
-        self.fail "Could not update: #{detail}"
+        fail "Could not update: #{detail}"
       end
 
       if current == :absent
@@ -45,10 +45,10 @@ Puppet::Type.newtype(:rvm_gem) do
       begin
         provider.install
       rescue => detail
-        self.fail "Could not update: #{detail}"
+        fail "Could not update: #{detail}"
       end
 
-      if self.retrieve == :absent
+      if retrieve == :absent
         :package_installed
       else
         :package_changed
@@ -95,7 +95,7 @@ Puppet::Type.newtype(:rvm_gem) do
           when @latest
             return true
           else
-            self.debug "#{@resource.name} #{is.inspect} is installed, latest is #{@latest.inspect}"
+            debug "#{@resource.name} #{is.inspect} is installed, latest is #{@latest.inspect}"
           end
         when :absent
           return true if is == :absent

@@ -117,7 +117,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
-    self.fail "Could not install: #{output.chomp}" if output.include?('ERROR')
+    fail "Could not install: #{output.chomp}" if output.include?('ERROR')
   end
 
   def latest
@@ -136,6 +136,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def update
-    self.install(false)
+    install(false)
   end
 end
