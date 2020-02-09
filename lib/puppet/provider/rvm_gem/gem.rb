@@ -34,7 +34,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     end
 
     # use proxy if proxy_url is set
-    if resource[:proxy_url] and !resource[:proxy_url].empty?
+    if resource[:proxy_url] && !resource[:proxy_url].empty?
       command << '--http-proxy' << resource[:proxy_url]
     end
 
@@ -79,12 +79,12 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   def install(useversion = true)
     command = gembinary + ['install']
-    command << '-v' << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
+    command << '-v' << resource[:ensure] if (! resource[:ensure].is_a? Symbol) && useversion
     # Dependencies are now installed by default
     # command << "--include-dependencies"
 
     # use proxy if proxy_url is set
-    if resource[:proxy_url] and !resource[:proxy_url].empty?
+    if resource[:proxy_url] && !resource[:proxy_url].empty?
       command << '--http-proxy' << resource[:proxy_url]
     end
 

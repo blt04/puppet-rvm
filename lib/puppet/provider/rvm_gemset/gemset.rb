@@ -26,7 +26,7 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
     command = gemsetcommand + ['list']
 
     # use proxy if proxy_url is set
-    if resource[:proxy_url] and !resource[:proxy_url].empty?
+    if resource[:proxy_url] && !resource[:proxy_url].empty?
       command << '--http-proxy' << resource[:proxy_url]
     end
 
