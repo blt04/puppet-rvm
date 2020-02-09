@@ -203,7 +203,7 @@ describe 'rvm' do
     # particular to 3.0.x (may or may not also work with 2.x?)
     let(:passenger_module_path) { "#{passenger_root}/ext/apache2/mod_passenger.so" }
 
-    let(:manifest) { 
+    let(:manifest) {
       super() + <<-EOS
         rvm_system_ruby {
           '#{ruby19_version}':

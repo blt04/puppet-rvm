@@ -151,5 +151,5 @@ Puppet::Type.newtype(:rvm_gem) do
   newparam(:proxy_url) do
     desc 'Proxy to use when downloading ruby installation'
     defaultto ''
-  end 
+  end
 end
