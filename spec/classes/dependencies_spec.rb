@@ -35,5 +35,3 @@ describe 'rvm::dependencies' do
     end
   end
 end
-
-
