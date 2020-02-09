@@ -108,7 +108,7 @@ Puppet::Type.newtype(:rvm_gem) do
     end
 
     def retrieve
-      if gem = provider.query
+      if (gem = provider.query)
         gem[:ensure]
       else
         :absent
