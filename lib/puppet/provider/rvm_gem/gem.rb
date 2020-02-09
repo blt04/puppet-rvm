@@ -100,7 +100,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << uri.path
       when 'puppet'
         # we don't support puppet:// URLs (yet)
-        raise Puppet::Error.new('puppet:// URLs are not supported as gem sources')
+        raise Puppet::Error, 'puppet:// URLs are not supported as gem sources'
       else
         # interpret it as a gem repository
         command << '--source' << source.to_s << resource[:name]
