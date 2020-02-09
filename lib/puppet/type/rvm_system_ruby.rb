@@ -1,35 +1,35 @@
 Puppet::Type.newtype(:rvm_system_ruby) do
-  @doc = "Manage RVM Ruby installations."
+  @doc = 'Manage RVM Ruby installations.'
 
   ensurable
 
   newparam(:name) do
-    desc "The name of the Ruby to be managed."
+    desc 'The name of the Ruby to be managed.'
     isnamevar
   end
 
   newparam(:build_opts) do
     desc "Build flags for RVM (e.g.: ['--movable', '--with-libyaml-dir=...', ...])"
-    defaultto ""
+    defaultto ''
   end
 
   newparam(:proxy_url) do
-    desc "Proxy to use when downloading ruby installation"
-    defaultto ""
+    desc 'Proxy to use when downloading ruby installation'
+    defaultto ''
   end
 
   newparam(:no_proxy) do
-    desc "exclude addresses from proxy use"
-    defaultto ""
+    desc 'exclude addresses from proxy use'
+    defaultto ''
   end
 
   newproperty(:default_use) do
-    desc "Should this Ruby be the system default for new terminals?"
+    desc 'Should this Ruby be the system default for new terminals?'
     defaultto false
   end
 
   newparam(:autolib_mode) do
-    desc "Set RVM autolib mode for the Ruby installation"
+    desc 'Set RVM autolib mode for the Ruby installation'
 
     validate do |value|
       modes = [

@@ -1,5 +1,5 @@
 Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
-  desc "Ruby RVM support."
+  desc 'Ruby RVM support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
     environment :HOME => ENV['HOME']
@@ -15,12 +15,12 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def destroy
-    rvmcmd "uninstall", resource[:name]
+    rvmcmd 'uninstall', resource[:name]
   end
 
   def exists?
     begin
-      rvmcmd("list", "strings").split("\n").any? do |line|
+      rvmcmd('list', 'strings').split("\n").any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -31,7 +31,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
 
   def default_use
     begin
-      rvmcmd("list", "default").split("\n").any? do |line|
+      rvmcmd('list', 'default').split("\n").any? do |line|
         line =~ Regexp.new(Regexp.escape(resource[:name]))
       end
     rescue Puppet::ExecutionFailure => detail
@@ -44,7 +44,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   end
 
   def set_default
-    rvmcmd "alias", "create", "default", resource[:name]
+    rvmcmd 'alias', 'create', 'default', resource[:name]
   end
 
   private
@@ -62,13 +62,13 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
       options << "--autolibs #{resource[:autolib_mode]}"
     end
     if resource[:proxy_url] and !resource[:proxy_url].empty?
-      rvmcmd "install", resource[:name], "--proxy", resource[:proxy_url], *options
+      rvmcmd 'install', resource[:name], '--proxy', resource[:proxy_url], *options
     else
-      rvmcmd "install", resource[:name], *options
+      rvmcmd 'install', resource[:name], *options
     end
   end
 
   def mount
-    rvmcmd "mount", resource[:mount_from]
+    rvmcmd 'mount', resource[:mount_from]
   end
 end

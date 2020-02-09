@@ -3,7 +3,7 @@ require 'uri'
 
 # Ruby gems support.
 Puppet::Type.type(:rvm_gem).provide(:gem) do
-  desc "Ruby Gem support using RVM."
+  desc 'Ruby Gem support using RVM.'
 
   has_feature :versionable
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
@@ -16,7 +16,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def gembinary
-    [command(:rvmcmd), ruby_version, "do", "gem"]
+    [command(:rvmcmd), ruby_version, 'do', 'gem']
   end
 
 
@@ -24,9 +24,9 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     command = gembinary + ['list']
 
     if hash[:local]
-      command << "--local"
+      command << '--local'
     else
-      command << "--remote"
+      command << '--remote'
     end
 
     if name = hash[:justme]
@@ -35,7 +35,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
     # use proxy if proxy_url is set
     if resource[:proxy_url] and !resource[:proxy_url].empty?
-      command << "--http-proxy" << resource[:proxy_url]
+      command << '--http-proxy' << resource[:proxy_url]
     end
 
     list = []
@@ -79,13 +79,13 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   def install(useversion = true)
     command = gembinary + ['install']
-    command << "-v" << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
+    command << '-v' << resource[:ensure] if (! resource[:ensure].is_a? Symbol) and useversion
     # Dependencies are now installed by default
     # command << "--include-dependencies"
 
     # use proxy if proxy_url is set
     if resource[:proxy_url] and !resource[:proxy_url].empty?
-      command << "--http-proxy" << resource[:proxy_url]
+      command << '--http-proxy' << resource[:proxy_url]
     end
 
     if source = resource[:source]
@@ -103,24 +103,24 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << uri.path
       when 'puppet'
         # we don't support puppet:// URLs (yet)
-        raise Puppet::Error.new("puppet:// URLs are not supported as gem sources")
+        raise Puppet::Error.new('puppet:// URLs are not supported as gem sources')
       else
         # interpret it as a gem repository
-        command << "--source" << "#{source}" << resource[:name]
+        command << '--source' << "#{source}" << resource[:name]
       end
     else
-      command << "--no-rdoc" << "--no-ri" <<  resource[:name]
+      command << '--no-rdoc' << '--no-ri' <<  resource[:name]
     end
 
     # makefile opts,
     # must be last
     if resource[:withopts]
-      command << "--" << resource[:withopts]
+      command << '--' << resource[:withopts]
     end
 
     output = execute(command)
     # Apparently some stupid gem versions don't exit non-0 on failure
-    self.fail "Could not install: #{output.chomp}" if output.include?("ERROR")
+    self.fail "Could not install: #{output.chomp}" if output.include?('ERROR')
   end
 
   def latest
@@ -135,7 +135,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def uninstall
-    execute(gembinary + ["uninstall", "-x", "-a", resource[:name]])
+    execute(gembinary + ['uninstall', '-x', '-a', resource[:name]])
   end
 
   def update

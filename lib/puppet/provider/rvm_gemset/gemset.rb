@@ -1,6 +1,6 @@
 # RVM gemset support
 Puppet::Type.type(:rvm_gemset).provide(:gemset) do
-  desc "RVM gemset support."
+  desc 'RVM gemset support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
     environment :HOME => ENV['HOME']
@@ -15,11 +15,11 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
   end
 
   def gemsetcommand
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "gemset"]
+    [command(:rvmcmd), ruby_version, 'exec', 'rvm', 'gemset']
   end
 
   def gemsetcommand_force
-    [command(:rvmcmd), ruby_version, "exec", "rvm", "--force", "gemset"]
+    [command(:rvmcmd), ruby_version, 'exec', 'rvm', '--force', 'gemset']
   end
 
   def gemset_list
@@ -27,7 +27,7 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
 
     # use proxy if proxy_url is set
     if resource[:proxy_url] and !resource[:proxy_url].empty?
-      command << "--http-proxy" << resource[:proxy_url]
+      command << '--http-proxy' << resource[:proxy_url]
     end
 
     list = []

@@ -7,12 +7,12 @@ describe 'rvm' do
     :root_home => '/root'
   }}
 
-  context "default parameters", :compile do
+  context 'default parameters', :compile do
     it { should_not contain_class('rvm::dependencies') }
     it { should contain_class('rvm::system') }
   end
 
-  context "with install_rvm false", :compile do
+  context 'with install_rvm false', :compile do
     let(:params) {{
       :install_rvm => false
     }}
@@ -20,7 +20,7 @@ describe 'rvm' do
     it { should_not contain_class('rvm::system') }
   end
 
-  context "with system_rubies", :compile do
+  context 'with system_rubies', :compile do
     let(:params) {{
       :system_rubies => {
         'ruby-1.9' => {
@@ -39,13 +39,13 @@ describe 'rvm' do
     }) }
   end
 
-  context "with system_users", :compile do
+  context 'with system_users', :compile do
     let(:params) {{ :system_users => ['john','doe'] }}
     it { should contain_rvm__system_user('john') }
     it { should contain_rvm__system_user('doe') }
   end
 
-  context "with no gnupg key id", :compile do
+  context 'with no gnupg key id', :compile do
     let(:params) {{ :gnupg_key_id => false }}
     it { should_not contain_gnupg_key('rvm_D39DC0E3') }
     it { should_not contain_gnupg_key('rvm_') }

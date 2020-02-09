@@ -9,7 +9,7 @@ describe 'rvm_wrapper' do
     :ensure      => 'present'
   }}
 
-  context "when using default parameters", :compile do
+  context 'when using default parameters', :compile do
     it { should contain_rvm_wrapper('god').with_prefix('bootup') }
   end
 end

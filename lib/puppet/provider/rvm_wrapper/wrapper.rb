@@ -1,6 +1,6 @@
 # RVM gemset support
 Puppet::Type.type(:rvm_wrapper).provide(:wrapper) do
-  desc "RVM wrapper support."
+  desc 'RVM wrapper support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
     environment :HOME => ENV['HOME']
@@ -24,7 +24,7 @@ Puppet::Type.type(:rvm_wrapper).provide(:wrapper) do
   end
 
   def create
-    execute([command(:rvmcmd), "wrapper", target_ruby, prefix || "--no-prefix", wrapper_name])
+    execute([command(:rvmcmd), 'wrapper', target_ruby, prefix || '--no-prefix', wrapper_name])
   end
 
   def destroy

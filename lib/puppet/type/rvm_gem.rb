@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:rvm_gem) do
-  @doc = "Ruby Gem support using RVM."
+  @doc = 'Ruby Gem support using RVM.'
 
   def self.title_patterns
     [ [ /^(?:(.*)\/)?(.*)$/, [ [ :ruby_version, lambda{|x| x} ], [ :name, lambda{|x| x} ] ] ] ]
@@ -120,17 +120,17 @@ Puppet::Type.newtype(:rvm_gem) do
   end
 
   autorequire(:rvm_system_ruby) do
-    [self[:ruby_version].split("@").first]
+    [self[:ruby_version].split('@').first]
   end
 
   newparam(:name) do
-    desc "The name of the Ruby gem."
+    desc 'The name of the Ruby gem.'
 
     isnamevar
   end
 
   newparam(:withopts) do
-    desc "Install the gem with these makefile opts."
+    desc 'Install the gem with these makefile opts.'
   end
 
   newparam(:source) do
@@ -145,13 +145,13 @@ Puppet::Type.newtype(:rvm_gem) do
     (including gemset if applicable).  For example: 'ruby-1.9.2-p136@mygemset'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "1.9"
+    defaultto '1.9'
     isnamevar
   end
 
   newparam(:proxy_url) do
-    desc "Proxy to use when downloading ruby installation"
-    defaultto ""
+    desc 'Proxy to use when downloading ruby installation'
+    defaultto ''
   end 
 
 end

@@ -1,6 +1,6 @@
 # RVM gemset support
 Puppet::Type.type(:rvm_alias).provide(:alias) do
-  desc "RVM alias support."
+  desc 'RVM alias support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
     environment :HOME => ENV['HOME']
@@ -15,7 +15,7 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
   end
 
   def aliascmd
-    [command(:rvmcmd), "alias"]
+    [command(:rvmcmd), 'alias']
   end
 
   def alias_list

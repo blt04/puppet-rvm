@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:rvm_alias) do
-  @doc = "Manage RVM Aliases."
+  @doc = 'Manage RVM Aliases.'
 
   ensurable
 
@@ -8,7 +8,7 @@ Puppet::Type.newtype(:rvm_alias) do
   end
 
   newparam(:name) do
-    desc "The name of the alias to be managed."
+    desc 'The name of the alias to be managed.'
     isnamevar
   end
 
