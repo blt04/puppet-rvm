@@ -42,8 +42,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         if gemhash = self.class.gemsplit(set)
           gemhash[:provider] = :gem
           gemhash
-        else
-          nil
         end
       end.compact
     rescue Puppet::ExecutionFailure => detail
