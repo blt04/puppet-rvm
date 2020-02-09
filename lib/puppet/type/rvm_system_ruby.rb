@@ -37,7 +37,7 @@ Puppet::Type.newtype(:rvm_system_ruby) do
         1, 'read', 'read-only',
         2, 'fail', 'read-fail',
         3, 'packages', 'install-packages',
-        4, 'enable', 'enabled',
+        4, 'enable', 'enabled'
       ]
 
       fail("Invalid autolib mode: #{value}") unless modes.include? value

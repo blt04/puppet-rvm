@@ -31,7 +31,7 @@ RSpec.configure do |c|
         'major' => '6',
         'minor' => '6'
       }
-    },
+    }
   }.merge({})
 
   c.before do
