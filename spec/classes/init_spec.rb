@@ -17,6 +17,7 @@ describe 'rvm' do
       install_rvm: false
     }
     end
+
     it { is_expected.not_to contain_class('rvm::dependencies') }
     it { is_expected.not_to contain_class('rvm::system') }
   end
@@ -31,6 +32,7 @@ describe 'rvm' do
       }
     }
     end
+
     it { is_expected.to contain_rvm_system_ruby('ruby-1.9').with({
       ensure: 'present',
       default_use: true
@@ -43,12 +45,14 @@ describe 'rvm' do
 
   context 'with system_users', :compile do
     let(:params) { { system_users: ['john', 'doe'] } }
+
     it { is_expected.to contain_rvm__system_user('john') }
     it { is_expected.to contain_rvm__system_user('doe') }
   end
 
   context 'with no gnupg key id', :compile do
     let(:params) { { gnupg_key_id: false } }
+
     it { is_expected.not_to contain_gnupg_key('rvm_D39DC0E3') }
     it { is_expected.not_to contain_gnupg_key('rvm_') }
   end
