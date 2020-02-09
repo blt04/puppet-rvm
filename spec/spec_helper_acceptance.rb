@@ -5,8 +5,8 @@ require 'beaker-rspec/helpers/serverspec'
 # overriding puppet installation for the RedHat family distros due to
 # puppet breakage >= 3.5
 def install_puppet(host)
-  host['platform'] =~ /(fedora|el)-(\d+)/
-  if host['platform'] =~ /(fedora|el)-(\d+)/
+  host['platform'] =~ %r{(fedora|el)-(\d+)}
+  if host['platform'] =~ %r{(fedora|el)-(\d+)}
     safeversion = '3.4.2'
     platform = $1
     relver = $2
@@ -41,7 +41,7 @@ RSpec.configure do |c|
       end
 
       # Install module and dependencies
-      puppet_module_install(source: proj_root, module_name: File.basename(proj_root).gsub(/^puppet-/, ''))
+      puppet_module_install(source: proj_root, module_name: File.basename(proj_root).gsub(%r{^puppet-}, ''))
 
       on host, puppet('module', 'install', 'stahnma-epel', '--version=0.1.0'), acceptable_exit_codes: [0, 1] if fact_on(host, 'osfamily') == 'RedHat'
       on host, puppet('module', 'install', 'puppetlabs-apache', '--version=1.1.0'), acceptable_exit_codes: [0, 1]

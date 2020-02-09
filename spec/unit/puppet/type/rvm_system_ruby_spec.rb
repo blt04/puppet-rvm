@@ -19,6 +19,6 @@ describe Puppet::Type.type(:rvm_system_ruby) do
   it 'errors on an incorrect autolib_mode' do
     expect do
       Puppet::Type.type(:rvm_system_ruby).new(name: 'ruby-1.9.3-p448', autolib_mode: 'foo')
-    end.to raise_error(Puppet::ResourceError, /Invalid autolib mode: foo/)
+    end.to raise_error(Puppet::ResourceError, %r{Invalid autolib mode: foo})
   end
 end

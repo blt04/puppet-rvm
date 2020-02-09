@@ -58,12 +58,12 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   def self.gemsplit(desc)
     case desc
-    when /^\*\*\*/, /^\s*$/, /^\s+/; return nil
-    when /gem: not found/; nil
+    when %r{^\*\*\*}, %r{^\s*$}, %r{^\s+}; return nil
+    when %r{gem: not found}; nil
     # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
-    when /^(\S+)\s+\((\d+.*)\)/
+    when %r{^(\S+)\s+\((\d+.*)\)}
       name = $1
-      version = $2.split(/,\s*/)
+      version = $2.split(%r{,\s*})
       {
         name: name,
         ensure: version
@@ -96,7 +96,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       when nil
         # no URI scheme => interpret the source as a local file
         command << source
-      when /file/i
+      when %r{file}i
         command << uri.path
       when 'puppet'
         # we don't support puppet:// URLs (yet)

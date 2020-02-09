@@ -41,7 +41,7 @@ Puppet::Type.newtype(:rvm_gem) do
       end
     end
 
-    newvalue(/./) do
+    newvalue(%r{.}) do
       begin
         provider.install
       rescue => detail
