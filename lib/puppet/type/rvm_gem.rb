@@ -15,11 +15,11 @@ Puppet::Type.newtype(:rvm_gem) do
 
     attr_accessor :latest
 
-    newvalue(:present, :event => :package_installed) do
+    newvalue(:present, event: :package_installed) do
       provider.install
     end
 
-    newvalue(:absent, :event => :package_removed) do
+    newvalue(:absent, event: :package_removed) do
       provider.uninstall
     end
 

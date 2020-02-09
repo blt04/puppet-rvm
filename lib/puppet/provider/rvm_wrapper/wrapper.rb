@@ -3,7 +3,7 @@ Puppet::Type.type(:rvm_wrapper).provide(:wrapper) do
   desc 'RVM wrapper support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
-    environment :HOME => ENV['HOME']
+    environment HOME: ENV['HOME']
   end
 
   def target_ruby

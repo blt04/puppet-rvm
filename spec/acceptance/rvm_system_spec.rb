@@ -83,8 +83,8 @@ describe 'rvm' do
 
   it 'rvm should install and configure system user' do
     # Run it twice and test for idempotency
-    apply_manifest(manifest, :catch_failures => true)
-    apply_manifest(manifest, :catch_changes => true)
+    apply_manifest(manifest, catch_failures: true)
+    apply_manifest(manifest, catch_changes: true)
     shell('/usr/local/rvm/bin/rvm list') do |r|
       r.stdout.should =~ Regexp.new(Regexp.escape('# No rvm rubies installed yet.'))
       r.exit_code.should be_zero
@@ -107,8 +107,8 @@ describe 'rvm' do
     }
 
     it 'should install with no errors' do
-      apply_manifest(manifest, :catch_failures => true)
-      apply_manifest(manifest, :catch_changes => true)
+      apply_manifest(manifest, catch_failures: true)
+      apply_manifest(manifest, catch_changes: true)
     end
 
     it 'should reflect installed rubies' do
@@ -149,8 +149,8 @@ describe 'rvm' do
       }
 
       it 'should install with no errors' do
-        apply_manifest(gemset_manifest, :catch_failures => true)
-        apply_manifest(gemset_manifest, :catch_changes => true)
+        apply_manifest(gemset_manifest, catch_failures: true)
+        apply_manifest(gemset_manifest, catch_changes: true)
       end
 
       it 'should reflect installed gems and gemsets' do
@@ -184,8 +184,8 @@ describe 'rvm' do
     }
 
     it 'should install with no errors' do
-      apply_manifest(manifest, :catch_failures => true)
-      apply_manifest(manifest, :catch_changes => true)
+      apply_manifest(manifest, catch_failures: true)
+      apply_manifest(manifest, catch_changes: true)
     end
 
     it 'should reflect installed rubies' do
@@ -252,12 +252,12 @@ describe 'rvm' do
 
     it 'should install with no errors' do
       # Run it twice and test for idempotency
-      apply_manifest(manifest, :catch_failures => true)
+      apply_manifest(manifest, catch_failures: true)
       # swapping expectations under Ubuntu 12.04, 14.04 - apache2-prefork-dev is being purged/restored by puppetlabs/apache, which is beyond the scope of this module
       if osname == 'Ubuntu' && ['12.04', '14.04'].include?(osversion)
-        apply_manifest(manifest, :expect_changes => true)
+        apply_manifest(manifest, expect_changes: true)
       else
-        apply_manifest(manifest, :catch_changes => true)
+        apply_manifest(manifest, catch_changes: true)
       end
 
       shell("/usr/local/rvm/bin/rvm #{ruby19_version} do #{ruby19_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero
@@ -361,12 +361,12 @@ describe 'rvm' do
 
     it 'should install with no errors' do
       # Run it twice and test for idempotency
-      apply_manifest(manifest, :catch_failures => true)
+      apply_manifest(manifest, catch_failures: true)
       # swapping expectations under Ubuntu 14.04 - apache2-prefork-dev is being purged/restored by puppetlabs/apache, which is beyond the scope of this module
       if osname == 'Ubuntu' && ['14.04'].include?(osversion)
-        apply_manifest(manifest, :expect_changes => true)
+        apply_manifest(manifest, expect_changes: true)
       else
-        apply_manifest(manifest, :catch_changes => true)
+        apply_manifest(manifest, catch_changes: true)
       end
 
       shell("/usr/local/rvm/bin/rvm #{ruby20_version} do #{ruby20_bin}gem list passenger | grep \"passenger (#{passenger_version})\"").exit_code.should be_zero

@@ -2,7 +2,7 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
   desc 'Ruby RVM support.'
 
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
-    environment :HOME => ENV['HOME']
+    environment HOME: ENV['HOME']
   end
 
   def create

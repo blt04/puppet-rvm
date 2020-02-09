@@ -7,7 +7,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   has_feature :versionable
   has_command(:rvmcmd, '/usr/local/rvm/bin/rvm') do
-    environment :HOME => ENV['HOME']
+    environment HOME: ENV['HOME']
   end
 
 
@@ -67,8 +67,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       name = $1
       version = $2.split(/,\s*/)
       return {
-        :name => name,
-        :ensure => version
+        name: name,
+        ensure: version
       }
     else
       Puppet.warning "Could not match #{desc}"
@@ -125,13 +125,13 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   def latest
     # This always gets the latest version available.
-    hash = gemlist(:justme => resource[:name])
+    hash = gemlist(justme: resource[:name])
 
     hash[:ensure][0]
   end
 
   def query
-    gemlist(:justme => resource[:name], :local => true)
+    gemlist(justme: resource[:name], local: true)
   end
 
   def uninstall
