@@ -6,7 +6,7 @@ describe 'rvm_gem' do
   let(:pre_condition) { "rvm_system_ruby { '2.0': }" }
 
   context 'when using default parameters', :compile do
-    # TODO test autorequirement
+    # TODO: test autorequirement
     it { is_expected.to contain_rvm_gem('thin') } # .that_requires("Rvm_system_ruby[2.0]")
   end
 end
