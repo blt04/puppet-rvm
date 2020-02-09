@@ -56,8 +56,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
 
   def self.gemsplit(desc)
     case desc
-    when %r{^\*\*\*}, %r{^\s*$}, %r{^\s+}; return nil
-    when %r{gem: not found}; nil
+    when %r{^\*\*\*}, %r{^\s*$}, %r{^\s+} then return nil
+    when %r{gem: not found} then nil
     # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
     when %r{^(\S+)\s+\((\d+.*)\)}
       name = Regexp.last_match(1)
