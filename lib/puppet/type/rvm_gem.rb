@@ -63,7 +63,7 @@ Puppet::Type.newtype(:rvm_gem) do
       # Iterate across all of the should values, and see how they
       # turn out.
 
-      @should.each { |should|
+      @should.each do |should|
         case should
         when :present
           return true unless is == :absent
@@ -102,7 +102,7 @@ Puppet::Type.newtype(:rvm_gem) do
         when *Array(is)
           return true
         end
-      }
+      end
 
       false
     end

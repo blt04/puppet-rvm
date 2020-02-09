@@ -2,10 +2,11 @@ require 'spec_helper'
 
 describe 'rvm::system' do
   # assume RVM is already installed
-  let(:facts) { {
+  let(:facts) do {
     rvm_version: '1.10.0',
     root_home: '/root'
-  }}
+  }
+  end
 
   context 'default parameters', :compile do
     it { is_expected.not_to contain_exec('system-rvm-get') }

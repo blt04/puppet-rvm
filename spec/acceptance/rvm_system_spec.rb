@@ -26,43 +26,43 @@ describe 'rvm' do
   let(:ruby20_and_gemset) { "#{ruby20_version}@#{ruby20_gemset}" }
 
   # passenger baseline configuration
-  let(:service_name) {
+  let(:service_name) do
     case osfamily
     when 'Debian'
       'apache2'
     when 'RedHat'
       'httpd'
     end
-  }
-  let(:mod_dir) {
+  end
+  let(:mod_dir) do
     case osfamily
     when 'Debian'
       '/etc/apache2/mods-available/'
     when 'RedHat'
       '/etc/httpd/conf.d/'
     end
-  }
-  let(:rackapp_user) {
+  end
+  let(:rackapp_user) do
     case osfamily
     when 'Debian'
       'www-data'
     when 'RedHat'
       'apache'
     end
-  }
-  let(:rackapp_group) {
+  end
+  let(:rackapp_group) do
     case osfamily
     when 'Debian'
       'www-data'
     when 'RedHat'
       'apache'
     end
-  }
+  end
   let(:conf_file) { "#{mod_dir}passenger.conf" }
   let(:load_file) { "#{mod_dir}passenger.load" }
 
   # baseline manifest
-  let(:manifest) {
+  let(:manifest) do
     <<-EOS
       if $::osfamily == 'RedHat' {
         class { 'epel':
@@ -78,7 +78,7 @@ describe 'rvm' do
       class { 'rvm': } ->
       rvm::system_user { 'vagrant': }
   EOS
-  }
+  end
 
   it 'rvm should install and configure system user' do
     # Run it twice and test for idempotency
@@ -91,7 +91,7 @@ describe 'rvm' do
   end
 
   context 'when installing rubies' do
-    let(:manifest) {
+    let(:manifest) do
       super() + <<-EOS
         rvm_system_ruby {
           '#{ruby19_version}':
@@ -102,7 +102,7 @@ describe 'rvm' do
             default_use => false;
         }
       EOS
-    }
+    end
 
     it 'installs with no errors' do
       apply_manifest(manifest, catch_failures: true)
@@ -121,7 +121,7 @@ describe 'rvm' do
       let(:gem_name) { 'simple-rss' } # used because has no dependencies
       let(:gem_version) { '1.3.1' }
 
-      let(:gemset_manifest) {
+      let(:gemset_manifest) do
         manifest + <<-EOS
           rvm_gemset {
             '#{ruby19_and_gemset}':
@@ -144,7 +144,7 @@ describe 'rvm' do
               require => Rvm_gemset['#{ruby20_and_gemset}'];
           }
         EOS
-      }
+      end
 
       it 'installs with no errors' do
         apply_manifest(gemset_manifest, catch_failures: true)
@@ -172,14 +172,14 @@ describe 'rvm' do
   context 'when installing jruby' do
     let(:jruby_version) { 'jruby-1.7.6' }
 
-    let(:manifest) {
+    let(:manifest) do
       super() + <<-EOS
         rvm_system_ruby { '#{jruby_version}':
           ensure      => 'present',
           default_use => false;
         }
       EOS
-    }
+    end
 
     it 'installs with no errors' do
       apply_manifest(manifest, catch_failures: true)
@@ -203,7 +203,7 @@ describe 'rvm' do
     # particular to 3.0.x (may or may not also work with 2.x?)
     let(:passenger_module_path) { "#{passenger_root}/ext/apache2/mod_passenger.so" }
 
-    let(:manifest) {
+    let(:manifest) do
       super() + <<-EOS
         rvm_system_ruby {
           '#{ruby19_version}':
@@ -245,7 +245,7 @@ describe 'rvm' do
           require => File['/var/www/passenger/config.ru'] ,
         }
       EOS
-    }
+    end
 
     it 'installs with no errors' do
       # Run it twice and test for idempotency
@@ -310,7 +310,7 @@ describe 'rvm' do
     # particular to passenger 4.0.x
     let(:passenger_module_path) { "#{passenger_root}/buildout/apache2/mod_passenger.so" }
 
-    let(:manifest) {
+    let(:manifest) do
       super() + <<-EOS
         rvm_system_ruby {
           '#{ruby20_version}':
@@ -352,7 +352,7 @@ describe 'rvm' do
           require => File['/var/www/passenger/config.ru'] ,
         }
       EOS
-    }
+    end
 
     it 'installs with no errors' do
       # Run it twice and test for idempotency

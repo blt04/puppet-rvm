@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe 'rvm' do
-  let(:facts) { {
+  let(:facts) do {
     rvm_version: '',
     root_home: '/root'
-  }}
+  }
+  end
 
   context 'default parameters', :compile do
     it { is_expected.not_to contain_class('rvm::dependencies') }
@@ -12,22 +13,24 @@ describe 'rvm' do
   end
 
   context 'with install_rvm false', :compile do
-    let(:params) { {
+    let(:params) do {
       install_rvm: false
-    }}
+    }
+    end
     it { is_expected.not_to contain_class('rvm::dependencies') }
     it { is_expected.not_to contain_class('rvm::system') }
   end
 
   context 'with system_rubies', :compile do
-    let(:params) { {
+    let(:params) do {
       system_rubies: {
         'ruby-1.9' => {
           'default_use' => true
         },
         'ruby-2.0' => {}
       }
-    }}
+    }
+    end
     it { is_expected.to contain_rvm_system_ruby('ruby-1.9').with({
       ensure: 'present',
       default_use: true
