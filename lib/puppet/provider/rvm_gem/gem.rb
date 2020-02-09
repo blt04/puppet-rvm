@@ -47,11 +47,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     rescue Puppet::ExecutionFailure => detail
     end
 
-    if hash[:justme]
-      return list.shift
-    else
-      return list
-    end
+    return list.shift if hash[:justme]
+    list
   end
 
   def self.gemsplit(desc)
