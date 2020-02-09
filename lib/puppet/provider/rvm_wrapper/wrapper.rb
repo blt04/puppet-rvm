@@ -32,6 +32,6 @@ Puppet::Type.type(:rvm_wrapper).provide(:wrapper) do
   end
 
   def exists?
-    File.exists? wrapper_filename
+    File.exist? wrapper_filename
   end
 end
