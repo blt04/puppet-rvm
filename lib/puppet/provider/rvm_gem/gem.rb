@@ -45,6 +45,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         end
       end.compact
     rescue Puppet::ExecutionFailure => detail
+      Puppet.debug "`rvmcmd` command failed with #{detail}"
     end
 
     if hash[:justme]
