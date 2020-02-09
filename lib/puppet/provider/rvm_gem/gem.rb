@@ -106,7 +106,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         raise Puppet::Error.new('puppet:// URLs are not supported as gem sources')
       else
         # interpret it as a gem repository
-        command << '--source' << "#{source}" << resource[:name]
+        command << '--source' << source.to_s << resource[:name]
       end
     else
       command << '--no-rdoc' << '--no-ri' <<  resource[:name]
