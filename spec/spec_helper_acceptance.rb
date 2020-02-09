@@ -28,7 +28,7 @@ RSpec.configure do |c|
 
   c.before :suite do
     hosts.each do |host|
-      unless (ENV['RS_PROVISION'] == 'no' || ENV['BEAKER_provision'] == 'no')
+      unless ENV['RS_PROVISION'] == 'no' || ENV['BEAKER_provision'] == 'no'
         begin
           on host, 'puppet --version'
         rescue
