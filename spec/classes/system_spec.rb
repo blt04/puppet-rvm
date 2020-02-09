@@ -13,7 +13,7 @@ describe 'rvm::system' do
 
     it do
       is_expected.to contain_exec('system-rvm').with({
-          'path'    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+          'path' => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
       })
     end
   end
