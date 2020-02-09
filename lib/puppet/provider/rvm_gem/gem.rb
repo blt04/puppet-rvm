@@ -10,7 +10,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     environment HOME: ENV['HOME']
   end
 
-
   def ruby_version
     resource[:ruby_version]
   end
@@ -18,7 +17,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   def gembinary
     [command(:rvmcmd), ruby_version, 'do', 'gem']
   end
-
 
   def gemlist(hash)
     command = gembinary + ['list']
@@ -75,7 +73,6 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       nil
     end
   end
-
 
   def install(useversion = true)
     command = gembinary + ['install']
