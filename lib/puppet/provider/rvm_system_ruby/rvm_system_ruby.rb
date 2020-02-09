@@ -26,7 +26,6 @@ Puppet::Type.type(:rvm_system_ruby).provide(:rvm) do
     rescue Puppet::ExecutionFailure => detail
       raise Puppet::Error, "Could not list RVMs: #{detail}"
     end
-
   end
 
   def default_use
