@@ -109,7 +109,7 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << '--source' << source.to_s << resource[:name]
       end
     else
-      command << '--no-rdoc' << '--no-ri' <<  resource[:name]
+      command << '--no-rdoc' << '--no-ri' << resource[:name]
     end
 
     # makefile opts,
