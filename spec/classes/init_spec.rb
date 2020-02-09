@@ -33,14 +33,12 @@ describe 'rvm' do
     }
     end
 
-    it { is_expected.to contain_rvm_system_ruby('ruby-1.9').with({
-      ensure: 'present',
-      default_use: true
-    }) }
-    it { is_expected.to contain_rvm_system_ruby('ruby-2.0').with({
-      ensure: 'present',
-      default_use: nil
-    }) }
+    it { is_expected.to contain_rvm_system_ruby('ruby-1.9').with(ensure: 'present',
+                                                                 default_use: true)
+    }
+    it { is_expected.to contain_rvm_system_ruby('ruby-2.0').with(ensure: 'present',
+                                                                 default_use: nil)
+    }
   end
 
   context 'with system_users', :compile do
