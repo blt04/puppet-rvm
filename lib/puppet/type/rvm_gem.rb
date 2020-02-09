@@ -73,7 +73,7 @@ Puppet::Type.newtype(:rvm_gem) do
 
           # Don't run 'latest' more than about every 5 minutes
           if @latest && ((Time.now.to_i - @lateststamp) / 60) < 5
-            #self.debug "Skipping latest check"
+            # self.debug "Skipping latest check"
           else
             begin
               @latest = provider.latest

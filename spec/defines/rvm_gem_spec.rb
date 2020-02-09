@@ -7,6 +7,6 @@ describe 'rvm_gem' do
 
   context 'when using default parameters', :compile do
     # TODO test autorequirement
-    it { is_expected.to contain_rvm_gem('thin') } #.that_requires("Rvm_system_ruby[2.0]")
+    it { is_expected.to contain_rvm_gem('thin') } # .that_requires("Rvm_system_ruby[2.0]")
   end
 end
