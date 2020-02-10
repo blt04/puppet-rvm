@@ -16,7 +16,7 @@ class rvm::params($manage_group = true) {
 
   # install the gpg key if gpg is installed or being installed in this puppet run
   if defined(Class['::gnupg']) or $facts['gnupg_installed'] {
-    $gnupg_key_id = 'D39DC0E3'
+    $gnupg_key_id = '39499BDB'
   } else {
     $gnupg_key_id = false
   }

@@ -50,7 +50,7 @@ describe 'rvm::system' do
   context 'with gnupg', :compile do
     let(:pre_condition) { "class { '::gnupg': }" }
 
-    it { is_expected.to contain_gnupg_key('rvm_D39DC0E3').with_key_id('D39DC0E3').with_key_server('hkp://keys.gnupg.net') }
+    it { is_expected.to contain_gnupg_key('rvm_39499BDB').with_key_id('39499BDB').with_key_server('hkp://keys.gnupg.net') }
   end
 
   context 'with gnupg customized', :compile do
