@@ -4,6 +4,10 @@ require 'puppet/type/rvm_system_ruby'
 
 describe Puppet::Type.type(:rvm_system_ruby) do
   context 'with autolib_mode set' do
+    let(:system_ruby) do
+      Puppet::Type.type(:rvm_system_ruby).new(name: 'jruby-1.7.6', autolib_mode: 'read-fail')
+    end
+
     it 'does not raise error' do
       expect do
         Puppet::Type.type(:rvm_system_ruby).new(name: 'ruby-1.9.3-p448', autolib_mode: 'enabled')
@@ -11,8 +15,7 @@ describe Puppet::Type.type(:rvm_system_ruby) do
     end
 
     it 'sets mode correctly' do
-      @system_ruby = Puppet::Type.type(:rvm_system_ruby).new(name: 'jruby-1.7.6', autolib_mode: 'read-fail')
-      expect(@system_ruby[:autolib_mode]).to eq('read-fail')
+      expect(system_ruby[:autolib_mode]).to eq('read-fail')
     end
   end
 
