@@ -48,11 +48,8 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
       Puppet.debug "`rvmcmd` command failed with #{detail}"
     end
 
-    if hash[:justme]
-      return list.shift
-    else
-      return list
-    end
+    return list.shift if hash[:justme]
+    list
   end
 
   def self.gemsplit(desc)

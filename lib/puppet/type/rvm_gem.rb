@@ -87,11 +87,7 @@ Puppet::Type.newtype(:rvm_gem) do
 
           case is
           when Array
-            if is.include?(@latest)
-              return true
-            else
-              return false
-            end
+            return is.include?(@latest)
           when @latest
             return true
           else
