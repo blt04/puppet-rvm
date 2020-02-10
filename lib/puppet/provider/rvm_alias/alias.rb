@@ -25,6 +25,7 @@ Puppet::Type.type(:rvm_alias).provide(:alias) do
     begin
       list = execute(command)
     rescue Puppet::ExecutionFailure => detail
+      Puppet.debug "`rvmcmd` command failed with #{detail}"
     end
 
     list.to_s

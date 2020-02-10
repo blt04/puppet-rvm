@@ -36,6 +36,7 @@ Puppet::Type.type(:rvm_gemset).provide(:gemset) do
         line.strip if line =~ %r{^\s+\S+}
       end.compact
     rescue Puppet::ExecutionFailure => detail
+      Puppet.debug "`rvmcmd` command failed with #{detail}"
     end
 
     list
