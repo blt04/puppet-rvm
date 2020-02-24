@@ -1,42 +1,19 @@
-# This file is managed centrally by modulesync
-#   https://github.com/maestrodev/puppet-modulesync
+# This file is managed via modulesync
+# https://github.com/voxpupuli/modulesync
+# https://github.com/voxpupuli/modulesync_config
 
-require 'puppetlabs_spec_helper/module_spec_helper'
-require 'rspec-puppet-facts'
-include RspecPuppetFacts
+# puppetlabs_spec_helper will set up coverage if the env variable is set.
+# We want to do this if lib exists and it hasn't been explicitly set.
+ENV['COVERAGE'] ||= 'yes' if Dir.exist?(File.expand_path('../../lib', __FILE__))
 
-RSpec.configure do |c|
-  c.mock_with :rspec
-  c.hiera_config = File.expand_path(File.join(__FILE__, '../fixtures/hiera.yaml'))
+require 'voxpupuli/test/spec_helper'
 
-  c.before(:each) do
-    Puppet::Util::Log.level = :warning
-    Puppet::Util::Log.newdestination(:console)
-  end
-
-  c.default_facts = {
-    operatingsystem: 'CentOS',
-    operatingsystemrelease: '6.6',
-    kernel: 'Linux',
-    osfamily: 'RedHat',
-    architecture: 'x86_64',
-    clientcert: 'puppet.acme.com',
-    os: {
-      'architecture' => 'x86_64',
-      'family'       => 'RedHat',
-      'hardware'     => 'x86_64',
-      'name'         => 'CentOS',
-      'release'      => {
-        'full'  => '6.6',
-        'major' => '6',
-        'minor' => '6'
-      }
-    }
-  }.merge({})
-
-  c.before do
-    # avoid "Only root can execute commands as other users"
-    Puppet.features.stubs(root?: true)
+if File.exist?(File.join(__dir__, 'default_module_facts.yml'))
+  facts = YAML.load(File.read(File.join(__dir__, 'default_module_facts.yml')))
+  if facts
+    facts.each do |name, value|
+      add_custom_fact name.to_sym, value
+    end
   end
 end
 
