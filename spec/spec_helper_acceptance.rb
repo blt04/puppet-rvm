@@ -43,8 +43,8 @@ RSpec.configure do |c|
       # Install module and dependencies
       puppet_module_install(source: proj_root, module_name: File.basename(proj_root).gsub(%r{^puppet-}, ''))
 
-      on host, puppet('module', 'install', 'stahnma-epel', '--version=0.1.0'), acceptable_exit_codes: [0, 1] if fact_on(host, 'osfamily') == 'RedHat'
-      on host, puppet('module', 'install', 'puppetlabs-apache', '--version=1.1.0'), acceptable_exit_codes: [0, 1]
+      install_module_from_forge('puppet-epel', '>= 3.0.0 < 4.0.0') if fact('os.family') == 'RedHat'
+      install_module_from_forge('puppetlabs-apache', '>= 2.1.0 < 6.0.0')
     end
   end
 end
