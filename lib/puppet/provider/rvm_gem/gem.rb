@@ -14,6 +14,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
     resource[:ruby_version]
   end
 
+  def rubygems_version
+    command = gembinary + ['-v']
+    execute(command)
+  end
+
   def gembinary
     [command(:rvmcmd), ruby_version, 'do', 'gem']
   end
@@ -53,10 +58,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
   end
 
   def self.gemsplit(desc)
+    desc = desc.gsub('default: ', '')
+
     case desc
     when %r{^\*\*\*}, %r{^\s*$}, %r{^\s+} then return nil
     when %r{gem: not found} then nil
-    # when /^(\S+)\s+\((((((\d+[.]?))+)(,\s)*)+)\)/
     when %r{^(\S+)\s+\((\d+.*)\)}
       name = Regexp.last_match(1)
       version = Regexp.last_match(2).split(%r{,\s*})
@@ -102,7 +108,11 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         command << '--source' << source.to_s << resource[:name]
       end
     else
-      command << '--no-rdoc' << '--no-ri' << resource[:name]
+      if Gem::Version.new(rubygems_version) < Gem::Version.new('3.0.0')
+        command << '--no-rdoc' << '--no-ri' << resource[:name] # Deprecated options (backwards compatible)
+      else
+        command << '--no-document' << resource[:name]
+      end
     end
 
     # makefile opts,
