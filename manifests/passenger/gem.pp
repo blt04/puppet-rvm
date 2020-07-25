@@ -1,5 +1,5 @@
 # Install the passenger gem
-class rvm::passenger::gem($ruby_version, $version, $proxy_url = undef ) {
+class rvm::passenger::gem ($ruby_version, $version, $proxy_url = undef ) {
   $ruby_version_only = regsubst($ruby_version,'([^@]+)(@(.+))?','\1')
   rvm_gem {
     'passenger':
