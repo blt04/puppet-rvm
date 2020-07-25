@@ -16,7 +16,3 @@ if File.exist?(File.join(__dir__, 'default_module_facts.yml'))
     end
   end
 end
-
-shared_examples :compile, compile: true do
-  it { is_expected.to compile.with_all_deps }
-end
