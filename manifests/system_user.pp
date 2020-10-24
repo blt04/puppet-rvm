@@ -1,7 +1,8 @@
 # Create a user that belongs to the correct group to have access to RVM
 define rvm::system_user (
   $create = true,
-$manage_group = undef) {
+  $manage_group = undef
+) {
   if $facts['os']['family'] == 'Windows' {
     fail('rvm::system_user is not supported on Windows')
   }

@@ -6,7 +6,8 @@ class rvm::system (
   $no_proxy=undef,
   $key_server=undef,
   $home=$::root_home,
-$gnupg_key_id=$rvm::params::gnupg_key_id) inherits rvm::params {
+  $gnupg_key_id=$rvm::params::gnupg_key_id
+) inherits rvm::params {
   $actual_version = $version ? {
     undef     => 'latest',
     'present' => 'latest',
