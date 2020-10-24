@@ -8,7 +8,7 @@ describe 'rvm::system' do
       root_home: '/root',
       osfamily: 'Debian',
       os: {
-        family: 'Debian',
+        family: 'Debian'
       }
     }
   end

@@ -107,12 +107,10 @@ Puppet::Type.type(:rvm_gem).provide(:gem) do
         # interpret it as a gem repository
         command << '--source' << source.to_s << resource[:name]
       end
+    elsif Gem::Version.new(rubygems_version) < Gem::Version.new('3.0.0')
+      command << '--no-rdoc' << '--no-ri' << resource[:name] # Deprecated options (backwards compatible)
     else
-      if Gem::Version.new(rubygems_version) < Gem::Version.new('3.0.0')
-        command << '--no-rdoc' << '--no-ri' << resource[:name] # Deprecated options (backwards compatible)
-      else
-        command << '--no-document' << resource[:name]
-      end
+      command << '--no-document' << resource[:name]
     end
 
     # makefile opts,
