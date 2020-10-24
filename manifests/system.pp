@@ -15,7 +15,7 @@ $gnupg_key_id=$rvm::params::gnupg_key_id) inherits rvm::params {
 
   # curl needs to be installed
   if ! defined(Package['curl']) {
-    case $::kernel {
+    case $facts['kernel'] {
       'Linux': {
         ensure_packages(['curl'])
         Package['curl'] -> Exec['system-rvm']

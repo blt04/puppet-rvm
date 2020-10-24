@@ -43,7 +43,7 @@ describe 'rvm' do
         }
       end
 
-      context 'with system_users', :compile do
+      context 'with system_users', if: os_facts[:kernel] == 'Linux' do
         let(:params) { { system_users: %w[john doe] } }
 
         it { is_expected.to contain_rvm__system_user('john') }

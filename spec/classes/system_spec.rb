@@ -5,7 +5,11 @@ describe 'rvm::system' do
   let(:facts) do
     {
       rvm_version: '1.10.0',
-      root_home: '/root'
+      root_home: '/root',
+      osfamily: 'Debian',
+      os: {
+        family: 'Debian',
+      }
     }
   end
 
