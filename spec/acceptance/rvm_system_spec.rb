@@ -269,7 +269,7 @@ describe 'rvm' do
 
     it 'answers' do
       shell('/usr/bin/curl localhost:80') do |r|
-        r.stdout.should =~ /^hello <b>world<\/b>$/
+        r.stdout.should =~ %r{^hello <b>world</b>$}
         r.exit_code.should == 0
       end
     end
@@ -376,7 +376,7 @@ describe 'rvm' do
 
     it 'answers' do
       shell('/usr/bin/curl localhost:80') do |r|
-        r.stdout.should =~ /^hello <b>world<\/b>$/
+        r.stdout.should =~ %r{^hello <b>world</b>$}
         r.exit_code.should == 0
       end
     end
@@ -390,7 +390,7 @@ describe 'rvm' do
         r.stdout.should =~ %r{Requests in top\-level queue \: [0-9]+}
         r.stdout.should =~ %r{[\-]+ Application groups [\-]+}
         # the following will only appear after a request has been made, as in "should answer to" above
-        r.stdout.should =~ /App root\: \/var\/www\/passenger/
+        r.stdout.should =~ %r{App root: /var/www/passenger}
         r.stdout.should =~ %r{Requests in queue\: [0-9]+}
         r.exit_code.should == 0
       end

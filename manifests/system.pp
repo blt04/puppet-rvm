@@ -1,13 +1,13 @@
 # Install the RVM system
-class rvm::system(
+class rvm::system (
   $version=undef,
   $install_from=undef,
   $proxy_url=undef,
   $no_proxy=undef,
   $key_server=undef,
   $home=$::root_home,
-  $gnupg_key_id=$rvm::params::gnupg_key_id) inherits rvm::params {
-
+  $gnupg_key_id=$rvm::params::gnupg_key_id
+) inherits rvm::params {
   $actual_version = $version ? {
     undef     => 'latest',
     'present' => 'latest',
@@ -16,12 +16,12 @@ class rvm::system(
 
   # curl needs to be installed
   if ! defined(Package['curl']) {
-    case $::kernel {
+    case $facts['kernel'] {
       'Linux': {
         ensure_packages(['curl'])
         Package['curl'] -> Exec['system-rvm']
       }
-      default: { }
+      default: {}
     }
   }
 
@@ -46,7 +46,6 @@ class rvm::system(
   }
 
   if $install_from {
-
     file { '/tmp/rvm':
       ensure => directory,
     }
@@ -64,7 +63,6 @@ class rvm::system(
       creates     => '/usr/local/rvm/bin/rvm',
       environment => $environment,
     }
-
   }
   else {
     exec { 'system-rvm':
@@ -78,7 +76,6 @@ class rvm::system(
   # the fact won't work until rvm is installed before puppet starts
   if getvar('::rvm_version') and !empty($::rvm_version) {
     if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
-
       if defined(Class['rvm::gnupg_key']) {
         Class['rvm::gnupg_key'] -> Exec['system-rvm-get']
       }

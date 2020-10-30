@@ -21,7 +21,7 @@ RSpec.configure do |c|
   # Project root
   proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
-  c.before(:each) do
+  c.before do
     Puppet::Util::Log.level = :warning
     Puppet::Util::Log.newdestination(:console)
   end
