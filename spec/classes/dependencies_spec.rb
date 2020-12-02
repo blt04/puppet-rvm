@@ -14,18 +14,8 @@ describe 'rvm::dependencies' do
         it { is_expected.to contain_package('which') }
         it { is_expected.to contain_package('gcc') }
         it { is_expected.not_to contain_package('build-essential') }
-        case os_facts[:operatingsystemmajrelease]
-        when '5'
-          if %w[CentOS RedHat].include? os_facts[:operatingsystem]
-            it { is_expected.to contain_package('autoconf') } # rubocop:disable RSpec/RepeatedExample
-            it { is_expected.to contain_package('curl-devel') }
-            it { is_expected.not_to contain_package('libcurl-devel') }
-          end
-        when '6', '7'
-          it { is_expected.to contain_package('libcurl-devel') }
-          it { is_expected.not_to contain_package('autoconf') }
-          it { is_expected.not_to contain_package('curl-devel') }
-        end
+        it { is_expected.to contain_package('libcurl-devel') }
+        it { is_expected.not_to contain_package('autoconf') }
       when 'Debian'
         it { is_expected.to contain_package('autoconf') } # rubocop:disable RSpec/RepeatedExample
         it { is_expected.to contain_package('build-essential') }
