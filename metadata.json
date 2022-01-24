@@ -11,7 +11,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">=4.2.0"
+      "version_requirement": ">= 4.2.0 < 9.0.0"
     },
     {
       "name": "golja/gnupg",
@@ -22,36 +22,24 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
         "7"
       ]
     },
@@ -64,14 +52,15 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "6",
-        "7"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04"
+        "18.04",
+        "20.04"
       ]
     },
     {
@@ -115,7 +104,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=3.0.0"
+      "version_requirement": ">= 6.1.0 < 7.0.0"
     }
   ]
 }
