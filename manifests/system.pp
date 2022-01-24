@@ -5,7 +5,7 @@ class rvm::system (
   $proxy_url=undef,
   $no_proxy=undef,
   $key_server=undef,
-  $home=$::root_home,
+  $home=$facts['root_home'],
   $gnupg_key_id=$rvm::params::gnupg_key_id
 ) inherits rvm::params {
   $actual_version = $version ? {
@@ -74,15 +74,15 @@ class rvm::system (
   }
 
   # the fact won't work until rvm is installed before puppet starts
-  if getvar('::rvm_version') and !empty($::rvm_version) {
-    if ($version != undef) and ($version != present) and ($version != $::rvm_version) {
+  if $facts['rvm_version'] and !empty($facts['rvm_version']) {
+    if ($version != undef) and ($version != present) and ($version != $facts['rvm_version']) {
       if defined(Class['rvm::gnupg_key']) {
         Class['rvm::gnupg_key'] -> Exec['system-rvm-get']
       }
 
       # Update the rvm installation to the version specified
       notify { 'rvm-get_version':
-        message => "RVM updating from version ${::rvm_version} to ${version}",
+        message => "RVM updating from version ${facts['rvm_version']} to ${version}",
       }
       -> exec { 'system-rvm-get':
         path        => '/usr/local/rvm/bin:/usr/bin:/usr/sbin:/bin',
