@@ -1,0 +1,82 @@
+{
+  "name": "puppet-rvm",
+  "version": "3.0.1-rc0",
+  "author": "Vox Pupuli & maestrodev & Brandon Turner <bt@brandonturner.net>",
+  "summary": "A puppet module for installing and using RVM (Ruby Version Manager)",
+  "license": "BSD-3-Clause",
+  "source": "https://github.com/voxpupuli/puppet-rvm",
+  "project_page": "https://github.com/voxpupuli/puppet-rvm",
+  "issues_url": "https://github.com/voxpupuli/puppet-rvm/issues",
+  "description": "Installing and using RVM (Ruby Version Manager)",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.0 < 11.0.0"
+    },
+    {
+      "name": "h0tw1r3/gnupg",
+      "version_requirement": ">= 2.0.2 < 3.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11 SP1"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "10",
+        "11",
+        "12",
+        "13"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "18.04",
+        "20.04",
+        "22.04",
+        "24.04"
+      ]
+    },
+    {
+      "operatingsystem": "Darwin",
+      "operatingsystemrelease": [
+        "10",
+        "11",
+        "12",
+        "13"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "openvox",
+      "version_requirement": ">= 8.19.0 < 10.0.0"
+    }
+  ]
+}

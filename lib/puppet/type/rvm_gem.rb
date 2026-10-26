@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 Puppet::Type.newtype(:rvm_gem) do
-  @doc = "Ruby Gem support using RVM."
+  @doc = 'Ruby Gem support using RVM.'
 
   def self.title_patterns
-    [ [ /^(?:(.*)\/)?(.*)$/, [ [ :ruby_version, lambda{|x| x} ], [ :name, lambda{|x| x} ] ] ] ]
+    [[%r{^(?:(.*)/)?(.*)$}, [[:ruby_version], [:name]]]]
   end
 
   ensurable do
@@ -15,11 +17,11 @@ Puppet::Type.newtype(:rvm_gem) do
 
     attr_accessor :latest
 
-    newvalue(:present, :event => :package_installed) do
+    newvalue(:present, event: :package_installed) do
       provider.install
     end
 
-    newvalue(:absent, :event => :package_removed) do
+    newvalue(:absent, event: :package_removed) do
       provider.uninstall
     end
 
@@ -27,11 +29,11 @@ Puppet::Type.newtype(:rvm_gem) do
     aliasvalue(:installed, :present)
 
     newvalue(:latest) do
-      current = self.retrieve
+      current = retrieve
       begin
         provider.update
-      rescue => detail
-        self.fail "Could not update: #{detail}"
+      rescue StandardError => e
+        raise "Could not update: #{e}"
       end
 
       if current == :absent
@@ -41,14 +43,14 @@ Puppet::Type.newtype(:rvm_gem) do
       end
     end
 
-    newvalue(/./) do
+    newvalue(%r{.}) do
       begin
         provider.install
-      rescue => detail
-        self.fail "Could not update: #{detail}"
+      rescue StandardError => e
+        raise "Could not update: #{e}"
       end
 
-      if self.retrieve == :absent
+      if retrieve == :absent
         :package_installed
       else
         :package_changed
@@ -63,7 +65,7 @@ Puppet::Type.newtype(:rvm_gem) do
       # Iterate across all of the should values, and see how they
       # turn out.
 
-      @should.each { |should|
+      @should.each do |should|
         case should
         when :present
           return true unless is == :absent
@@ -72,43 +74,39 @@ Puppet::Type.newtype(:rvm_gem) do
           return false if is == :absent
 
           # Don't run 'latest' more than about every 5 minutes
-          if @latest and ((Time.now.to_i - @lateststamp) / 60) < 5
-            #self.debug "Skipping latest check"
+          if @latest && ((Time.now.to_i - @lateststamp) / 60) < 5
+            # self.debug "Skipping latest check"
           else
             begin
               @latest = provider.latest
               @lateststamp = Time.now.to_i
-            rescue => detail
-              error = Puppet::Error.new("Could not get latest version: #{detail}")
-              error.set_backtrace(detail.backtrace)
+            rescue StandardError => e
+              error = Puppet::Error.new("Could not get latest version: #{e}")
+              error.set_backtrace(e.backtrace)
               raise error
             end
           end
 
           case is
-          when is.is_a?(Array)
-            if is.include?(@latest)
-              return true
-            else
-              return false
-            end
+          when Array
+            return is.include?(@latest)
           when @latest
             return true
           else
-            self.debug "#{@resource.name} #{is.inspect} is installed, latest is #{@latest.inspect}"
+            debug "#{@resource.name} #{is.inspect} is installed, latest is #{@latest.inspect}"
           end
         when :absent
           return true if is == :absent
         when *Array(is)
           return true
         end
-      }
+      end
 
       false
     end
 
     def retrieve
-      if gem = provider.query
+      if (gem = provider.query)
         gem[:ensure]
       else
         :absent
@@ -116,17 +114,20 @@ Puppet::Type.newtype(:rvm_gem) do
     end
 
     defaultto :installed
+  end
 
+  autorequire(:rvm_system_ruby) do
+    [self[:ruby_version].split('@').first]
   end
 
   newparam(:name) do
-    desc "The name of the Ruby gem."
+    desc 'The name of the Ruby gem.'
 
     isnamevar
   end
 
   newparam(:withopts) do
-    desc "Install the gem with these makefile opts."
+    desc 'Install the gem with these makefile opts.'
   end
 
   newparam(:source) do
@@ -141,8 +142,12 @@ Puppet::Type.newtype(:rvm_gem) do
     (including gemset if applicable).  For example: 'ruby-1.9.2-p136@mygemset'
     For a full list of known strings: `rvm list known_strings`."
 
-    defaultto "ruby-1.9.2-p290"
+    defaultto '1.9'
     isnamevar
   end
 
+  newparam(:proxy_url) do
+    desc 'Proxy to use when downloading ruby installation'
+    defaultto ''
+  end
 end
