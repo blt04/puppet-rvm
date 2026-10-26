@@ -1,0 +1,5 @@
+---
+fixtures:
+  repositories:
+    gnupg: https://github.com/h0tw1r3/puppet-gnupg.git
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
